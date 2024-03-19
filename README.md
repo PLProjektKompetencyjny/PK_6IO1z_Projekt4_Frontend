@@ -26,7 +26,7 @@ npm install
 ```
 
 ## Uruchomienie
-Otwórz terminal, przejdź do katalogu [root](/) a następnie uruchom polecenie:
+Otwórz terminal, przejdź do [głównego katalogu](./) projektu np. `C:/Projects/TravelNest/TravelNestUI/` lub `/home/projects/TravelNest/TravelNestUI` a następnie uruchom polecenie:
 ```bash
 npm start
 ```
@@ -69,32 +69,33 @@ export const displayFormat = (data: any) => {
 ```
 
 ## Komendy Angular CLI
-> :warning: Upewnij się, że Terminal wskazuje na katalog [root](/) projektu!
+> :warning: Upewnij się, że Terminal wskazuje na [główny katalog](./) projektu (czyli tam gdzie znajduje się aktualnie czytany plik)!
 
-> :information_source: Domyślnie generator wskazuje na ścieżkę `/src/app`. Warto mieć to na uwadze!
+> :information_source: Domyślnie generator wskazuje na ścieżkę `./src/app`. Warto mieć to na uwadze!
 
 ### Moduł
 Skupia, przechowuje, wyodrębnia pewną część logiki aplikacji. Najczęściej będzie tworzone w momencie tworzenie kompletnie nowego widoku np. `/home`, `/user`, `/admin` etc.
 
 Tworzenie:
 ```bash
-ng generate module <module-name>
+ng generate module modules/<module-name>
 ```
 skrócony zapis:
 ```bash
-ng g m <module-name>
+ng g m modules/<module-name>
 ```
 
 ### Komponent
 Jest to część widoku, którą wykonaliśmy od 0 samodzielnie i zawiera logikę biznesową lub custom'owy element/kontrolka, np. `<tn-time-picker></tn-time-picker>`.
+Komendy CLI oparte są na [wytycznych](#wytyczne). Dobrze, aby się z nimi zapoznał.
 
 Tworzenie:
 ```bash
-ng generate component <component-name>
+ng generate component modules/<module-name>/components/<component-name>
 ```
 skrócony zapis:
 ```bash
-ng g c <component-name>
+ng g c modules/<module-name>/components/<component-name>
 ```
 
 ### Serwis
@@ -157,6 +158,6 @@ Angular CLI ma jeszcze inne opcje jak tworzenie klasy, interfejsu, enum'a.
 |  Komenda  | Opis |
 |:--------:|------:|
 | `npm start` | Uruchamia lokalny serwer deweloperski na [localhost:4200](http://localhost:4200). Jeśli chcesz uruchomić serwer lokalny na innym porcie to w [angular.json](/angular.json) w sekcji `projects.TravelNestUI.architect.serve.options` podmień wartość pola `port` a następnie uruchom komendę |
-| `npm run build` | Kompiluje projekt aplikacji i wygenerowane pliki wrzuca do katalogu [/dist/](/dist/) |
+| `npm run build` | Kompiluje projekt aplikacji i wygenerowane pliki wrzuca do katalogu [dist/](dist/) |
 | `npm run test` | Uruchamia lokalne testy jednostkowe przy wykorzystaniu [Karma](https://karma-runner.github.io) |
-| `npm run watch` | Uruchamia lokalne serwer na podstawie zbudowanych paczki plików w katalogu [/dist/](/dist/) |
+| `npm run watch` | Uruchamia lokalny serwer na podstawie zbudowanej paczki plików w katalogu [dist/](dist/) |
