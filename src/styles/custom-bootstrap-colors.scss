@@ -1,0 +1,14 @@
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+
+$custom-primary: hsl(36, 99%, 54%);
+$custom-secondary: hsla(208, 7%, 46%, 10%);
+
+$custom-theme-colors: (
+  "primary": $custom-primary,
+  "secondary": $custom-secondary
+);
+
+$theme-colors: map-merge($theme-colors, $custom-theme-colors);
+$component-active-color: $custom-primary !default;
+$dropdown-link-active-bg: $custom-primary !default;

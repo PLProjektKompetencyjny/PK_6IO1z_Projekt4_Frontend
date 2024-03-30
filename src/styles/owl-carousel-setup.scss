@@ -1,0 +1,9 @@
+@import "./bootstrap-setup.scss";
+
+.owl-theme .owl-nav [class*="owl-"] {
+  @extend .rounded;
+  @extend .text-black;
+  @extend .btn;
+  @extend .btn-primary;
+  @extend .m-2;
+}

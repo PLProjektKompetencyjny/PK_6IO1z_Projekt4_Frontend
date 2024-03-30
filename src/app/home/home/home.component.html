@@ -1,0 +1,700 @@
+<tn-header></tn-header>
+
+<div class="container-fluid p-0 mb-5 position-relative">
+  <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active position-relative">
+        <div class="position-absolute vh-100 w-100 bg-black bg-opacity-50"></div>
+        <img class="w-100 vh-100" src="assets/imgs/rooms/1/1.jpg" alt="Room 1">
+        <div
+          class="carousel-caption w-50 top-50 start-50 translate-middle d-flex flex-column align-items-center justify-content-center">
+          <div class="p-3">
+            <h6 class="text-white text-uppercase mb-3 animated slideInDown">
+              <span class="section-title position-relative fw-bold">Luxury Living</span>
+            </h6>
+            <h1 class="display-3 fw-bold text-white mb-4 animated slideInDown">Discover A Brand Luxurious Hotel</h1>
+            <a href="/home#rooms" class="btn btn-light py-md-3 px-md-5 me-3 animated slideInLeft">Our rooms</a>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item position-relative">
+        <div class="position-absolute vh-100 w-100 bg-black bg-opacity-50"></div>
+        <img class="w-100 vh-100" src="assets/imgs/rooms/2/1.jpg" alt="Room 2">
+        <div
+          class="carousel-caption w-50 top-50 start-50 translate-middle d-flex flex-column align-items-center justify-content-center">
+          <div class="p-3">
+            <h6 class="text-white text-uppercase mb-3 animated slideInDown">
+              <span class="section-title position-relative fw-bold">Luxury Living</span>
+            </h6>
+            <h1 class="display-3 fw-bold text-white mb-4 animated slideInDown">Discover A Brand Luxurious Hotel</h1>
+            <a href="/home#rooms" class="btn btn-light py-md-3 px-md-5 me-3 animated slideInLeft">Our rooms</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#header-carousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <div class="container-fluid booking wow fadeIn position-absolute top-100 start-50 translate-middle"
+    data-wow-delay="0.1s">
+    <div class="container">
+      <div class="bg-white shadow p-5 rounded">
+        <div class="row g-2">
+          <div class="col-md-10">
+            <div class="row g-2">
+              <div class="col-md-3">
+                <div class="date" id="date1" data-target-input="nearest">
+                  <input type="date" class="form-control datetimepicker-input" placeholder="Check in"
+                    data-target="#date1" data-toggle="datetimepicker">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="date" id="date2" data-target-input="nearest">
+                  <input type="date" class="form-control datetimepicker-input" placeholder="Check out"
+                    data-target="#date2" data-toggle="datetimepicker">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <select class="form-select">
+                  <option selected>Adult</option>
+                  <option value="1">Adult 1</option>
+                  <option value="2">Adult 2</option>
+                  <option value="3">Adult 3</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <select class="form-select">
+                  <option selected>Child</option>
+                  <option value="1">Child 1</option>
+                  <option value="2">Child 2</option>
+                  <option value="3">Child 3</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-primary w-100">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="containter-xxl bg-white p-0">
+  <div class="container-xxl py-5" id="rooms">
+    <div class="container">
+      <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+        <h6 class="text-center text-primary text-uppercase">
+          <span class="section-title position-relative fw-bold">Our rooms</span>
+        </h6>
+        <h1 class="mb-5">Explore our <span class="text-primary text-uppercase fw-bold">Rooms</span></h1>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+          <div class="room-item shadow rounded overflow-hidden">
+            <div class="position-relative">
+              <img class="img-fluid" src="assets/imgs/rooms/1/1.jpg" alt="Room 1">
+              <small
+                class="position-absolute start-0 top-100 translate-middle-y bg-primary rounded py-1 px-3 ms-4 fw-bold">$100/Night</small>
+            </div>
+            <div class="p-4 mt-2">
+              <div class="d-flex justify-content-between mb-3">
+                <h5 class="mb-0">Junior Suite</h5>
+                <div class="ps-2">
+                  <small class="bi bi-star-fill text-primary"></small>
+                  <small class="bi bi-star-fill text-primary"></small>
+                  <small class="bi bi-star-fill text-primary"></small>
+                  <small class="bi bi-star-fill text-primary"></small>
+                  <small class="bi bi-star-fill text-primary"></small>
+                </div>
+              </div>
+              <div class="d-flex mb-3">
+                <small class="border-end me-3 pe-3">
+                  <i class="bi bi-people text-primary me-2"></i>2 People
+                </small>
+                <small class="border-end me-3 pe-3">
+                  <i class="bi bi-droplet text-primary me-2"></i>1 Bath
+                </small>
+                <small>
+                  <i class="bi bi-wifi text-primary me-2"></i>Wifi
+                </small>
+              </div>
+              <p class="text-body mb-3">
+                Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet
+                diam sed stet lorem.
+              </p>
+              <div class="d-flex justify-content-between">
+                <a class="btn btn-sm btn-outline-dark rounded py-2 px-4" href="#">View detail</a>
+                <a class="btn btn-sm btn-primary rounded py-2 px-4" href="#">Book now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+          <div class="room-item shadow rounded overflow-hidden">
+            <div class="position-relative">
+              <img class="img-fluid" src="assets/imgs/rooms/1/1.jpg" alt="Room 1">
+              <small
+                class="position-absolute start-0 top-100 translate-middle-y bg-primary rounded py-1 px-3 ms-4 fw-bold">$100/Night</small>
+            </div>
+            <div class="p-4 mt-2">
+              <div class="d-flex justify-content-between mb-3">
+                <h5 class="mb-0">Executive Suite</h5>
+                <div class="ps-2">
+                  <small class="bi bi-star-fill text-primary"></small>
+                  <small class="bi bi-star-fill text-primary"></small>
+                  <small class="bi bi-star-fill text-primary"></small>
+                  <small class="bi bi-star-fill text-primary"></small>
+                  <small class="bi bi-star-fill text-primary"></small>
+                </div>
+              </div>
+              <div class="d-flex mb-3">
+                <small class="border-end me-3 pe-3">
+                  <i class="bi bi-people text-primary me-2"></i>4 People
+                </small>
+                <small class="border-end me-3 pe-3">
+                  <i class="bi bi-droplet text-primary me-2"></i>1 Bath
+                </small>
+                <small>
+                  <i class="bi bi-wifi text-primary me-2"></i>Wifi
+                </small>
+              </div>
+              <p class="text-body mb-3">
+                Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet
+                diam sed stet lorem.
+              </p>
+              <div class="d-flex justify-content-between">
+                <a class="btn btn-sm btn-outline-dark rounded py-2 px-4" href="#">View detail</a>
+                <a class="btn btn-sm btn-primary rounded py-2 px-4" href="#">Book now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.6s">
+          <div class="room-item shadow rounded overflow-hidden">
+            <div class="position-relative">
+              <img class="img-fluid" src="assets/imgs/rooms/2/1.jpg" alt="Room 1">
+              <small
+                class="position-absolute start-0 top-100 translate-middle-y bg-primary rounded py-1 px-3 ms-4 fw-bold">$100/Night</small>
+            </div>
+            <div class="p-4 mt-2">
+              <div class="d-flex justify-content-between mb-3">
+                <h5 class="mb-0">Super Deluxe</h5>
+                <div class="ps-2">
+                  <small class="bi bi-star-fill text-primary"></small>
+                  <small class="bi bi-star-fill text-primary"></small>
+                  <small class="bi bi-star-fill text-primary"></small>
+                  <small class="bi bi-star-fill text-primary"></small>
+                  <small class="bi bi-star-fill text-primary"></small>
+                </div>
+              </div>
+              <div class="d-flex mb-3">
+                <small class="border-end me-3 pe-3">
+                  <i class="bi bi-people text-primary me-2"></i>6 People</small>
+                <small class="border-end me-3 pe-3">
+                  <i class="bi bi-droplet text-primary me-2"></i>2 Bath</small>
+                <small>
+                  <i class="bi bi-wifi text-primary me-2"></i>Wifi
+                </small>
+              </div>
+              <p class="text-body mb-3">
+                Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet
+                diam sed stet lorem.
+              </p>
+              <div class="d-flex justify-content-between">
+                <a class="btn btn-sm btn-outline-dark rounded py-2 px-4" href="#">View detail</a>
+                <a class="btn btn-sm btn-primary rounded py-2 px-4" href="#">Book now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-xxl py-5 px-0 wow zoomIn" data-wow-delay="0.1s">
+    <div class="row g-0">
+      <div class="col-md-6 bg-dark d-flex align-items-center position-relative rounded-start">
+        <div class="p-5">
+          <h6 class="text-start text-white text-uppercase mb-3">
+            <span class="section-title position-relative fw-bold text-start">Luxury Living</span>
+          </h6>
+          <h1 class="display-4 fw-bold text-white mb-4">Discover A Brand Luxurious Hotel</h1>
+          <p class="text-white mb-4">
+            Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam
+            et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet
+          </p>
+          <a href="/home#rooms" class="btn btn-light py-md-3 px-md-5 me-3">Our rooms</a>
+          <a href="#" class="btn btn-primary py-md-3 px-md-5">Book a room</a>
+        </div>
+      </div>
+      <div class="col-md-6 position-relative">
+        <div class="video rounded-end">
+          <button type="button"
+            class="btn btn-primary d-block top-50 start-50 rounded-circle position-absolute translate-middle btn-play"
+            data-bs-toggle="modal" data-src="https://www.youtube.com/embed/cIkKEN8lZX4?si=PK4mudU-PDBHs_-O"
+            data-bs-target="#videoModal">
+            <i
+              class="z-1 d-block position-absolute top-50 start-50 translate-middle bi bi-play-fill fs-1 z-index-3"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content rounded-0">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Youtube Video</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="ratio ratio-16x9">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/cIkKEN8lZX4?si=PK4mudU-PDBHs_-O"
+              title="YouTube video player" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-xxl py-5" id="services">
+    <div class="container">
+      <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+        <h6 class="text-center text-primary text-uppercase">
+          <span class="section-title position-relative fw-bold">Our services</span>
+        </h6>
+        <h1 class="mb-5">Explore our <span class="text-primary text-uppercase fw-bold">Services</span></h1>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+          <a class="service-item rounded text-decoration-none" href="#">
+            <div class="service-icon mx-auto bg-transparent border rounded p-1">
+              <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+                <i class="bi bi-hospital-fill text-primary fs-1"></i>
+              </div>
+            </div>
+            <h5 class="mb-3 mt-4 text-black fw-bold">Rooms &amp; Appartment</h5>
+            <p class="text-body mb-0">
+              Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam
+              sed stet lorem.
+            </p>
+          </a>
+        </div>
+        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+          <a class="service-item rounded text-decoration-none" href="#">
+            <div class="service-icon mx-auto bg-transparent border rounded p-1">
+              <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+                <i class="bi bi-cup-hot-fill text-primary fs-1"></i>
+              </div>
+            </div>
+            <h5 class="mb-3 mt-4 text-black fw-bold">Food &amp; Restaurant</h5>
+            <p class="text-body mb-0">
+              Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam
+              sed stet lorem.
+            </p>
+          </a>
+        </div>
+        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+          <a class="service-item rounded text-decoration-none" href="#">
+            <div class="service-icon mx-auto bg-transparent border rounded p-1">
+              <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+                <i class="bi bi-sunglasses text-primary fs-1"></i>
+              </div>
+            </div>
+            <h5 class="mb-3 mt-4 text-black fw-bold">Spa &amp; Fitness</h5>
+            <p class="text-body mb-0">
+              Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam
+              sed stet lorem.
+            </p>
+          </a>
+        </div>
+        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
+          <a class="service-item rounded text-decoration-none" href="#">
+            <div class="service-icon mx-auto bg-transparent border rounded p-1">
+              <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+                <i class="bi bi-joystick text-primary fs-1"></i>
+              </div>
+            </div>
+            <h5 class="mb-3 mt-4 text-black fw-bold">Sports &amp; Gaming</h5>
+            <p class="text-body mb-0">
+              Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam
+              sed stet lorem.
+            </p>
+          </a>
+        </div>
+        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+          <a class="service-item rounded text-decoration-none" href="#">
+            <div class="service-icon mx-auto bg-transparent border rounded p-1">
+              <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+                <i class="bi bi-calendar-event-fill text-primary fs-1"></i>
+              </div>
+            </div>
+            <h5 class="mb-3 mt-4 text-black fw-bold">Event &amp; Party</h5>
+            <p class="text-body mb-0">
+              Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam
+              sed stet lorem.
+            </p>
+          </a>
+        </div>
+        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.6s">
+          <a class="service-item rounded text-decoration-none" href="#">
+            <div class="service-icon mx-auto bg-transparent border rounded p-1">
+              <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+                <i class="bi bi-bicycle text-primary fs-1"></i>
+              </div>
+            </div>
+            <h5 class="mb-3 mt-4 text-black fw-bold">GYM &amp; Yoga</h5>
+            <p class="text-body mb-0">
+              Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam
+              sed stet lorem.
+            </p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-xxl testimonial my-5 pt-4 pb-2 bg-dark wow zoomIn rounded" data-wow-delay="0.1s">
+    <div class="container">
+      <owl-carousel-o [options]="owlOptions">
+        <ng-template carouselSlide>
+          <div class="slide">
+            <div class="p-4 position-relative bg-white rounded overflow-hidden">
+              <p>Tempor stet labore dolor clita stet diam amet ipsum dolor duo ipsum rebum stet dolor amet diam stet.
+                Est
+                stet ea lorem amet est kasd kasd et erat magna eos</p>
+              <div class="d-flex align-items-center"><img src="assets/imgs/rooms/2/1.jpg" alt="Room 1"
+                  class="img-fluid flex-shrink-0 rounded" style="width:45px;height:45px;">
+                <div class="ps-3">
+                  <h6 class="fw-bold mb-1">Client Name</h6>
+                  <small>Profession</small>
+                </div>
+              </div>
+              <i class="bi bi-quote fs-1 text-primary position-absolute end-0 bottom-0 me-4 mb-n1"></i>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template carouselSlide>
+          <div class="slide">
+            <div class="p-4 position-relative bg-white rounded overflow-hidden">
+              <p>Tempor stet labore dolor clita stet diam amet ipsum dolor duo ipsum rebum stet dolor amet diam stet.
+                Est
+                stet ea lorem amet est kasd kasd et erat magna eos</p>
+              <div class="d-flex align-items-center"><img src="assets/imgs/rooms/1/1.jpg" alt="Room 1"
+                  class="img-fluid flex-shrink-0 rounded" style="width:45px;height:45px;">
+                <div class="ps-3">
+                  <h6 class="fw-bold mb-1">Client Name</h6>
+                  <small>Profession</small>
+                </div>
+              </div>
+              <i class="bi bi-quote fs-1 text-primary position-absolute end-0 bottom-0 me-4 mb-n1"></i>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template carouselSlide>
+          <div class="slide">
+            <div class="p-4 position-relative bg-white rounded overflow-hidden">
+              <p>Tempor stet labore dolor clita stet diam amet ipsum dolor duo ipsum rebum stet dolor amet diam stet.
+                Est
+                stet ea lorem amet est kasd kasd et erat magna eos</p>
+              <div class="d-flex align-items-center"><img src="assets/imgs/rooms/2/1.jpg" alt="Room 2"
+                  class="img-fluid flex-shrink-0 rounded" style="width:45px;height:45px;">
+                <div class="ps-3">
+                  <h6 class="fw-bold mb-1">Client Name</h6>
+                  <small>Profession</small>
+                </div>
+              </div>
+              <i class="bi bi-quote fs-1 text-primary position-absolute end-0 bottom-0 me-4 mb-n1"></i>
+            </div>
+          </div>
+        </ng-template>
+      </owl-carousel-o>
+      <!-- <div class="owl-carousel testimonial-carousel py-5">
+      </div> -->
+    </div>
+  </div>
+  <div class="container-xxl py-5">
+    <div class="container">
+      <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+        <h6 class="text-center text-primary text-uppercase">
+          <span class="section-title position-relative fw-bold">Our team</span>
+        </h6>
+        <h1 class="mb-5">Explore our <span class="text-primary text-uppercase fw-bold">Staffs</span></h1>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+          <div class="rounded shadow overflow-hidden">
+            <div class="position-relative">
+              <img class="img-fluid" src="assets/imgs/staffs/1.jpg" alt="John Est">
+              <div class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
+                <a class="btn btn-square btn-primary mx-1" href="#">
+                  <i class="bi bi-facebook"></i>
+                </a>
+                <a class="btn btn-square btn-primary mx-1" href="#">
+                  <i class="bi bi-twitter"></i>
+                </a>
+                <a class="btn btn-square btn-primary mx-1" href="#">
+                  <i class="bi bi-instagram"></i>
+                </a>
+              </div>
+            </div>
+            <div class="text-center p-4 mt-3">
+              <h5 class="fw-bold mb-0">John Est</h5>
+              <small>CEO & Co-Founder</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+          <div class="rounded shadow overflow-hidden">
+            <div class="position-relative">
+              <img class="img-fluid" src="assets/imgs/staffs/2.jpg" alt="Joe Johnson">
+              <div class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
+                <a class="btn btn-square btn-primary mx-1" href="#">
+                  <i class="bi bi-facebook"></i>
+                </a>
+                <a class="btn btn-square btn-primary mx-1" href="#">
+                  <i class="bi bi-twitter"></i>
+                </a>
+                <a class="btn btn-square btn-primary mx-1" href="#">
+                  <i class="bi bi-instagram"></i>
+                </a>
+              </div>
+            </div>
+            <div class="text-center p-4 mt-3">
+              <h5 class="fw-bold mb-0">Joe Johnson</h5>
+              <small>Customer experience</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+          <div class="rounded shadow overflow-hidden">
+            <div class="position-relative">
+              <img class="img-fluid" src="assets/imgs/staffs/3.jpg" alt="Mark Zig">
+              <div class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
+                <a class="btn btn-square btn-primary mx-1" href="#">
+                  <i class="bi bi-facebook"></i>
+                </a>
+                <a class="btn btn-square btn-primary mx-1" href="#">
+                  <i class="bi bi-twitter"></i>
+                </a>
+                <a class="btn btn-square btn-primary mx-1" href="#">
+                  <i class="bi bi-instagram"></i>
+                </a>
+              </div>
+            </div>
+            <div class="text-center p-4 mt-3">
+              <h5 class="fw-bold mb-0">Mark Zig</h5>
+              <small>Receptionist</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
+          <div class="rounded shadow overflow-hidden">
+            <div class="position-relative">
+              <img class="img-fluid" src="assets/imgs/staffs/4.jpg" alt="Tom Holand">
+              <div class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
+                <a class="btn btn-square btn-primary mx-1" href="#">
+                  <i class="bi bi-facebook"></i>
+                </a>
+                <a class="btn btn-square btn-primary mx-1" href="#">
+                  <i class="bi bi-twitter"></i>
+                </a>
+                <a class="btn btn-square btn-primary mx-1" href="#">
+                  <i class="bi bi-instagram"></i>
+                </a>
+              </div>
+            </div>
+            <div class="text-center p-4 mt-3">
+              <h5 class="fw-bold mb-0">Tom Holand</h5>
+              <small>Bearer</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-xxl py-5" id="about">
+    <div class="container">
+      <div class="row g-5 align-items-center">
+        <div class="col-lg-6">
+          <h6 class="text-start text-primary text-uppercase">
+            <span class="section-title position-relative fw-bold text-start">About us</span>
+          </h6>
+          <h1 class="mb-4">Welcome to <span class="text-primary text-uppercase fw-bold">{{ appName }}</span></h1>
+          <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos.
+            Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
+          <div class="row g-3 pb-4">
+            <div class="col-sm-4 wow fadeIn" data-wow-delay="0.1s">
+              <div class="border rounded p-1">
+                <div class="border rounded text-center p-4">
+                  <i class="bi bi-hospital-fill text-primary mb-2 fs-1"></i>
+                  <h2 class="mb-1" data-toggle="counter-up">100</h2>
+                  <p class="mb-0">Rooms</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 wow fadeIn" data-wow-delay="0.3s">
+              <div class="border rounded p-1">
+                <div class="border rounded text-center p-4">
+                  <i class="bi bi-people-fill text-primary mb-2 fs-1"></i>
+                  <h2 class="mb-1" data-toggle="counter-up">300</h2>
+                  <p class="mb-0">Staffs</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 wow fadeIn" data-wow-delay="0.5s">
+              <div class="border rounded p-1">
+                <div class="border rounded text-center p-4">
+                  <i class="bi bi-person-hearts text-primary mb-2 fs-1"></i>
+                  <h2 class="mb-1" data-toggle="counter-up">10000</h2>
+                  <p class="mb-0">Clients</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <a class="btn btn-primary py-md-3 px-md-5 mt-2" href="#">Explore more</a>
+        </div>
+        <div class="col-lg-6">
+          <div class="row g-3">
+            <div class="col-6 text-end"><img src="assets/imgs/rooms/1/1.jpg" alt="Room 1"
+                class="img-fluid rounded w-75 wow zoomIn" style="margin-top:25%;" data-wow-delay="0.1s"></div>
+            <div class="col-6 text-start"><img src="assets/imgs/rooms/2/1.jpg" alt="Room 2"
+                class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.3s"></div>
+            <div class="col-6 text-end"><img src="assets/imgs/rooms/2/1.jpg" alt="Room 2"
+                class="img-fluid rounded w-50 wow zoomIn" data-wow-delay="0.5s"></div>
+            <div class="col-6 text-start"><img src="assets/imgs/rooms/1/1.jpg" alt="Room 1"
+                class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.7s"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container newsletter mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="row justify-content-center">
+      <div class="col-lg-10 border rounded p-1">
+        <div class="border rounded text-center p-1">
+          <div class="bg-white rounded text-center p-5">
+            <h4 class="mb-4">Subscribe our <span class="text-primary text-uppercase fw-bold">Newsletter</span></h4>
+            <div class="position-relative mx-auto" style="max-width:400px;">
+              <input class="form-control w-100 py-3 ps-4 pe-5" type="text" placeholder="Enter your email">
+              <button type="button"
+                class="btn btn-primary py-2 px-3 position-absolute top-0 end-0 mt-2 me-2">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="container-fluid bg-dark text-light footer wow fadeIn" data-wow-delay="0.1s" id="contact">
+    <div class="container pb-5">
+      <div class="row g-5">
+        <div class="col-md-6 col-lg-4">
+          <h6 class="text-start text-primary text-uppercase mb-4 fw-bold">
+            <span class="section-title position-relative fw-bold text-start">Contact</span>
+          </h6>
+          <p class="mb-2">
+            <i class="bi bi-geo-alt me-2"></i>123 Street, New York, USA
+          </p>
+          <p class="mb-2">
+            <a href="tel:+012 345 67890" class="text-decoration-none text-white">
+              <i class="bi bi-telephone me-2"></i>+012 345 67890
+            </a>
+          </p>
+          <p class="mb-2">
+            <a href="mailto:contact&#64;travelnest.com" class="text-decoration-none text-white">
+              <i class="bi bi-envelope me-2"></i>contact&#64;travelnest.com
+            </a>
+          </p>
+          <div class="d-flex pt-2">
+            <a class="btn btn-outline-primary" href="#">
+              <i class="bi bi-twitter"></i>
+            </a>
+            <a class="btn btn-outline-primary ms-2" href="#">
+              <i class="bi bi-facebook"></i>
+            </a>
+            <a class="btn btn-outline-primary ms-2" href="#">
+              <i class="bi bi-youtube"></i>
+            </a>
+            <a class="btn btn-outline-primary ms-2" href="#">
+              <i class="bi bi-linkedin"></i>
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-8 col-md-12">
+          <div class="row gy-5 g-4">
+            <div class="col-md-6 d-flex flex-column">
+              <h6 class="text-start text-primary text-uppercase mb-4 fw-bold">
+                <span class="section-title position-relative fw-bold text-start">Company</span>
+              </h6>
+              <a class="text-decoration-none ps-0 text-white mt-2" href="#"><i
+                  class="bi bi-chevron-right me-2"></i>About
+                us</a>
+              <a class="text-decoration-none ps-0 text-white mt-2" href="#"><i
+                  class="bi bi-chevron-right me-2"></i>Contact
+                us</a>
+              <a class="text-decoration-none ps-0 text-white mt-2" href="#"><i
+                  class="bi bi-chevron-right me-2"></i>Privacy
+                policy</a>
+              <a class="text-decoration-none ps-0 text-white mt-2" href="#"><i
+                  class="bi bi-chevron-right me-2"></i>Terms
+                &amp;
+                Condition</a>
+              <a class="text-decoration-none ps-0 text-white mt-2" href="#"><i
+                  class="bi bi-chevron-right me-2"></i>Support</a>
+            </div>
+            <div class="col-md-6 d-flex flex-column">
+              <h6 class="text-start text-primary text-uppercase mb-4 fw-bold">
+                <span class="section-title position-relative fw-bold text-start">Services</span>
+              </h6>
+              <a class="text-decoration-none ps-0 text-white mt-2" href="#"><i class="bi bi-chevron-right me-2"></i>Food
+                &amp;
+                Restaurant</a>
+              <a class="text-decoration-none ps-0 text-white mt-2" href="#"><i class="bi bi-chevron-right me-2"></i>Spa
+                &amp;
+                Fitness</a>
+              <a class="text-decoration-none ps-0 text-white mt-2" href="#"><i
+                  class="bi bi-chevron-right me-2"></i>Sports
+                &amp; Gaming</a>
+              <a class="text-decoration-none ps-0 text-white mt-2" href="#"><i
+                  class="bi bi-chevron-right me-2"></i>Event
+                &amp;
+                Party</a>
+              <a class="text-decoration-none ps-0 text-white mt-2" href="#"><i class="bi bi-chevron-right me-2"></i>GYM
+                &amp;
+                Yoga</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container py-3 border-top border-gray">
+      <div class="copyright">
+        <div class="row">
+          <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+            &copy; <a class="text-white" href="#">{{ appName }}</a>, All Rights Reserved
+          </div>
+          <div class="col-md-6 text-center text-md-end">
+            <div class="footer-menu">
+              <a href="#" class="text-decoration-none border-end border-gray text-white pe-3">Home</a>
+              <a href="#" class="text-decoration-none border-end border-gray text-white px-3">Cookies</a>
+              <a href="#" class="text-decoration-none border-end border-gray text-white px-3">Help</a>
+              <a href="#" class="text-decoration-none text-white ps-3">FAQs</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<a href="/home#" class="btn btn-lg btn-primary btn-lg-square position-fixed bottom-0 end-0 me-2 mb-2">
+  <i class="bi bi-arrow-up"></i>
+</a>
