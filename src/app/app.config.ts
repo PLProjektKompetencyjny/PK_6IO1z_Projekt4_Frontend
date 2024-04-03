@@ -6,3 +6,5 @@ import { routes } from './app.routes';
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes)]
 };
+
+export const appName: string = 'TravelNest';

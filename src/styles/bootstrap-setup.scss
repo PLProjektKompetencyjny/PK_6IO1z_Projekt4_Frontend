@@ -1,0 +1,13 @@
+@import "./custom-bootstrap-colors.scss";
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+
+.btn {
+  @extend .text-uppercase;
+  @extend .fw-bold;
+}
+
+a.nav-item.nav-link {
+  &.active {
+    color: $custom-primary !important;
+  }
+}

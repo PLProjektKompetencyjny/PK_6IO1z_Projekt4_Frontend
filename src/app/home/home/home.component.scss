@@ -1,0 +1,133 @@
+@import "../../../styles/custom-bootstrap-colors.scss";
+
+:host .section-title {
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 45px;
+    height: 2px;
+    top: 50%;
+    margin-top: -1px;
+    background: $custom-primary;
+  }
+
+  &::before {
+    left: -54px;
+  }
+
+  &::after {
+    right: -54px;
+  }
+
+  &.text {
+    &-start {
+      &::before {
+        display: none;
+      }
+    }
+
+    &-end {
+      &::after {
+        display: none;
+      }
+    }
+  }
+}
+
+:host .service-item {
+  height: 320px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  background: $white;
+  box-shadow: 0 0 45px rgba($black, .08);
+  transition: background .5s;
+
+  &:hover {
+    background: $custom-primary;
+
+    .service-icon .bi {
+      color: $black !important;
+    }
+  }
+
+  a:hover {
+    color: $custom-primary;
+  }
+
+  .service-icon {
+    width: 65px;
+
+    .bi {
+      transition: color .5s;
+    }
+  }
+}
+
+:host .testimonial {
+  background: linear-gradient(rgba(15,23,43,.7),rgba(15,23,43,.7)),url(../../../assets/imgs/rooms/1/1.jpg);
+    background-color: rgba(0, 0, 0, 0);
+    background-position-x: 0%, 0%;
+    background-position-y: 0%, 0%;
+    background-repeat: repeat, repeat;
+    background-size: auto, auto;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+:host .testimonial-carousel {
+  padding-left: 65px;
+  padding-right: 65px;
+}
+
+:host .video {
+  position: relative;
+  height: 100%;
+  background: linear-gradient(rgba(15,23,43,.1),rgba(15,23,43,.1)),url(../../../assets/imgs/rooms/1/1.jpg);
+    background-position-x: 0%, 0%;
+    background-position-y: 0%, 0%;
+    background-repeat: repeat, repeat;
+    background-size: auto, auto;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  .btn-play {
+    box-sizing: content-box;
+    width: 32px;
+    height: 44px;
+    padding: 18px 20px 18px 28px;
+
+    &::after, &::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      display: block;
+      background: $custom-primary;
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+    }
+
+    &::before {
+      animation: pulse-border 1.5s ease-out infinite;
+    }
+  }
+}
+
+@keyframes pulse-border {
+  0% {
+    transform:translateX(-50%) translateY(-50%) translateZ(0) scale(1);
+    opacity:1
+  }
+  100% {
+    transform:translateX(-50%) translateY(-50%) translateZ(0) scale(1.5);
+    opacity:0
+  }
+}

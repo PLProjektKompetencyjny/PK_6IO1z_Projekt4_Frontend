@@ -87,7 +87,7 @@ ng g m modules/<module-name>
 
 ### Komponent
 Jest to część widoku, którą wykonaliśmy od 0 samodzielnie i zawiera logikę biznesową lub custom'owy element/kontrolka, np. `<tn-time-picker></tn-time-picker>`.
-Komendy CLI oparte są na [wytycznych](#wytyczne). Dobrze, aby się z nimi zapoznał.
+Komendy CLI oparte są na [wytycznych](#wytyczne). Dobrze, aby się z nimi zapoznać.
 
 Tworzenie:
 ```bash
