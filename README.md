@@ -50,7 +50,7 @@ npm start
 Co do strukturyzowania katalogów zaleca się, aby elementy Angular'owe przechowywać w grupach tj.:
 - [Moduły](#moduł) w katalogu -> `/src/app/modules/`,
 - [Serwisy](#serwis) w katalogu -> `/src/app/services/`,
-- [Strażników](#strażnik) w katalogu -> `/src/app/services/`,
+- [Strażników](#strażnik) w katalogu -> `/src/app/guards/`,
 - [Dyrektywy](#dyrektywa) w katalogu -> `/src/app/directives/`,
 - ["Rury"](#rura) w katalogu -> `/src/app/pipes/`,
 - z kolei [Komponenty](#komponent):
@@ -74,7 +74,7 @@ export const displayFormat = (data: any) => {
 > :information_source: Domyślnie generator wskazuje na ścieżkę `./src/app`. Warto mieć to na uwadze!
 
 ### Moduł
-Skupia, przechowuje, wyodrębnia pewną część logiki aplikacji. Najczęściej będzie tworzone w momencie tworzenie kompletnie nowego widoku np. `/home`, `/user`, `/admin` etc.
+Skupia, przechowuje, wyodrębnia pewną część logiki aplikacji. Najczęściej będzie tworzone w momencie dodawania kompletnie nowego widoku np. `/home`, `/user`, `/admin` etc.
 
 Tworzenie:
 ```bash
