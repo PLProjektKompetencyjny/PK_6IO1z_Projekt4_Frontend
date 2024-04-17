@@ -161,3 +161,4 @@ Angular CLI ma jeszcze inne opcje jak tworzenie klasy, interfejsu, enum'a.
 | `npm run build` | Kompiluje projekt aplikacji i wygenerowane pliki wrzuca do katalogu [dist/](dist/) |
 | `npm run test` | Uruchamia lokalne testy jednostkowe przy wykorzystaniu [Karma](https://karma-runner.github.io) |
 | `npm run watch` | Uruchamia lokalny serwer na podstawie zbudowanej paczki plików w katalogu [dist/](dist/) |
+| `npm run lint` | Uruchamia linter'a, który sprawdza poprawność kodu na podstawie reguł ustalonych w [.eslintrc.json](/.eslintrc.json) |
