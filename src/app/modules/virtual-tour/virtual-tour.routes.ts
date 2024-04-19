@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { VirtualTourComponent } from './virtual-tour/virtual-tour.component';
+import { VirtualTourComponent } from './components/virtual-tour/virtual-tour.component';
 
 export const routes: Routes = [
   {

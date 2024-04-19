@@ -1,6 +1,6 @@
 import { OwlOptions } from 'ngx-owl-carousel-o';
 
-export { appName } from '../../app.config';
+export { appName } from '../../../../app.config';
 
 export const owlOptions: OwlOptions = {
   items: 2,
