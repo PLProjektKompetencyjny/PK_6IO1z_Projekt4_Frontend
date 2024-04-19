@@ -4,10 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng lint && ng build",
-    "watch": "ng lint && ng build --watch --configuration development",
+    "build": "ng lint --fix && ng build",
+    "watch": "ng lint --fix && ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint --fix"
   },
   "private": true,
   "dependencies": {

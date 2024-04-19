@@ -1,4 +1,4 @@
-@import "../../../styles/custom-bootstrap-colors.scss";
+@import "../../../../../styles/custom-bootstrap-colors.scss";
 
 :host .section-title {
   &::before,
@@ -68,7 +68,7 @@
 }
 
 :host .testimonial {
-  background: linear-gradient(rgba(15,23,43,.7),rgba(15,23,43,.7)),url(../../../assets/imgs/rooms/1/1.jpg);
+  background: linear-gradient(rgba(15,23,43,.7),rgba(15,23,43,.7)),url(../../../../../assets/imgs/rooms/1/1.jpg);
     background-color: rgba(0, 0, 0, 0);
     background-position-x: 0%, 0%;
     background-position-y: 0%, 0%;
@@ -87,7 +87,7 @@
 :host .video {
   position: relative;
   height: 100%;
-  background: linear-gradient(rgba(15,23,43,.1),rgba(15,23,43,.1)),url(../../../assets/imgs/rooms/1/1.jpg);
+  background: linear-gradient(rgba(15,23,43,.1),rgba(15,23,43,.1)),url(../../../../../assets/imgs/rooms/1/1.jpg);
     background-position-x: 0%, 0%;
     background-position-y: 0%, 0%;
     background-repeat: repeat, repeat;
