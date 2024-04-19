@@ -7,7 +7,12 @@ export const routes: Routes = [
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
   },
   {
+    title: 'Checkout our residences, apartments & rooms at TravelNest | Explore with virtual tour',
+    path: 'virtual-tour',
+    loadChildren: () => import('./virtual-tour/virtual-tour.module').then(m => m.VirtualTourModule)
+  },
+  {
     path: '**',
-    redirectTo: 'home',
+    redirectTo: 'home'
   }
 ];
