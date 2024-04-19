@@ -3,7 +3,7 @@ import { VirtualTourComponent } from './virtual-tour/virtual-tour.component';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: '**',
     component: VirtualTourComponent,
   }
 ];
