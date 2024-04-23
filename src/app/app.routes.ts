@@ -12,6 +12,11 @@ export const routes: Routes = [
     loadChildren: () => import('./modules/virtual-tour/virtual-tour.module').then(m => m.VirtualTourModule)
   },
   {
+    title: 'Register new account',
+    path: 'sign-up',
+    loadChildren: () => import('./modules/sign-up/sign-up.module').then(m => m.SignUpModule)
+  },
+  {
     path: '**',
     redirectTo: 'home'
   }
