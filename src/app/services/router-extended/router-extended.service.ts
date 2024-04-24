@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NavigationBehaviorOptions, NavigationExtras, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +40,7 @@ export class RouterExtendedService {
   constructor(public readonly router: Router) { }
 
   /**
-   * Navigates to the home page.
+   * Navigates to the {@link homeUrl} page.
    */
   navigateToHome(): void {
     this.router.navigateByUrl(this.homeUrl);
