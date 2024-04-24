@@ -26,15 +26,19 @@ export class AuthService {
    * Checks whether use is authenticated or not.
    */
   get isAuthenticated(): boolean {
-    return this.session !== null;
+    return this.session !== undefined;
   }
 
   /**
    * Provides {@link Session} if exists.
    */
-  get session(): Session | null {
+  get session(): Session | undefined {
     const session = localStorage.getItem(AuthService.localStorageSessionKey) ?? '';
-    return JSON.parse(session) as Session;
+    if (session) {
+      return JSON.parse(session) as Session;
+    }
+
+    return undefined;
   }
 
   /**
