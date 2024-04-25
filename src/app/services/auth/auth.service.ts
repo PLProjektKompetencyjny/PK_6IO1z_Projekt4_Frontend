@@ -47,24 +47,10 @@ export class AuthService {
   }
 
   /**
-   * Provides {@link Session.accessToken} from the {@link session}.
-   */
-  get accessToken(): string {
-    return this.session?.accessToken ?? '';
-  }
-
-  /**
-   * Provides {@link Session.authScheme} from the {@link session}.
-   */
-  get authScheme(): string {
-    return this.session?.authScheme ?? '';
-  }
-
-  /**
-   * Credentials to authenticate a user-agent with a server.
+   * Credentials to authenticate a user with a server.
    */
   get authorizationHeaderValue(): string {
-    return `${this.authScheme} ${this.accessToken}`;
+    return `${this.session?.authScheme} ${this.session?.accessToken}`;
   }
 
   constructor(
