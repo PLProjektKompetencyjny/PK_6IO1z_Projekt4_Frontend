@@ -7,6 +7,11 @@ import { environment } from '../../../environments/environment';
 import { RouterExtendedService } from '../router-extended/router-extended.service';
 import { Session } from '../../shared/models/session.model';
 
+/**
+ * Service for authentication purposes
+ * e.g. HTTP requests to sign in/up
+ * or manage session with local storage.
+ */
 @Injectable({
   providedIn: 'root'
 })
