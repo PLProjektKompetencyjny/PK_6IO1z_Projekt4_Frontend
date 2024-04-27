@@ -1,21 +1,14 @@
 <tn-header></tn-header>
-<div class="container-xl px-4 mt-4 d-flex justify-content-center align-items-center flex-column vw-100 vh-100">
-  <ul class="nav nav-tabs">
+
+<div class="container-xl px-4 mt-4 d-flex justify-content-center align-items-center flex-column vw-100 vh-100 bg-white">
+  <ul class="nav nav-tabs border-bottom-0">
     <li class="nav-tab">
-      <a class="nav-link rounded-top-3 position-relative text-black" [routerLink]="['/profile', 'details']"
-        routerLinkActive="active" (click)="changeView(Views.details)">Profile</a>
+      <a class="nav-link rounded-top-3 text-black" routerLink="details" routerLinkActive="active">Profile</a>
     </li>
     <li class="nav-tab">
-      <a class="nav-link rounded-top-3 position-relative text-black" [routerLink]="['/profile', 'security']"
-        routerLinkActive="active" (click)="changeView(Views.security)">Security</a>
+      <a class="nav-link rounded-top-3 text-black" routerLink="security" routerLinkActive="active">Security</a>
     </li>
   </ul>
 
-  @switch (currentView) {
-  @case (Views.details) {
-  <tn-details class="w-100"></tn-details>
-  } @case (Views.security) {
-  <tn-security class="w-100 d-flex justify-content-center"></tn-security>
-  }
-  }
+  <router-outlet></router-outlet>
 </div>

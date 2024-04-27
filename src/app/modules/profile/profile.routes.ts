@@ -5,15 +5,17 @@ import { SecurityComponent } from './components/security/security.component';
 
 export const routes: Routes = [
   {
-    path: '**',
+    path: '',
     component: ProfileComponent,
+    children: [
+      {
+        path: 'details',
+        component: DetailsComponent,
+      },
+      {
+        path: 'security',
+        component: SecurityComponent,
+      }
+    ]
   },
-  {
-    path: 'details',
-    component: DetailsComponent,
-  },
-  {
-    path: 'security',
-    component: SecurityComponent,
-  }
 ];
