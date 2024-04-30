@@ -7,9 +7,13 @@ import { HeaderComponent } from '../../shared/components/header/header.component
 import { ProfileComponent } from './components/profile/profile.component';
 import { DetailsComponent } from './components/details/details.component';
 import { SecurityComponent } from './components/security/security.component';
+import { UserService } from '../../services/user/user.service';
 
 @NgModule({
-  providers: [provideRouter(routes)],
+  providers: [
+    provideRouter(routes),
+    UserService,
+  ],
   declarations: [
     ProfileComponent,
     DetailsComponent,
@@ -19,6 +23,6 @@ import { SecurityComponent } from './components/security/security.component';
     RouterModule,
     CommonModule,
     HeaderComponent
-  ]
+  ],
 })
 export class ProfileModule { }

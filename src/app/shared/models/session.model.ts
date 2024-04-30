@@ -1,4 +1,4 @@
-import { User } from './user.model';
+import { User } from '../../modules/profile/user.model';
 
 /**
  * Represents session stored in the local storage.
