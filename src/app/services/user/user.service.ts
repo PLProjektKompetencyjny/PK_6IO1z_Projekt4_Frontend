@@ -15,7 +15,7 @@ export class UserService {
   /**
    * The base path to user endpoints.
    */
-  readonly basePath: string = 'user';
+  readonly basePath: string = 'users';
 
   constructor(private readonly httpClient: HttpClient) { }
 
@@ -38,7 +38,7 @@ export class UserService {
    */
   async getById(userId: string): Promise<User> {
     const request = this.httpClient.get<User>(
-      `${environment.apiUrl}/${this.basePath}/${userId}`
+      `${environment.apiUrl}/${this.basePath}/09123832`
     )
 
     return await firstValueFrom(request);
@@ -90,7 +90,7 @@ export class UserService {
    */
   async update(user: User): Promise<void> {
     const request = this.httpClient.put<void>(
-      `${environment.apiUrl}/${this.basePath}`,
+      `${environment.apiUrl}/${this.basePath}/${user.id}`,
       user
     );
 

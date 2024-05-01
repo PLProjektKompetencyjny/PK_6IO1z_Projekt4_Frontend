@@ -5,29 +5,30 @@
       <div class="row gx-3 mb-3">
         <div class="col-md-6">
           <label class="small mb-1 fw-bold" for="firstname">First name</label>
-          <input class="form-control" id="firstname" type="text" placeholder="Enter your first name" value="Valerie"
-            required>
+          <input class="form-control" id="firstname" name="firstname" type="text" placeholder="Enter your first name"
+            [(ngModel)]="user.firstname" required>
         </div>
         <div class="col-md-6">
           <label class="small mb-1 fw-bold" for="lastname">Last name</label>
-          <input class="form-control" id="lastname" type="text" placeholder="Enter your last name" value="Luna"
-            required>
+          <input class="form-control" id="lastname" name="lastname" type="text" placeholder="Enter your last name"
+            [(ngModel)]="user.surname" required>
         </div>
       </div>
       <div class="row gx-3">
         <div class="col-md-4">
           <label class="small mb-1 fw-bold" for="email">Email address</label>
-          <input class="form-control" id="email" type="email" placeholder="Enter your email address"
-            value="name@example.com" required>
+          <input class="form-control" id="email" name="email" type="email" placeholder="Enter your email address"
+            [(ngModel)]="user.email" required>
         </div>
         <div class="col-md-4">
           <label class="small mb-1 fw-bold" for="phone">Phone number</label>
-          <input class="form-control" id="phone" type="tel" placeholder="Enter your phone number" value="555-123-4567"
-            required>
+          <input class="form-control" id="phone" name="phone" type="tel" placeholder="Enter your phone number"
+            [(ngModel)]="user.phone" required>
         </div>
         <div class="col-md-4">
           <label class="small mb-1 fw-bold" for="nip">NIP</label>
-          <input class="form-control" id="nip" type="text" placeholder="Enter your NIP" value="01234567890" required>
+          <input class="form-control" id="nip" name="nip" type="text" placeholder="Enter your NIP"
+            [(ngModel)]="user.nip" required>
         </div>
       </div>
     </div>
@@ -39,28 +40,29 @@
       <div class="row gx-3 mb-3">
         <div class="col-md-6">
           <label class="small mb-1 fw-bold" for="firstname">City</label>
-          <input class="form-control" id="firstname" type="text" placeholder="Enter your city" value="Warsaw" required>
+          <input class="form-control" id="firstname" name="firstname" type="text" placeholder="Enter your city"
+            [(ngModel)]="user.city" required>
         </div>
         <div class="col-md-6">
           <label class="small mb-1 fw-bold" for="postalCode">Postal code</label>
-          <input class="form-control" id="postalCode" type="text" placeholder="Enter your postal code" value="04-007"
-            required>
+          <input class="form-control" id="postalCode" name="postalCode" type="text" placeholder="Enter your postal code"
+            [(ngModel)]="user.postalCode" required>
         </div>
       </div>
       <div class="row gx-3">
         <div class="col-md-6">
           <label class="small mb-1 fw-bold" for="street">Street</label>
-          <input class="form-control" id="street" type="text" placeholder="Enter your street name" value="Sienkiewicza"
-            required>
+          <input class="form-control" id="street" name="street" type="text" placeholder="Enter your street name"
+            [(ngModel)]="user.street" required>
         </div>
         <div class="col-md-6">
           <label class="small mb-1 fw-bold" for="buildingNumber">Building number</label>
-          <input class="form-control" id="buildingNumber" type="text" placeholder="Enter your building number"
-            value="16b" required>
+          <input class="form-control" id="buildingNumber" name="buildingNumber" type="text"
+            placeholder="Enter your building number" [(ngModel)]="user.buildingNumber" required>
         </div>
       </div>
     </div>
   </div>
 
-  <button class="col-auto btn btn-primary py-md-2 px-md-4 ms-3 mb-3" type="button">Save</button>
+  <button class="col-auto btn btn-primary py-md-2 px-md-4 ms-3 mb-3" type="button" (click)="update()">Save</button>
 </form>
