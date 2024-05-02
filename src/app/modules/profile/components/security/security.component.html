@@ -3,19 +3,30 @@
   <div class="card-body">
     <form>
       <div class="mb-3">
-        <label class="small mb-1" for="currentPassword">Current password</label>
-        <input class="form-control" id="currentPassword" type="password" placeholder="Enter current password">
-      </div>
-      <div class="mb-3">
         <label class="small mb-1" for="newPassword">New password</label>
-        <input class="form-control" id="newPassword" type="password" placeholder="Enter new password">
+        <input class="form-control" id="newPassword" name="newPassword" type="password" [(ngModel)]="newPassword"
+          placeholder="Enter new password" required>
       </div>
       <div class="mb-3">
         <label class="small mb-1" for="confirmPassword">Confirm password</label>
-        <input class="form-control" id="confirmPassword" type="password" placeholder="Confirm new password">
+        <input class="form-control" id="confirmPassword" name="confirmPassword" type="password"
+          [(ngModel)]="confirmPassword" placeholder="Confirm new password" required>
       </div>
+      @if (errorMessage.length > 0) {
+      <div class="mb-3 text-danger">{{ errorMessage }}</div>
+      @if (this.satisfiesPasswordRules === false) {
+      <div class="text-danger">Password should have</div>
+      <ul class="text-danger">
+        <li>1 lower case character</li>
+        <li>1 upper case character</li>
+        <li>1 digit</li>
+        <li>1 special character</li>
+        <li>8 characters</li>
+      </ul>
+      }
+      }
 
-      <button class="btn btn-primary py-md-2 px-md-4 d-block" type="button">Save</button>
+      <button class="btn btn-primary py-md-2 px-md-4 d-block" type="button" (click)="changePassword()">Save</button>
     </form>
   </div>
 </div>

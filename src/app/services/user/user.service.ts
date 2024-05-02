@@ -1,8 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { first, firstValueFrom } from 'rxjs';
 import { User } from '../../modules/profile/user.model';
 import { environment } from '../../../environments/environment';
+import { AuthService } from '../auth/auth.service';
 
 /**
  * Service related to HTTP request on `user`
@@ -17,7 +18,10 @@ export class UserService {
    */
   readonly basePath: string = 'users';
 
-  constructor(private readonly httpClient: HttpClient) { }
+  constructor(
+    private readonly httpClient: HttpClient,
+    private readonly authService: AuthService,
+  ) { }
 
   /**
    * Gets logged user's data.
@@ -38,7 +42,7 @@ export class UserService {
    */
   async getById(userId: string): Promise<User> {
     const request = this.httpClient.get<User>(
-      `${environment.apiUrl}/${this.basePath}/09123832`
+      `${environment.apiUrl}/${this.basePath}/${userId}`
     )
 
     return await firstValueFrom(request);
@@ -98,13 +102,27 @@ export class UserService {
   }
 
   /**
-   * Updates user's data.
+   * Updates user's.
    * @param user User's data to update.
    */
   async delete(userId: string): Promise<void> {
     const request = this.httpClient.delete<void>(
       `${environment.apiUrl}/${this.basePath}/${userId}`
     );
+
+    await firstValueFrom(request);
+  }
+
+  /**
+   * Updates logged user's password.
+   * @param password User's new password.
+   */
+  async updatePassword(password: string): Promise<void> {
+    const userId = this.authService.session?.id;
+    const request = this.httpClient.put<void>(
+      `${environment.apiUrl}/${this.basePath}/${userId}/password`,
+      { password }
+    )
 
     await firstValueFrom(request);
   }
