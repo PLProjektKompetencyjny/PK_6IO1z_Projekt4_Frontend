@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 import { appName } from '../../../app.config';
+import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'tn-header',
@@ -12,4 +13,6 @@ import { appName } from '../../../app.config';
 })
 export class HeaderComponent {
   protected readonly appName = appName;
+
+  constructor(protected readonly authService: AuthService) { }
 }

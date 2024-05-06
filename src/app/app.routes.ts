@@ -12,6 +12,11 @@ export const routes: Routes = [
     loadChildren: () => import('./modules/virtual-tour/virtual-tour.module').then(m => m.VirtualTourModule)
   },
   {
+    title: 'Your account details',
+    path: 'profile',
+    loadChildren: () => import('./modules/profile/profile.module').then(m => m.ProfileModule)
+  },
+  {
     path: '**',
     redirectTo: 'home'
   }
