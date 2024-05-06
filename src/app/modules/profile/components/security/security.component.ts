@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../../../services/user/user.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PasswordStrengthValidator } from '../../../../shared/validators/password-strength.validator';
 
 @Component({
   selector: 'tn-security',
@@ -8,50 +10,79 @@ import { UserService } from '../../../../services/user/user.service';
 })
 export class SecurityComponent {
 
-  /**
-   * Password should contain:
-   * - at least 1 lower case character,
-   * - at least 1 upper case character,
-   * - at least 1 digit,
-   * - at least 1 special character,
-   * - at least 8 characters.
-   */
-  readonly passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  form: FormGroup;
 
-  newPassword: string = '';
-  confirmPassword: string = '';
-  errorMessage: string = '';
+  get newPasswordErrors(): string[] {
+    const newPasswordErrors = this.form.get('newPassword')?.errors;
+    if (newPasswordErrors === null) {
+      return [];
+    }
 
-  get satisfiesPasswordRules(): boolean {
-    return this.newPassword.length > 0 && this.passwordRegex.test(this.newPassword);
+
+    const parsedErrors: string[] = [];
+    for (const key in newPasswordErrors) {
+      if (Object.prototype.hasOwnProperty.call(newPasswordErrors, key) && key !== 'required') {
+        parsedErrors.push(newPasswordErrors[key]);
+      }
+    }
+
+    return parsedErrors;
   }
 
-  constructor(private readonly userService: UserService) { }
+  get newPassword(): string {
+    return this.form.get('newPassword')?.value;
+  }
 
+  get confirmPassword(): string {
+    return this.form.get('confirmPassword')?.value;
+  }
+
+  /**
+   * An error message to display after submittion.
+   */
+  errorMessage: string = '';
+
+  constructor(
+    private readonly userService: UserService,
+    private readonly formBuilder: FormBuilder
+  ) {
+    this.form = this.formBuilder.group({
+      newPassword: ['', Validators.compose([
+        Validators.required, PasswordStrengthValidator
+      ])],
+      confirmPassword: ['', Validators.required]
+    });
+  }
+
+  /**
+   * Validates new provided password
+   * and makes a HTTP request to the API
+   * in order to request password change.
+   */
   async changePassword(): Promise<void> {
-    if (this.newPassword.length === 0) {
-      this.errorMessage = 'New password is empty';
-      return;
-    }
-
-    if (this.newPassword !== this.confirmPassword) {
-      this.errorMessage = 'Passwords are not the same';
-      return;
-    }
-
-    if (this.satisfiesPasswordRules === false) {
-      this.errorMessage = 'Password does not satisfy rules';
+    if (this.validatePasswords() === false) {
       return;
     }
 
     try {
       await this.userService.updatePassword(this.newPassword);
-      this.newPassword = '';
-      this.confirmPassword = '';
     } catch (e) {
       console.error(e);
     } finally {
       this.errorMessage = '';
     }
+  }
+
+  /**
+   * Validates new password with the confirmed one.
+   * @returns `true` when they are the same; in other scenario `false`.
+   */
+  validatePasswords(): boolean {
+    if (this.newPassword !== this.confirmPassword) {
+      this.errorMessage = 'Passwords are not the same';
+      return false;
+    }
+
+    return true;
   }
 }

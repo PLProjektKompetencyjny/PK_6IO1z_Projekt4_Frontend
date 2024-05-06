@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, provideRouter } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { routes } from './profile.routes';
 import { HeaderComponent } from '../../shared/components/header/header.component';
@@ -24,7 +24,8 @@ import { UserService } from '../../services/user/user.service';
     RouterModule,
     CommonModule,
     FormsModule,
-    HeaderComponent
+    ReactiveFormsModule,
+    HeaderComponent,
   ],
 })
 export class ProfileModule { }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { User } from '../../user.model';
 import { UserService } from '../../../../services/user/user.service';
 
@@ -7,7 +7,7 @@ import { UserService } from '../../../../services/user/user.service';
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss'
 })
-export class DetailsComponent {
+export class DetailsComponent implements OnInit {
 
   user: User = {
     id: '',

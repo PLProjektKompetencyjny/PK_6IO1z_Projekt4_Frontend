@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { first, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { User } from '../../modules/profile/user.model';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../auth/auth.service';

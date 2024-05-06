@@ -1,29 +1,28 @@
 <div class="card shadow-lg">
   <div class="card-header fw-bold border-0 mt-2">Change password</div>
   <div class="card-body">
-    <form>
+    <form [formGroup]="form">
       <div class="mb-3">
         <label class="small mb-1" for="newPassword">New password</label>
-        <input class="form-control" id="newPassword" name="newPassword" type="password" [(ngModel)]="newPassword"
+        <input class="form-control" id="newPassword" name="newPassword" type="password" formControlName="newPassword"
           placeholder="Enter new password" required>
       </div>
       <div class="mb-3">
         <label class="small mb-1" for="confirmPassword">Confirm password</label>
         <input class="form-control" id="confirmPassword" name="confirmPassword" type="password"
-          [(ngModel)]="confirmPassword" placeholder="Confirm new password" required>
+          formControlName="confirmPassword" placeholder="Confirm new password" required>
       </div>
       @if (errorMessage.length > 0) {
       <div class="mb-3 text-danger">{{ errorMessage }}</div>
-      @if (this.satisfiesPasswordRules === false) {
-      <div class="text-danger">Password should have</div>
-      <ul class="text-danger">
-        <li>1 lower case character</li>
-        <li>1 upper case character</li>
-        <li>1 digit</li>
-        <li>1 special character</li>
-        <li>8 characters</li>
-      </ul>
       }
+
+      @if (newPasswordErrors.length > 0) {
+      <div class="text-danger">New password must conform rules</div>
+      <ul class="text-danger ps-3">
+        @for (error of newPasswordErrors; track error) {
+        <li>{{ error }}</li>
+        }
+      </ul>
       }
 
       <button class="btn btn-primary py-md-2 px-md-4 d-block" type="button" (click)="changePassword()">Save</button>
