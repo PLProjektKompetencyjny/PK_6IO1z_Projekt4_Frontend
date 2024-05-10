@@ -60,7 +60,7 @@ Co do strukturyzowania katalogów zaleca się, aby elementy Angular'owe przechow
 W przypadku plików związanych z modelami danych w [komponencie](#komponent) (czyli pliki `<nazwa-modelu>.model.ts`) przechowywać w katalogu [komponentu](#komponent).
 
 Jeśli w [komponencie](#komponent) pojawią się metody lub pola, które odpowiadają za konfigurację kontrolki, to należy je wydelegować do osobnego pliku w katalogu [komponentu](#komponent) o nazwie `<nazwa-komponentu>.config.ts` np.
-```javascript
+```typescript
 export const showMore: boolean = true;
 
 export const displayFormat = (data: any) => {
@@ -86,16 +86,24 @@ ng g m modules/<module-name>
 ```
 
 ### Komponent
-Jest to część widoku, którą wykonaliśmy od 0 samodzielnie i zawiera logikę biznesową lub custom'owy element/kontrolka, np. `<tn-time-picker></tn-time-picker>`.
+Jest to część widoku, który wykonaliśmy od 0 samodzielnie i zawiera logikę biznesową lub custom'owy element/kontrolka, np. `<tn-time-picker></tn-time-picker>`.
 Komendy CLI oparte są na [wytycznych](#wytyczne). Dobrze, aby się z nimi zapoznać.
 
 Tworzenie:
 ```bash
-ng generate component modules/<module-name>/components/<component-name>
+ng generate component --standalone=false modules/<module-name>/components/<component-name>
 ```
 skrócony zapis:
 ```bash
-ng g c modules/<module-name>/components/<component-name>
+ng g c --standalone=false modules/<module-name>/components/<component-name>
+```
+Parametr `--standalone=false` generuje komponent, który jest zależny od modułu.
+Komponent będzie można użyć tylko gdy zostanie zadeklarowany w module np.
+```typescript
+@NgModule({
+  declarations: [YourComponent]
+})
+export class YourModule { }
 ```
 
 ### Serwis

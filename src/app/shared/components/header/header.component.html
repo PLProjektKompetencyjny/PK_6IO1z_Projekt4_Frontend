@@ -34,8 +34,13 @@
               <span>+012 345 6789</span>
             </a>
           </div>
-          <div>
-            <a [routerLink]="['/sign-up']" class="btn border border-white text-white py-md-3 px-md-5 text-nowrap">Sign up</a>
+          <div class="d-flex align-items-center">
+            @if (authService.isAuthenticated) {
+            <a [routerLink]="['/profile', 'details']" class="btn border border-white text-white py-md-3 px-md-5"><i
+                class="bi bi-person me-2"></i>Profile</a>
+            } @else {
+              <a [routerLink]="['/sign-up']" class="btn border border-white text-white py-md-3 px-md-5 text-nowrap">Sign up</a>
+            }
             <a [routerLink]="['/book']" class="ms-2 btn btn-primary py-md-3 px-md-5 text-nowrap">Book now!</a>
           </div>
         </div>
@@ -45,3 +50,4 @@
 </div>
 
 <!-- przykład "wirtualnego spaceru" https://www.emilyresort.com.ua/en/ -->
+
