@@ -1,23 +1,66 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { of } from 'rxjs';
 
 import { SignUpComponent } from './sign-up.component';
+import { AuthService } from '../../../../services/auth/auth.service';
+import { HeaderComponent } from '../../../../shared/components/header/header.component';
 
 describe('SignUpComponent', () => {
   let component: SignUpComponent;
   let fixture: ComponentFixture<SignUpComponent>;
+  let authService: AuthService;
+  let httpMock: HttpTestingController;
+  let router: Router;
 
   beforeEach(async () => {
+    const authServiceMock = {
+      signUp: jasmine.createSpy('signUp').and.returnValue(of())
+    };
+
     await TestBed.configureTestingModule({
-      imports: [SignUpComponent]
+      declarations: [SignUpComponent],
+      imports: [
+        HeaderComponent,
+        HttpClientTestingModule,
+        RouterTestingModule
+      ],
+      providers: [
+        { provide: AuthService, useValue: authServiceMock },
+        FormBuilder
+      ]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(SignUpComponent);
     component = fixture.componentInstance;
+    authService = TestBed.inject(AuthService);
+    httpMock = TestBed.inject(HttpTestingController);
+    router = TestBed.inject(Router);
+
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    httpMock?.verify();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call signUp method of AuthService when submit is invoked and data is correct', () => {
+    component.form.controls['firstname'].setValue('John');
+    component.form.controls['surname'].setValue('Doe');
+    component.form.controls['email'].setValue('test@example.com');
+    component.form.controls['password'].setValue('Test!123');
+
+    component.submit();
+
+    expect(authService.signUp).toHaveBeenCalledWith('test@example.com', 'Test!123', 'John', 'Doe');
   });
 });
