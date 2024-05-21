@@ -1,23 +1,23 @@
 <a [routerLink]="['/home']" routerLinkActive="active">
-  <img class="h-25 position-fixed top-0 start-0 mt-2 ms-2" src="assets/imgs/logo/logo.png" [alt]="appName" />
+  <img class="h-25 position-fixed top-0 start-0" src="assets/imgs/logo/logo.png" [alt]="appName" />
 </a>
 
-<button class="position-fixed top-50 start-0 btn btn-primary ms-2 fs-3" (click)="nextRoom()">
+<!-- <button class="position-fixed top-50 start-0 btn btn-primary ms-2 fs-3" (click)="nextRoom()">
   <i class="bi bi-chevron-left fw-bold"></i>
-</button>
+</button> -->
 
-<iframe *ngIf="currentRoom === 1" class="vw-100 vh-100" allowfullscreen title="Luxury apartment" frameborder="0"
-  src="https://app.cloudpano.com/tours/F_bT4A587K?disable=logo,watermark,controls">
+<iframe class="vw-100 vh-100" allowfullscreen title="Luxury apartment" frameborder="0"
+  src="https://my.matterport.com/show/?play=1&share=0&m=Shctie5LdZj">
 </iframe>
 
-<iframe *ngIf="currentRoom === 2" class="vw-100 vh-100" allowfullscreen title="Apartment" frameborder="0"
+<!-- <iframe *ngIf="currentRoom === 2" class="vw-100 vh-100" allowfullscreen title="Apartment" frameborder="0"
   src="https://app.cloudpano.com/tours/859R893XXY?disable=logo,controls,watermark">
 </iframe>
 
 <iframe *ngIf="currentRoom === 3" class="vw-100 vh-100" allowfullscreen title="Luxury residential" frameborder="0"
   src="https://app.cloudpano.com/tours/t1LtFvj5DK?disable=logo,controls,watermark">
-</iframe>
+</iframe> -->
 
-<button class="position-fixed top-50 end-0 btn btn-primary me-2 fs-3" (click)="previousRoom()">
+<!-- <button class="position-fixed top-50 end-0 btn btn-primary me-2 fs-3" (click)="previousRoom()">
   <i class="bi bi-chevron-right"></i>
-</button>
+</button> -->
