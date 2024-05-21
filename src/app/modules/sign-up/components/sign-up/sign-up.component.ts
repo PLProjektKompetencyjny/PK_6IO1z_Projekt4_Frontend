@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { appName } from './sign-up.config';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { appName } from './sign-up.config';
 import { PasswordStrengthValidator } from '../../../../shared/validators/password-strength.validator';
 import { AuthService } from '../../../../services/auth/auth.service';
 import { Step } from './sign-up.model';

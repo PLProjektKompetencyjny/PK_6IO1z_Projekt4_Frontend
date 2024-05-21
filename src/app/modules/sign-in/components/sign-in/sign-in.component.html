@@ -1,0 +1,31 @@
+<div class="container-xl px-4 mt-4 d-flex justify-content-center align-items-center flex-column vw-100 vh-100 bg-white">
+  <div class="card shadow-lg">
+    <a [routerLink]="['/home']" routerLinkActive="active" class="d-flex justify-content-center">
+      <img class="w-50" src="assets/imgs/logo/logo.png" [alt]="appName">
+    </a>
+    <div class="card-header fw-bold border-0 text-center fs-4">Welcome back!</div>
+    <div class="card-body">
+      <form [formGroup]="form">
+        <div class="mb-3">
+          <label class="small mb-1" for="email">Email address</label>
+          <input class="form-control" id="email" name="email" type="email" formControlName="email"
+            placeholder="Enter your email address" required>
+        </div>
+        <div class="mb-3">
+          <label class="small mb-1" for="password">Password</label>
+          <input class="form-control" id="password" name="password" type="password" formControlName="password"
+            placeholder="Enter your password" required>
+        </div>
+        @if (errorMessage.length > 0) {
+        <div class="mb-3 text-danger">{{ errorMessage }}</div>
+        }
+
+        <button class="btn btn-primary py-md-2 px-md-4 d-block ms-auto" type="button" (click)="submit()">Sign
+          in</button>
+      </form>
+    </div>
+  </div>
+  <div class="mt-2">
+    Don't have account? <a href="/sign-up" routerLinkActive="active">Sign up</a>
+  </div>
+</div>
