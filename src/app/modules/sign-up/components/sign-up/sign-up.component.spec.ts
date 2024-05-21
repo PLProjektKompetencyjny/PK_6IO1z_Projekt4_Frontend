@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+//import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
 
@@ -15,7 +15,7 @@ describe('SignUpComponent', () => {
   let fixture: ComponentFixture<SignUpComponent>;
   let authService: AuthService;
   let httpMock: HttpTestingController;
-  let router: Router;
+  //let router: Router;
 
   beforeEach(async () => {
     const authServiceMock = {
@@ -40,7 +40,7 @@ describe('SignUpComponent', () => {
     component = fixture.componentInstance;
     authService = TestBed.inject(AuthService);
     httpMock = TestBed.inject(HttpTestingController);
-    router = TestBed.inject(Router);
+    //router = TestBed.inject(Router);
 
     fixture.detectChanges();
   });
@@ -58,9 +58,23 @@ describe('SignUpComponent', () => {
     component.form.controls['surname'].setValue('Doe');
     component.form.controls['email'].setValue('test@example.com');
     component.form.controls['password'].setValue('Test!123');
+    component.form.controls['confirmPassword'].setValue('Test!123');
 
     component.submit();
 
-    expect(authService.signUp).toHaveBeenCalledWith('test@example.com', 'Test!123', 'John', 'Doe');
+    expect(authService.signUp).toHaveBeenCalledWith({
+      id: '',
+      email: 'test@example.com',
+      isAdmin: false,
+      firstname: 'John',
+      surname: 'Doe',
+      phone: '',
+      password: 'Test!123',
+      nip: '',
+      city: '',
+      postalCode: '',
+      street: '',
+      buildingNumber: ''
+    });
   });
 });

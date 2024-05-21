@@ -15,6 +15,7 @@ export class DetailsComponent implements OnInit {
     isAdmin: false,
     firstname: '',
     surname: '',
+    password: '',
     phone: '',
     nip: '',
     city: '',
