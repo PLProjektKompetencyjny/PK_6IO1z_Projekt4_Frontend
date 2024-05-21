@@ -10,5 +10,5 @@ import { appName } from './app.config';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  protected readonly title = appName;
+  readonly title = appName;
 }

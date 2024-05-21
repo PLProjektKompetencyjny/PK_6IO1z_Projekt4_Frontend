@@ -17,6 +17,11 @@ export const routes: Routes = [
     loadChildren: () => import('./modules/profile/profile.module').then(m => m.ProfileModule)
   },
   {
+    title: 'Register new account',
+    path: 'sign-up',
+    loadChildren: () => import('./modules/sign-up/sign-up.module').then(m => m.SignUpModule)
+  },
+  {
     path: '**',
     redirectTo: 'home'
   }

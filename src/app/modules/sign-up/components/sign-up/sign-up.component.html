@@ -1,0 +1,83 @@
+<div class="container-xl px-4 mt-4 d-flex justify-content-center align-items-center flex-column vw-100 vh-100 bg-white">
+  <div class="card shadow-lg">
+    <a [routerLink]="['/home']" routerLinkActive="active" class="d-flex justify-content-center">
+      <img class="w-50" src="assets/imgs/logo/logo.png" [alt]="appName">
+    </a>
+    <div class="card-header fw-bold border-0 text-center fs-4">Sign up</div>
+    <div class="card-body">
+      <form [formGroup]="form">
+        @if (currentStep === Step.IntroduceYourself) {
+        <div class="card-header border-0 text-center fs-5">Introduce yourself</div>
+        <div class="mb-3">
+          <label class="small mb-1" for="firstname">First name</label>
+          <input class="form-control" id="firstname" name="firstname" type="text" formControlName="firstname"
+            placeholder="Enter your first name" required>
+        </div>
+        <div class="mb-3">
+          <label class="small mb-1" for="surname">Surname</label>
+          <input class="form-control" id="surname" name="surname" type="text" formControlName="surname"
+            placeholder="Enter your surname" required>
+        </div>
+        } @else if (currentStep === Step.ContactInfo) {
+        <div class="card-header border-0 text-center fs-5">Contact info</div>
+        <div class="mb-3">
+          <label class="small mb-1" for="email">Email address</label>
+          <input class="form-control" id="email" name="email" type="email" formControlName="email"
+            placeholder="Enter your email address" required>
+        </div>
+        <div class="mb-3">
+          <label class="small mb-1" for="phone">Phone number (optional)</label>
+          <input class="form-control" id="phone" name="phone" type="tel" formControlName="phone"
+            placeholder="Enter your phone number">
+        </div>
+        } @else {
+        <div class="card-header border-0 text-center fs-5">Enter password</div>
+        <div class="mb-3">
+          <label class="small mb-1" for="password">Password</label>
+          <input class="form-control" id="password" name="password" type="password" formControlName="password"
+            placeholder="Enter your password" required>
+        </div>
+        <div class="mb-3">
+          <label class="small mb-1" for="confirmPassword">Confirm password</label>
+          <input class="form-control" id="confirmPassword" name="confirmPassword" type="password"
+            formControlName="confirmPassword" placeholder="Confirm your password" required>
+        </div>
+        }
+        @if (errorMessage.length > 0) {
+        <div class="mb-3 text-danger">{{ errorMessage }}</div>
+        }
+
+        @if (passwordErrors.length > 0) {
+        <div class="text-danger">Password must conform rules</div>
+        <ul class="text-danger ps-3">
+          @for (error of passwordErrors; track error) {
+          <li>{{ error }}</li>
+          }
+        </ul>
+        }
+
+        @if (currentStep === Step.IntroduceYourself) {
+        <button class="btn btn-primary py-md-2 px-md-4 d-block ms-auto" type="button"
+          (click)="moveToStep(Step.ContactInfo)">Next step</button>
+        } @else if (currentStep === Step.ContactInfo) {
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-outline-dark py-md-2 px-md-4 d-block" type="button"
+            (click)="moveToStep(Step.IntroduceYourself)">Previous step</button>
+          <button class="btn btn-primary py-md-2 px-md-4 d-block" type="button" (click)="moveToStep(Step.Password)">Next
+            step</button>
+        </div>
+        } @else {
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-outline-dark py-md-2 px-md-4 d-block" type="button"
+            (click)="moveToStep(Step.ContactInfo)">Previous step</button>
+          <button class="btn btn-primary py-md-2 px-md-4 d-block" type="button" (click)="submit()">Sign
+            up</button>
+        </div>
+        }
+      </form>
+    </div>
+  </div>
+  <div class="mt-2">
+    If you already have account <a href="/sign-in" routerLinkActive="active">sign in</a> instead
+  </div>
+</div>

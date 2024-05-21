@@ -13,4 +13,5 @@ export type User = {
   postalCode: string;
   street: string;
   buildingNumber: string;
+  password: string;
 }
