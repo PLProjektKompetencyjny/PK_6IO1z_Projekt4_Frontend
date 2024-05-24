@@ -43,11 +43,14 @@
               up</a>
             }
             <a [routerLink]="['/book']" class="ms-2 btn btn-primary py-md-3 px-md-5 text-nowrap">Book now!</a>
+            @if (authService.isAuthenticated) {
+            <button class="btn ms-2 border-none fs-3 text-white" (click)="authService.signOut()">
+              <i class="bi bi-box-arrow-right"></i>
+            </button>
+            }
           </div>
         </div>
       </nav>
     </div>
   </div>
 </div>
-
-<!-- przykład "wirtualnego spaceru" https://www.emilyresort.com.ua/en/ -->

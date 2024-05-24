@@ -8,12 +8,12 @@ import { HeaderComponent } from '../../shared/components/header/header.component
 import { ProfileComponent } from './components/profile/profile.component';
 import { DetailsComponent } from './components/details/details.component';
 import { SecurityComponent } from './components/security/security.component';
-import { UserService } from '../../services/user/user.service';
+import { CustomerService } from '../../services/customer/customer.service';
 
 @NgModule({
   providers: [
     provideRouter(routes),
-    UserService,
+    CustomerService,
   ],
   declarations: [
     ProfileComponent,

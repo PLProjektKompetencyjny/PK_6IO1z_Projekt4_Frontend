@@ -54,7 +54,7 @@ describe('SignUpComponent', () => {
   });
 
   it('should call signUp method of AuthService when submit is invoked and data is correct', () => {
-    component.form.controls['firstname'].setValue('John');
+    component.form.controls['name'].setValue('John');
     component.form.controls['surname'].setValue('Doe');
     component.form.controls['email'].setValue('test@example.com');
     component.form.controls['password'].setValue('Test!123');
@@ -63,18 +63,18 @@ describe('SignUpComponent', () => {
     component.submit();
 
     expect(authService.signUp).toHaveBeenCalledWith({
-      id: '',
-      email: 'test@example.com',
-      is_admin: false,
-      firstname: 'John',
-      surname: 'Doe',
-      phone: '',
-      password: 'Test!123',
-      nip: '',
-      city: '',
-      postal_code: '',
-      street: '',
-      building_number: ''
+      customer_id: 0,
+      customer_email: 'test@example.com',
+      customer_is_admin: false,
+      customer_name: 'John',
+      customer_surname: 'Doe',
+      customer_phone: '',
+      customer_password: 'Test!123',
+      customer_nip_number: '',
+      customer_city: '',
+      customer_postal_code: '',
+      customer_street: '',
+      customer_building_number: ''
     });
   });
 });

@@ -6,7 +6,7 @@ import { Observable, firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { RouterExtendedService } from '../router-extended/router-extended.service';
 import { Session } from '../../shared/models/session.model';
-import { User } from '../../modules/profile/user.model';
+import { Customer } from '../../modules/profile/customer.model';
 
 /**
  * Service for authentication purposes
@@ -75,9 +75,9 @@ export class AuthService {
 
   /**
    * Signs up new user to the application.
-   * @param newUser New user's {@link User}.
+   * @param newUser New user's {@link Customer}.
    */
-  async signUp(newUser: User): Promise<void> {
+  async signUp(newUser: Customer): Promise<void> {
     const request = this.httpClient.post<Session>(
       `${environment.apiUrl}/${this.basePath}/sign-up`,
       { ...newUser }
