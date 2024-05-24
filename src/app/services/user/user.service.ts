@@ -112,18 +112,4 @@ export class UserService {
 
     await firstValueFrom(request);
   }
-
-  /**
-   * Updates logged user's password.
-   * @param password User's new password.
-   */
-  async updatePassword(password: string): Promise<void> {
-    const userId = this.authService.session?.id;
-    const request = this.httpClient.put<void>(
-      `${environment.apiUrl}/${this.basePath}/${userId}/password`,
-      { password }
-    )
-
-    await firstValueFrom(request);
-  }
 }

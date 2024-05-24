@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UserService } from '../../../../services/user/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PasswordStrengthValidator } from '../../../../shared/validators/password-strength.validator';
+import { AuthService } from '../../../../services/auth/auth.service';
 
 @Component({
   selector: 'tn-security',
@@ -43,7 +44,7 @@ export class SecurityComponent {
   errorMessage: string = '';
 
   constructor(
-    private readonly userService: UserService,
+    private readonly authService: AuthService,
     private readonly formBuilder: FormBuilder
   ) {
     this.form = this.formBuilder.group({
@@ -65,7 +66,7 @@ export class SecurityComponent {
     }
 
     try {
-      await this.userService.updatePassword(this.newPassword);
+      await this.authService.updatePassword(this.newPassword);
     } catch (e) {
       console.error(e);
     } finally {

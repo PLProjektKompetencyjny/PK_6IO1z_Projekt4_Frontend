@@ -4,14 +4,14 @@
 export type User = {
   id: string;
   email: string;
-  isAdmin: boolean;
+  is_admin: boolean;
   firstname: string;
   surname: string;
   phone: string;
   nip: string;
   city: string;
-  postalCode: string;
+  postal_code: string;
   street: string;
-  buildingNumber: string;
+  building_number: string;
   password: string;
 }

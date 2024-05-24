@@ -12,16 +12,16 @@ export class DetailsComponent implements OnInit {
   user: User = {
     id: '',
     email: '',
-    isAdmin: false,
+    is_admin: false,
     firstname: '',
     surname: '',
     password: '',
     phone: '',
     nip: '',
     city: '',
-    postalCode: '',
+    postal_code: '',
     street: '',
-    buildingNumber: '',
+    building_number: '',
   };
 
   constructor(private readonly userService: UserService) { }
