@@ -2,7 +2,7 @@
  * Represents user related data.
  */
 export type User = {
-  id: string;
+  id: number;
   email: string;
   is_admin: boolean;
   firstname: string;

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { UserService } from '../../../../services/user/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PasswordStrengthValidator } from '../../../../shared/validators/password-strength.validator';
 import { AuthService } from '../../../../services/auth/auth.service';

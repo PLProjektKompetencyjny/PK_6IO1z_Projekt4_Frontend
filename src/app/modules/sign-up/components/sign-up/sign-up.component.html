@@ -26,9 +26,36 @@
             placeholder="Enter your email address" required>
         </div>
         <div class="mb-3">
-          <label class="small mb-1" for="phone">Phone number (optional)</label>
+          <label class="small mb-1" for="phone">Phone number</label>
           <input class="form-control" id="phone" name="phone" type="tel" formControlName="phone"
-            placeholder="Enter your phone number">
+            placeholder="Enter your phone number" required>
+        </div>
+        } @else if (currentStep === Step.Address) {
+        <div class="card-header border-0 text-center fs-5">Address</div>
+        <div class="mb-3">
+          <label class="small mb-1" for="nip">NIP</label>
+          <input class="form-control" id="nip" name="nip" type="text" formControlName="nip" placeholder="Enter your NIP"
+            required>
+        </div>
+        <div class="mb-3">
+          <label class="small mb-1" for="city">City</label>
+          <input class="form-control" id="city" name="city" type="text" formControlName="city"
+            placeholder="Enter your city" required>
+        </div>
+        <div class="mb-3">
+          <label class="small mb-1" for="postal_code">Postal code</label>
+          <input class="form-control" id="postal_code" name="postal_code" type="text" formControlName="postal_code"
+            placeholder="Enter your postal code" required>
+        </div>
+        <div class="mb-3">
+          <label class="small mb-1" for="street">Street</label>
+          <input class="form-control" id="street" name="street" type="text" formControlName="street"
+            placeholder="Enter your street" required>
+        </div>
+        <div class="mb-3">
+          <label class="small mb-1" for="building_number">Building number</label>
+          <input class="form-control" id="building_number" name="building_number" type="text"
+            formControlName="building_number" placeholder="Enter your building number" required>
         </div>
         } @else {
         <div class="card-header border-0 text-center fs-5">Enter password</div>
@@ -47,10 +74,82 @@
         <div class="mb-3 text-danger">{{ errorMessage }}</div>
         }
 
+        @if (firstnameErrors.length > 0) {
+        <div class="text-danger">Firstname must conform rules</div>
+        <ul class="text-danger ps-3">
+          @for (error of firstnameErrors; track error) {
+          <li>{{ error }}</li>
+          }
+        </ul>
+        }
+
+        @if (surnameErrors.length > 0) {
+        <div class="text-danger">Surname must conform rules</div>
+        <ul class="text-danger ps-3">
+          @for (error of surnameErrors; track error) {
+          <li>{{ error }}</li>
+          }
+        </ul>
+        }
+
         @if (passwordErrors.length > 0) {
         <div class="text-danger">Password must conform rules</div>
         <ul class="text-danger ps-3">
           @for (error of passwordErrors; track error) {
+          <li>{{ error }}</li>
+          }
+        </ul>
+        }
+
+        @if (phoneErrors.length > 0) {
+        <div class="text-danger">Phone must conform rules</div>
+        <ul class="text-danger ps-3">
+          @for (error of phoneErrors; track error) {
+          <li>{{ error }}</li>
+          }
+        </ul>
+        }
+
+        @if (nipErrors.length > 0) {
+        <div class="text-danger">NIP must conform rules</div>
+        <ul class="text-danger ps-3">
+          @for (error of nipErrors; track error) {
+          <li>{{ error }}</li>
+          }
+        </ul>
+        }
+
+        @if (cityErrors.length > 0) {
+        <div class="text-danger">City must conform rules</div>
+        <ul class="text-danger ps-3">
+          @for (error of cityErrors; track error) {
+          <li>{{ error }}</li>
+          }
+        </ul>
+        }
+
+        @if (postalCodeErrors.length > 0) {
+        <div class="text-danger">Postal code must conform rules</div>
+        <ul class="text-danger ps-3">
+          @for (error of postalCodeErrors; track error) {
+          <li>{{ error }}</li>
+          }
+        </ul>
+        }
+
+        @if (streetErrors.length > 0) {
+        <div class="text-danger">Street must conform rules</div>
+        <ul class="text-danger ps-3">
+          @for (error of streetErrors; track error) {
+          <li>{{ error }}</li>
+          }
+        </ul>
+        }
+
+        @if (buildingNumberErrors.length > 0) {
+        <div class="text-danger">Building number must conform rules</div>
+        <ul class="text-danger ps-3">
+          @for (error of buildingNumberErrors; track error) {
           <li>{{ error }}</li>
           }
         </ul>
@@ -63,13 +162,20 @@
         <div class="d-flex justify-content-between">
           <button class="btn btn-outline-dark py-md-2 px-md-4 d-block" type="button"
             (click)="moveToStep(Step.IntroduceYourself)">Previous step</button>
+          <button class="btn btn-primary py-md-2 px-md-4 d-block" type="button" (click)="moveToStep(Step.Address)">Next
+            step</button>
+        </div>
+        } @else if (currentStep === Step.Address) {
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-outline-dark py-md-2 px-md-4 d-block" type="button"
+            (click)="moveToStep(Step.ContactInfo)">Previous step</button>
           <button class="btn btn-primary py-md-2 px-md-4 d-block" type="button" (click)="moveToStep(Step.Password)">Next
             step</button>
         </div>
         } @else {
         <div class="d-flex justify-content-between">
           <button class="btn btn-outline-dark py-md-2 px-md-4 d-block" type="button"
-            (click)="moveToStep(Step.ContactInfo)">Previous step</button>
+            (click)="moveToStep(Step.Address)">Previous step</button>
           <button class="btn btn-primary py-md-2 px-md-4 d-block" type="button" (click)="submit()">Sign
             up</button>
         </div>

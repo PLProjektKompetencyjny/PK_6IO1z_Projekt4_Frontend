@@ -5,6 +5,15 @@ import { PasswordStrengthValidator } from '../../../../shared/validators/passwor
 import { AuthService } from '../../../../services/auth/auth.service';
 import { Step } from './sign-up.model';
 import { User } from '../../../profile/user.model';
+import { PhoneValidator } from '../../../../shared/validators/phone.validator';
+import { NipValidator } from '../../../../shared/validators/nip.validator';
+import { getControlErrors } from '../../../../shared/validators/utils';
+import { CityValidator } from '../../../../shared/validators/city.validator';
+import { PostalCodeValidator } from '../../../../shared/validators/postal-code.validator';
+import { StreetValidator } from '../../../../shared/validators/street.validator';
+import { BuildingNumberValidator } from '../../../../shared/validators/building-number.validator';
+import { FirstnameValidator } from '../../../../shared/validators/firstname.validator';
+import { SurnameValidator } from '../../../../shared/validators/surname.validator';
 
 @Component({
   selector: 'tn-sign-up',
@@ -18,21 +27,43 @@ export class SignUpComponent {
 
   form: FormGroup;
 
+
+  get firstnameErrors(): string[] {
+    return getControlErrors(this.firstname);
+  }
+
+  get surnameErrors(): string[] {
+    return getControlErrors(this.surname);
+  }
+
+
   get passwordErrors(): string[] {
-    const passwordErrors = this.form.get('password')?.errors;
-    if (passwordErrors === null) {
-      return [];
-    }
+    return getControlErrors(this.password);
+  }
+
+  get phoneErrors(): string[] {
+    return getControlErrors(this.phone);
+  }
 
 
-    const parsedErrors: string[] = [];
-    for (const key in passwordErrors) {
-      if (Object.prototype.hasOwnProperty.call(passwordErrors, key) && key !== 'required') {
-        parsedErrors.push(passwordErrors[key]);
-      }
-    }
+  get nipErrors(): string[] {
+    return getControlErrors(this.nip);
+  }
 
-    return parsedErrors;
+  get cityErrors(): string[] {
+    return getControlErrors(this.city);
+  }
+
+  get postalCodeErrors(): string[] {
+    return getControlErrors(this.postal_code);
+  }
+
+  get streetErrors(): string[] {
+    return getControlErrors(this.street);
+  }
+
+  get buildingNumberErrors(): string[] {
+    return getControlErrors(this.building_number);
   }
 
   /**
@@ -49,13 +80,32 @@ export class SignUpComponent {
     return this.form.get('surname');
   }
 
-  get phone(): AbstractControl<string, string> | null {
-    return this.form.get('phone');
-  }
 
   get email(): AbstractControl<string, string> | null {
     return this.form.get('email');
   }
+
+  get phone(): AbstractControl<string, string> | null {
+    return this.form.get('phone');
+  }
+
+
+  get nip(): AbstractControl<string, string> | null {
+    return this.form.get('nip');
+  }
+  get city(): AbstractControl<string, string> | null {
+    return this.form.get('city');
+  }
+  get postal_code(): AbstractControl<string, string> | null {
+    return this.form.get('postal_code');
+  }
+  get street(): AbstractControl<string, string> | null {
+    return this.form.get('street');
+  }
+  get building_number(): AbstractControl<string, string> | null {
+    return this.form.get('building_number');
+  }
+
 
   get password(): AbstractControl<string, string> | null {
     return this.form.get('password');
@@ -70,13 +120,19 @@ export class SignUpComponent {
     private readonly authService: AuthService,
   ) {
     this.form = this.formBuilder.group({
-      firstname: ['', Validators.required],
-      surname: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phone: [''],
-      password: ['', [Validators.required, Validators.compose([
-        Validators.required, PasswordStrengthValidator
-      ])]],
+      firstname: ['', Validators.compose([Validators.required, FirstnameValidator])],
+      surname: ['', Validators.compose([Validators.required, SurnameValidator])],
+
+      email: ['', Validators.compose([Validators.required, Validators.email])],
+      phone: ['', Validators.compose([Validators.required, PhoneValidator])],
+
+      nip: ['', Validators.compose([Validators.required, NipValidator])],
+      city: ['', Validators.compose([Validators.required, CityValidator])],
+      postal_code: ['', Validators.compose([Validators.required, PostalCodeValidator])],
+      street: ['', Validators.compose([Validators.required, StreetValidator])],
+      building_number: ['', Validators.compose([Validators.required, BuildingNumberValidator])],
+
+      password: ['', Validators.compose([Validators.required, PasswordStrengthValidator])],
       confirmPassword: ['', Validators.required],
     });
   }
@@ -86,27 +142,27 @@ export class SignUpComponent {
       return;
     }
 
-    this.errorMessage = '';
-
     const newUser: User = {
-      id: '',
+      id: 0,
       email: this.email?.value ?? '',
       is_admin: false,
       firstname: this.firstname?.value ?? '',
       surname: this.surname?.value ?? '',
-      phone: this.surname?.value ?? '',
+      phone: this.phone?.value ?? '',
       password: this.password?.value ?? '',
-      nip: '',
-      city: '',
-      postal_code: '',
-      street: '',
-      building_number: '',
+      nip: this.nip?.value ?? '',
+      city: this.city?.value ?? '',
+      postal_code: this.postal_code?.value ?? '',
+      street: this.street?.value ?? '',
+      building_number: this.building_number?.value ?? '',
     };
 
     try {
       await this.authService.signUp(newUser);
     } catch (e) {
       console.error(e);
+    } finally {
+      this.errorMessage = '';
     }
   }
 
@@ -142,9 +198,41 @@ export class SignUpComponent {
       }
     }
 
-    if (this.currentStep === Step.ContactInfo && step === Step.Password) {
+    if (this.currentStep === Step.ContactInfo && step === Step.Address) {
       if (this.email?.invalid) {
         this.errorMessage = 'Enter valid email address'
+        return;
+      }
+
+      if (this.phone?.invalid) {
+        this.errorMessage = 'Enter valid phone number';
+        return;
+      }
+    }
+
+    if (this.currentStep === Step.Address && step === Step.Password) {
+      if (this.nip?.invalid) {
+        this.errorMessage = 'Enter valid NIP';
+        return;
+      }
+
+      if (this.city?.invalid) {
+        this.errorMessage = 'Enter valid city';
+        return;
+      }
+
+      if (this.postal_code?.invalid) {
+        this.errorMessage = 'Enter valid postal code';
+        return;
+      }
+
+      if (this.street?.invalid) {
+        this.errorMessage = 'Enter valid street';
+        return;
+      }
+
+      if (this.building_number?.invalid) {
+        this.errorMessage = 'Enter valid building number';
         return;
       }
     }
