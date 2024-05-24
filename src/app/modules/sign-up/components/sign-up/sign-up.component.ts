@@ -4,7 +4,7 @@ import { appName } from './sign-up.config';
 import { PasswordStrengthValidator } from '../../../../shared/validators/password-strength.validator';
 import { AuthService } from '../../../../services/auth/auth.service';
 import { Step } from './sign-up.model';
-import { User } from '../../../profile/user.model';
+import { Customer } from '../../../profile/customer.model';
 import { PhoneValidator } from '../../../../shared/validators/phone.validator';
 import { NipValidator } from '../../../../shared/validators/nip.validator';
 import { getControlErrors } from '../../../../shared/validators/utils';
@@ -12,8 +12,8 @@ import { CityValidator } from '../../../../shared/validators/city.validator';
 import { PostalCodeValidator } from '../../../../shared/validators/postal-code.validator';
 import { StreetValidator } from '../../../../shared/validators/street.validator';
 import { BuildingNumberValidator } from '../../../../shared/validators/building-number.validator';
-import { FirstnameValidator } from '../../../../shared/validators/firstname.validator';
 import { SurnameValidator } from '../../../../shared/validators/surname.validator';
+import { NameValidator } from '../../../../shared/validators/name.validator';
 
 @Component({
   selector: 'tn-sign-up',
@@ -28,18 +28,14 @@ export class SignUpComponent {
   form: FormGroup;
 
 
-  get firstnameErrors(): string[] {
-    return getControlErrors(this.firstname);
+  get nameErrors(): string[] {
+    return getControlErrors(this.name);
   }
 
   get surnameErrors(): string[] {
     return getControlErrors(this.surname);
   }
 
-
-  get passwordErrors(): string[] {
-    return getControlErrors(this.password);
-  }
 
   get phoneErrors(): string[] {
     return getControlErrors(this.phone);
@@ -66,14 +62,19 @@ export class SignUpComponent {
     return getControlErrors(this.building_number);
   }
 
+
+  get passwordErrors(): string[] {
+    return getControlErrors(this.password);
+  }
+
   /**
    * An error message to display.
    * For each step error message is different.
    */
   errorMessage: string = '';
 
-  get firstname(): AbstractControl<string, string> | null {
-    return this.form.get('firstname');
+  get name(): AbstractControl<string, string> | null {
+    return this.form.get('name');
   }
 
   get surname(): AbstractControl<string, string> | null {
@@ -120,7 +121,7 @@ export class SignUpComponent {
     private readonly authService: AuthService,
   ) {
     this.form = this.formBuilder.group({
-      firstname: ['', Validators.compose([Validators.required, FirstnameValidator])],
+      name: ['', Validators.compose([Validators.required, NameValidator])],
       surname: ['', Validators.compose([Validators.required, SurnameValidator])],
 
       email: ['', Validators.compose([Validators.required, Validators.email])],
@@ -142,19 +143,19 @@ export class SignUpComponent {
       return;
     }
 
-    const newUser: User = {
-      id: 0,
-      email: this.email?.value ?? '',
-      is_admin: false,
-      firstname: this.firstname?.value ?? '',
-      surname: this.surname?.value ?? '',
-      phone: this.phone?.value ?? '',
-      password: this.password?.value ?? '',
-      nip: this.nip?.value ?? '',
-      city: this.city?.value ?? '',
-      postal_code: this.postal_code?.value ?? '',
-      street: this.street?.value ?? '',
-      building_number: this.building_number?.value ?? '',
+    const newUser: Customer = {
+      customer_id: 0,
+      customer_email: this.email?.value ?? '',
+      customer_is_admin: false,
+      customer_name: this.name?.value ?? '',
+      customer_surname: this.surname?.value ?? '',
+      customer_phone: this.phone?.value ?? '',
+      customer_password: this.password?.value ?? '',
+      customer_nip_number: this.nip?.value ?? '',
+      customer_city: this.city?.value ?? '',
+      customer_postal_code: this.postal_code?.value ?? '',
+      customer_street: this.street?.value ?? '',
+      customer_building_number: this.building_number?.value ?? '',
     };
 
     try {
@@ -187,7 +188,7 @@ export class SignUpComponent {
   moveToStep(step: Step): void {
     this.form.markAsTouched();
     if (this.currentStep === Step.IntroduceYourself && step === Step.ContactInfo) {
-      if (this.firstname?.invalid) {
+      if (this.name?.invalid) {
         this.errorMessage = 'Enter first name';
         return;
       }

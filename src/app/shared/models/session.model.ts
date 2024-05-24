@@ -6,5 +6,5 @@ export type Session = {
   access_token: string;
   user_id: number;
   email: string;
-  is_admin: string;
+  is_admin: boolean;
 }

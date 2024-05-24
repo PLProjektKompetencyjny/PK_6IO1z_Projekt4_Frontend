@@ -1,6 +1,6 @@
 import { AbstractControl, ValidationErrors } from "@angular/forms";
 
-export const digitsRegex: RegExp = /\d{10}$/;
+export const digitsRegex: RegExp = /^\d{10}$/;
 export const digitsNoMatchErrorMessage: string = 'NIP must contain 10 digits without whitespaces';
 
 export const NipValidator = function (control: AbstractControl): ValidationErrors | null {

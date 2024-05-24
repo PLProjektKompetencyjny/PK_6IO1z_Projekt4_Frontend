@@ -9,9 +9,9 @@
         @if (currentStep === Step.IntroduceYourself) {
         <div class="card-header border-0 text-center fs-5">Introduce yourself</div>
         <div class="mb-3">
-          <label class="small mb-1" for="firstname">First name</label>
-          <input class="form-control" id="firstname" name="firstname" type="text" formControlName="firstname"
-            placeholder="Enter your first name" required>
+          <label class="small mb-1" for="name">Name</label>
+          <input class="form-control" id="name" name="name" type="text" formControlName="name"
+            placeholder="Enter your name" required>
         </div>
         <div class="mb-3">
           <label class="small mb-1" for="surname">Surname</label>
@@ -74,10 +74,10 @@
         <div class="mb-3 text-danger">{{ errorMessage }}</div>
         }
 
-        @if (firstnameErrors.length > 0) {
-        <div class="text-danger">Firstname must conform rules</div>
+        @if (nameErrors.length > 0) {
+        <div class="text-danger">Name must conform rules</div>
         <ul class="text-danger ps-3">
-          @for (error of firstnameErrors; track error) {
+          @for (error of nameErrors; track error) {
           <li>{{ error }}</li>
           }
         </ul>
