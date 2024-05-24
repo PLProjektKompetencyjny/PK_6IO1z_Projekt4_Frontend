@@ -65,16 +65,16 @@ describe('SignUpComponent', () => {
     expect(authService.signUp).toHaveBeenCalledWith({
       id: '',
       email: 'test@example.com',
-      isAdmin: false,
+      is_admin: false,
       firstname: 'John',
       surname: 'Doe',
       phone: '',
       password: 'Test!123',
       nip: '',
       city: '',
-      postalCode: '',
+      postal_code: '',
       street: '',
-      buildingNumber: ''
+      building_number: ''
     });
   });
 });

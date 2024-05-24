@@ -91,16 +91,16 @@ export class SignUpComponent {
     const newUser: User = {
       id: '',
       email: this.email?.value ?? '',
-      isAdmin: false,
+      is_admin: false,
       firstname: this.firstname?.value ?? '',
       surname: this.surname?.value ?? '',
       phone: this.surname?.value ?? '',
       password: this.password?.value ?? '',
       nip: '',
       city: '',
-      postalCode: '',
+      postal_code: '',
       street: '',
-      buildingNumber: '',
+      building_number: '',
     };
 
     try {

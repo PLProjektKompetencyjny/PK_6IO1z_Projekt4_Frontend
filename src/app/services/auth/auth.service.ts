@@ -51,7 +51,7 @@ export class AuthService {
    * Credentials to authenticate a user with a server.
    */
   get authorizationHeaderValue(): string {
-    return `${this.session?.authScheme} ${this.session?.accessToken}`;
+    return `${this.session?.auth_schema} ${this.session?.access_token}`;
   }
 
   constructor(
@@ -84,6 +84,23 @@ export class AuthService {
     );
 
     await this.handleAuthRequest(request);
+  }
+
+  /**
+   * Updates logged user's password.
+   * @param password User's new password.
+   */
+  async updatePassword(password: string): Promise<void> {
+    const userId = this.session?.user_id;
+    const request = this.httpClient.put<void>(
+      `${environment.apiUrl}/${this.basePath}/password`,
+      {
+        user_id: userId,
+        password
+      }
+    )
+
+    await firstValueFrom(request);
   }
 
   /**

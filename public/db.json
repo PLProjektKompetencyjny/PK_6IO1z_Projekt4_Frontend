@@ -9,9 +9,9 @@
       "phone": "+12 345 678123",
       "nip": "01234567890123",
       "city": "Warsaw123",
-      "postalCode": "04-701123",
+      "postal_code": "04-701123",
       "street": "Sienkiewicza123",
-      "buildingNumber": "16b123"
+      "building_number": "16b123"
     }
   ]
 }

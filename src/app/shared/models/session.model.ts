@@ -1,9 +1,10 @@
-import { User } from '../../modules/profile/user.model';
-
 /**
  * Represents session stored in the local storage.
  */
-export type Session = User & {
-  authScheme: string;
-  accessToken: string;
+export type Session = {
+  auth_schema: string;
+  access_token: string;
+  user_id: string;
+  email: string;
+  is_admin: string;
 }
