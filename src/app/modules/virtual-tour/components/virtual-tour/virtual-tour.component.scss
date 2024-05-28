@@ -1,0 +1,12 @@
+.asset {
+  img {
+    height: 50px;
+    width: 100px;
+  }
+}
+
+@for $i from 1 through 5 {
+  .asset:nth-child(#{$i}) {
+    left: calc((#{$i} - 1) * 120px);
+  }
+}

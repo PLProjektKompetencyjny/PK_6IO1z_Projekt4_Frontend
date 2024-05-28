@@ -1,23 +1,21 @@
+@if (generatingScene) {
+<div
+  class="position-fixed z-index-1 top-50 start-50 translate-middle bg-black vw-100 vh-100 text-center vertical-middle">
+  <div class="spinner-border text-primary position-absolute top-50" role="status"></div>
+</div>
+}
+
 <a [routerLink]="['/home']" routerLinkActive="active">
   <img class="h-25 position-fixed top-0 start-0" src="assets/imgs/logo/logo.png" [alt]="appName" />
 </a>
 
-<!-- <button class="position-fixed top-50 start-0 btn btn-primary ms-2 fs-3" (click)="nextRoom()">
-  <i class="bi bi-chevron-left fw-bold"></i>
-</button> -->
+<div #container></div>
 
-<iframe class="vw-100 vh-100" allowfullscreen title="Luxury apartment" frameborder="0"
-  src="https://my.matterport.com/show/?play=1&share=0&m=Shctie5LdZj">
-</iframe>
-
-<!-- <iframe *ngIf="currentRoom === 2" class="vw-100 vh-100" allowfullscreen title="Apartment" frameborder="0"
-  src="https://app.cloudpano.com/tours/859R893XXY?disable=logo,controls,watermark">
-</iframe>
-
-<iframe *ngIf="currentRoom === 3" class="vw-100 vh-100" allowfullscreen title="Luxury residential" frameborder="0"
-  src="https://app.cloudpano.com/tours/t1LtFvj5DK?disable=logo,controls,watermark">
-</iframe> -->
-
-<!-- <button class="position-fixed top-50 end-0 btn btn-primary me-2 fs-3" (click)="previousRoom()">
-  <i class="bi bi-chevron-right"></i>
-</button> -->
+<div>
+  <div *ngFor="let asset of assets"
+    class="asset border border-5 rounded-2 overflow-hidden position-fixed cursor-pointer shadow-lg bottom-0 ms-2 mb-2"
+    (click)="moveToRoom(asset.roomNo)" [class.border-primary]="asset.roomNo === currentRoomNo"
+    [title]="'Show room ' + asset.roomNo">
+    <img [src]="asset.src" [alt]="asset.alt" />
+  </div>
+</div>
