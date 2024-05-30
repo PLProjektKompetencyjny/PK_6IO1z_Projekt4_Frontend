@@ -42,7 +42,7 @@
             <a [routerLink]="['/sign-up']" class="btn border border-white text-white py-md-3 px-md-5 text-nowrap">Sign
               up</a>
             }
-            <a [routerLink]="['/book']" class="ms-2 btn btn-primary py-md-3 px-md-5 text-nowrap">Book now!</a>
+            <a [routerLink]="['/rooms']" class="ms-2 btn btn-primary py-md-3 px-md-5 text-nowrap">Book now!</a>
             @if (authService.isAuthenticated) {
             <button class="btn ms-2 border-none fs-3 text-white" (click)="authService.signOut()">
               <i class="bi bi-box-arrow-right"></i>

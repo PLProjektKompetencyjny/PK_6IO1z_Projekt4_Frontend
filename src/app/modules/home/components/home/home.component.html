@@ -69,49 +69,49 @@
     data-wow-delay="0.1s">
     <div class="container">
       <div class="bg-white shadow p-5 rounded">
-        <div class="row g-2">
-          <div class="col-md-10">
+        <!-- 
+        <form class="row g-2 mt-5" [formGroup]="form"> -->
+        <form class="row g-2">
+          <div class="col-md-11">
             <div class="row g-2">
-              <div class="col-md-3">
+              <div class="col-md">
                 <div class="date" id="date1" data-target-input="nearest">
                   <input type="date" class="form-control datetimepicker-input" placeholder="Check in"
-                    data-target="#date1" data-toggle="datetimepicker">
+                    data-target="#date1" data-toggle="datetimepicker" id="start_date" name="start_date"
+                    formControlName="start_date">
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md">
                 <div class="date" id="date2" data-target-input="nearest">
                   <input type="date" class="form-control datetimepicker-input" placeholder="Check out"
-                    data-target="#date2" data-toggle="datetimepicker">
+                    data-target="#date2" data-toggle="datetimepicker" id="end_date" name="end_date"
+                    formControlName="end_date">
                 </div>
               </div>
-              <div class="col-md-3">
-                <select class="form-select">
-                  <option selected>Adult</option>
-                  <option value="1">Adult 1</option>
-                  <option value="2">Adult 2</option>
-                  <option value="3">Adult 3</option>
-                </select>
+              <div class="col-md">
+                <input type="number" class="form-control" placeholder="Number of double beds" min="0" max="6"
+                  id="number_of_double_beds" name="number_of_double_beds" formControlName="number_of_double_beds" />
               </div>
-              <div class="col-md-3">
-                <select class="form-select">
-                  <option selected>Child</option>
-                  <option value="1">Child 1</option>
-                  <option value="2">Child 2</option>
-                  <option value="3">Child 3</option>
-                </select>
+              <div class="col-md">
+                <input type="number" class="form-control" placeholder="Number of single beds" min="0" max="3"
+                  id="number_of_single_beds" name="number_of_single_beds" formControlName="number_of_single_beds" />
+              </div>
+              <div class="col-md">
+                <input type="number" class="form-control" placeholder="Number of child beds" min="0" max="3"
+                  id="number_of_child_beds" name="number_of_child_beds" formControlName="number_of_child_beds" />
               </div>
             </div>
           </div>
-          <div class="col-md-2">
-            <button class="btn btn-primary w-100">Submit</button>
+          <div class="col-md-1">
+            <button class="btn btn-primary w-100" (click)="goToRoomsView()">Filter</button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
 </div>
 
-<div class="containter-xxl bg-white p-0">
+<div class="container-xxl bg-white p-0">
   <div class="container-xxl py-5" id="rooms">
     <div class="container">
       <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
@@ -121,7 +121,10 @@
         <h1 class="mb-5">Explore our <span class="text-primary text-uppercase fw-bold">Rooms</span></h1>
       </div>
       <div class="row g-4">
-        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+        @for (room of rooms; track room) {
+        <tn-room [room]="room" class="col-lg-4 col-md-6 wow fadeInUp" />
+        }
+        <!-- <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
           <div class="room-item shadow rounded overflow-hidden">
             <div class="position-relative">
               <img class="img-fluid" src="assets/imgs/rooms/4/1.jpg" alt="Room 4">
@@ -147,8 +150,7 @@
                 Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet
                 diam sed stet lorem.
               </p>
-              <div class="d-flex justify-content-between">
-                <a class="btn btn-sm btn-outline-dark rounded py-2 px-4" href="#">View detail</a>
+              <div class="d-flex justify-content-end">
                 <a class="btn btn-sm btn-primary rounded py-2 px-4" href="#">Book now</a>
               </div>
             </div>
@@ -180,8 +182,7 @@
                 Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet
                 diam sed stet lorem.
               </p>
-              <div class="d-flex justify-content-between">
-                <a class="btn btn-sm btn-outline-dark rounded py-2 px-4" href="#">View detail</a>
+              <div class="d-flex justify-content-end">
                 <a class="btn btn-sm btn-primary rounded py-2 px-4" href="#">Book now</a>
               </div>
             </div>
@@ -211,13 +212,12 @@
                 Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet
                 diam sed stet lorem.
               </p>
-              <div class="d-flex justify-content-between">
-                <a class="btn btn-sm btn-outline-dark rounded py-2 px-4" href="#">View detail</a>
+              <div class="d-flex justify-content-end">
                 <a class="btn btn-sm btn-primary rounded py-2 px-4" href="#">Book now</a>
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

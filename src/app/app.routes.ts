@@ -27,6 +27,11 @@ export const routes: Routes = [
     loadChildren: () => import('./modules/sign-in/sign-in.module').then(m => m.SignInModule)
   },
   {
+    title: '',
+    path: 'rooms',
+    loadChildren: () => import('./modules/rooms/rooms.module').then(m => m.RoomsModule)
+  },
+  {
     path: '**',
     redirectTo: 'home'
   }
