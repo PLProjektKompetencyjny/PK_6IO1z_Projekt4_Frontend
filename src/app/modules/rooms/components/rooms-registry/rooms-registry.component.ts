@@ -15,6 +15,8 @@ export class RoomsRegistryComponent implements OnInit {
 
   rooms: Room[] = [];
 
+  protected readonly now = new Date();
+
   get start_date(): AbstractControl<Date, Date> | null {
     return this.form.get('start_date');
   }

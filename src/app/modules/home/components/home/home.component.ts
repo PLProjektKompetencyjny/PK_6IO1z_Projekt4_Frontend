@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
 
   protected readonly appName = appName;
   protected readonly owlOptions = owlOptions;
+  protected readonly now = new Date();
 
   constructor(
     private readonly roomService: RoomService,

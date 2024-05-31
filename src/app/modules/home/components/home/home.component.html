@@ -55,11 +55,13 @@
         </div>
       </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">
+    <button class="carousel-control-prev text-primary" type="button" data-bs-target="#header-carousel"
+      data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#header-carousel" data-bs-slide="next">
+    <button class="carousel-control-next text-primary" type="button" data-bs-target="#header-carousel"
+      data-bs-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
@@ -69,35 +71,33 @@
     data-wow-delay="0.1s">
     <div class="container">
       <div class="bg-white shadow p-5 rounded">
-        <!-- 
-        <form class="row g-2 mt-5" [formGroup]="form"> -->
-        <form class="row g-2">
+        <form class="row g-2" [formGroup]="form">
           <div class="col-md-11">
             <div class="row g-2">
               <div class="col-md">
                 <div class="date" id="date1" data-target-input="nearest">
-                  <input type="date" class="form-control datetimepicker-input" placeholder="Check in"
+                  <input type="date" class="form-control datetimepicker-input" placeholder="Check in" [min]="now"
                     data-target="#date1" data-toggle="datetimepicker" id="start_date" name="start_date"
                     formControlName="start_date">
                 </div>
               </div>
               <div class="col-md">
                 <div class="date" id="date2" data-target-input="nearest">
-                  <input type="date" class="form-control datetimepicker-input" placeholder="Check out"
+                  <input type="date" class="form-control datetimepicker-input" placeholder="Check out" [min]="now"
                     data-target="#date2" data-toggle="datetimepicker" id="end_date" name="end_date"
                     formControlName="end_date">
                 </div>
               </div>
               <div class="col-md">
-                <input type="number" class="form-control" placeholder="Number of double beds" min="0" max="6"
+                <input type="number" class="form-control" placeholder="Number of double beds" min="0"
                   id="number_of_double_beds" name="number_of_double_beds" formControlName="number_of_double_beds" />
               </div>
               <div class="col-md">
-                <input type="number" class="form-control" placeholder="Number of single beds" min="0" max="3"
+                <input type="number" class="form-control" placeholder="Number of single beds" min="0"
                   id="number_of_single_beds" name="number_of_single_beds" formControlName="number_of_single_beds" />
               </div>
               <div class="col-md">
-                <input type="number" class="form-control" placeholder="Number of child beds" min="0" max="3"
+                <input type="number" class="form-control" placeholder="Number of child beds" min="0"
                   id="number_of_child_beds" name="number_of_child_beds" formControlName="number_of_child_beds" />
               </div>
             </div>
