@@ -16,7 +16,7 @@ export class BaseService {
 
   constructor(protected readonly notificationsService: NotificationsService) { }
 
-  generateParams(filters?: any): HttpParams {
+  generateParams(filters?: unknown): HttpParams {
     let params = new HttpParams();
 
     if (!filters) {

@@ -43,9 +43,7 @@ export class VirtualTourComponent implements AfterViewInit {
   @HostListener('mousewheel', ['$event'])
   onMouseWheel({ deltaY }: WheelEvent): void {
     const newZoomValue = this.currentZoom + -deltaY / 5000;
-    if (newZoomValue < minZoom || newZoomValue > maxZoom) {
-      this.currentZoom = this.currentZoom;
-    } else {
+    if (newZoomValue >= minZoom && newZoomValue <= maxZoom) {
       this.currentZoom = newZoomValue;
     }
   }

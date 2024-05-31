@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NotificationsService } from 'angular2-notifications';
-import { ObservableInput, catchError, first, firstValueFrom } from 'rxjs';
+import { ObservableInput, catchError, firstValueFrom } from 'rxjs';
 import { Room } from '../../modules/rooms/components/room-edit/room.model';
 import { environment } from '../../../environments/environment';
 import { ApiResponse } from '../api-response.model';
