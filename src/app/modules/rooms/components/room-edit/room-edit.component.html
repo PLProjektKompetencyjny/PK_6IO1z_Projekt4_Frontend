@@ -1,1 +1,91 @@
-<p>room-edit works!</p>
+<tn-header></tn-header>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+@if (room) {
+<form class="room-item shadow rounded overflow-hidden mt-5 mx-auto">
+  <div class="position-relative">
+    <img class="img-fluid" [src]="room.room_photos_dir" [alt]="'Room ' + room.room_id + ' preview'">
+    <small class="position-absolute start-0 top-100 translate-middle-y bg-primary rounded py-1 px-3 ms-4 fw-bold">${{
+      room.room_gross_price + room.room_gross_price_adult + room.room_gross_price_child | number:'1.2-2'
+      }}/Night</small>
+  </div>
+  <div class="p-4 mt-2">
+    <div class="d-flex justify-content-between mb-3">
+      <h5 class="mb-0">Room {{ room.room_id }}</h5>
+    </div>
+    <div class="d-flex mb-3 fs-7">
+      @if (room.room_number_of_double_beds > 0) {
+      <small class="me-2 pe-2"
+        [class.border-end]="room.room_number_of_single_beds > 0 || room.room_number_of_child_beds > 0">
+        <i class="bi bi-people text-primary me-2"></i>{{ room.room_number_of_double_beds }} Double beds
+      </small>
+      }
+      @if (room.room_number_of_single_beds > 0) {
+      <small class="me-2 pe-2" [class.border-end]="room.room_number_of_child_beds > 0">
+        <i class="bi bi-person text-primary me-2"></i>{{ room.room_number_of_single_beds }} Single beds
+      </small>
+      }
+      @if (room.room_number_of_child_beds > 0) {
+      <small class="me-2 pe-2">
+        <i class="bi bi-people text-primary me-2"></i>{{ room.room_number_of_child_beds }} Child beds
+      </small>
+      }
+    </div>
+    <div class="row gx-3 mb-3">
+      <div class="col-md">
+        <label class="small mb-1 fw-bold" for="room_status_id">Status</label>
+        <select [(ngModel)]="room.room_status_id" class="form-control" name="room_status_id">
+          @for(status of roomStatusesMap | keyvalue; track status) {
+          <option [ngValue]="status.key">{{ status.value }}</option>
+          }
+        </select>
+      </div>
+    </div>
+    <div class="row gx-3 mb-3">
+      <div class="col-md-4">
+        <label class="small mb-1 fw-bold" for="room_number_of_double_beds">Double beds</label>
+        <input class="form-control" id="room_number_of_double_beds" name="room_number_of_double_beds" type="number"
+          min="0" placeholder="Enter number of double beds" [(ngModel)]="room.room_number_of_double_beds" required>
+      </div>
+      <div class="col-md-4">
+        <label class="small mb-1 fw-bold" for="room_number_of_single_beds">Single beds</label>
+        <input class="form-control" id="room_number_of_single_beds" name="room_number_of_single_beds" type="number"
+          min="0" placeholder="Enter number of single beds" [(ngModel)]="room.room_number_of_single_beds" required>
+      </div>
+      <div class="col-md-4">
+        <label class="small mb-1 fw-bold" for="room_number_of_child_beds">Child beds</label>
+        <input class="form-control" id="room_number_of_child_beds" name="room_number_of_child_beds" type="number"
+          min="0" placeholder="Enter number of child beds" [(ngModel)]="room.room_number_of_child_beds" required>
+      </div>
+    </div>
+    <div class="row gx-3 mb-3">
+      <div class="col-md-4">
+        <label class="small mb-1 fw-bold" for="room_gross_price">Gross price</label>
+        <input class="form-control" id="room_gross_price" name="room_gross_price" type="number" min="0"
+          placeholder="Enter gross price" [(ngModel)]="room.room_gross_price" required>
+      </div>
+      <div class="col-md-4">
+        <label class="small mb-1 fw-bold" for="room_gross_price_adult">Gross price adult</label>
+        <input class="form-control" id="room_gross_price_adult" name="room_gross_price_adult" type="number" min="0"
+          placeholder="Enter gross price adult" [(ngModel)]="room.room_gross_price_adult" required>
+      </div>
+      <div class="col-md-4">
+        <label class="small mb-1 fw-bold" for="room_gross_price_child">Gross price child</label>
+        <input class="form-control" id="room_gross_price_child" name="room_gross_price_child" type="number" min="0"
+          placeholder="Enter gross price child" [(ngModel)]="room.room_gross_price_child" required>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-sm btn-primary rounded py-2 px-4" (click)="save()">Save</button>
+    </div>
+  </div>
+</form>
+} @else {
+<h6 class="position-absolute top-50 start-50">Room not found!</h6>
+}
+
+<simple-notifications></simple-notifications>

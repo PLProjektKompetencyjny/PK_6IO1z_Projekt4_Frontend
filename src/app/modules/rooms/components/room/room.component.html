@@ -31,8 +31,13 @@
       Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet
       diam sed stet lorem.
     </p>
-    <div class="d-flex justify-content-end">
-      <a class="btn btn-sm btn-primary rounded py-2 px-4" href="#">Book now</a>
+    <div class="d-flex justify-content-end" [class.justify-content-between]="authService.session?.is_admin">
+      @if (authService.session?.is_admin) {
+      <a class="btn btn-sm btn-outline-success rounded py-2 px-4" [routerLink]="['/rooms', room.room_id]">
+        <i class="bi bi-pencil me-2"></i>Edit
+      </a>
+      }
+      <a class="btn btn-sm btn-primary rounded py-2 px-4" [routerLink]="['/reservations', room.room_id]">Book now</a>
     </div>
   </div>
 </div>

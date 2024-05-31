@@ -5,8 +5,9 @@ import { adminGuard } from '../../guards/admin/admin.guard';
 
 export const routes: Routes = [
   {
-    path: '**',
+    path: '',
     component: RoomsRegistryComponent,
+    pathMatch: 'full'
   },
   {
     path: ':id',
