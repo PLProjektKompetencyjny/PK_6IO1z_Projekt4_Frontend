@@ -10,7 +10,7 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: ':id',
+    path: ':room_id',
     component: RoomEditComponent,
     canActivate: [adminGuard],
   }

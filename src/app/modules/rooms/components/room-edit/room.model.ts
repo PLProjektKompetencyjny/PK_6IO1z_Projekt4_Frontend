@@ -13,6 +13,22 @@ export type Room = BaseModel & {
   room_photos_dir: string;
 }
 
+export type RoomTypeMgmt = BaseModel & {
+  id: number;
+  num_of_single_beds: number;
+  num_of_double_beds: number;
+  num_of_child_beds: number;
+  adult_price_gross: number;
+  child_price_gross: number;
+}
+
+export type RoomMgmt = BaseModel & {
+  id: number;
+  room_type_id: number;
+  room_status_id: RoomStatus;
+  room_gross_price: number;
+}
+
 export enum RoomStatus {
   AVAILABLE = 1,
   OCCUPIED = 2,

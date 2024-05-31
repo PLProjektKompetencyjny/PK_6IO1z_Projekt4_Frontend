@@ -1,4 +1,4 @@
 export type BaseModel = {
-  room_last_modified_by: number;
-  room_last_modified_at: Date;
+  last_modified_by?: number;
+  last_modified_at?: Date;
 }

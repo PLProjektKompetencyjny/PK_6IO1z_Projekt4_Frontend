@@ -17,11 +17,11 @@
         </button>
         <div class="collapse navbar-collapse justify-content-evenly align-items-center" id="navbarCollapse">
           <div class="navbar-nav py-0 text-white">
-            <a href="/home" routerLinkActive="active"
-              class="text-uppercase text-white nav-item nav-link active">Home</a>
+            <a [routerLink]="['/home']" routerLinkActive="active"
+              class="text-uppercase text-white nav-item nav-link">Home</a>
             <a href="/virtual-tour" routerLinkActive="active"
               class="text-uppercase text-white nav-item nav-link">Virtual tour</a>
-            <a href="/home#rooms" routerLinkActive="active"
+            <a [routerLink]="['/rooms']" routerLinkActive="active"
               class="text-uppercase text-white nav-item nav-link">Rooms</a>
             <a href="/home#services" routerLinkActive="active"
               class="text-uppercase text-white nav-item nav-link">Services</a>

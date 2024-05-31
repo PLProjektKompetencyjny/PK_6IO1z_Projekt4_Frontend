@@ -10,7 +10,7 @@
   <div class="position-relative">
     <img class="img-fluid" [src]="room.room_photos_dir" [alt]="'Room ' + room.room_id + ' preview'">
     <small class="position-absolute start-0 top-100 translate-middle-y bg-primary rounded py-1 px-3 ms-4 fw-bold">${{
-      room.room_gross_price + room.room_gross_price_adult + room.room_gross_price_child | number:'1.2-2'
+      room.room_gross_price | number:'1.2-2'
       }}/Night</small>
   </div>
   <div class="p-4 mt-2">
@@ -35,16 +35,24 @@
       </small>
       }
     </div>
+    <div class="card-header fw-bold border-0">Room settings</div>
     <div class="row gx-3 mb-3">
-      <div class="col-md">
+      <div class="col-md-6">
         <label class="small mb-1 fw-bold" for="room_status_id">Status</label>
-        <select [(ngModel)]="room.room_status_id" class="form-control" name="room_status_id">
+        <select [(ngModel)]="room.room_status_id" class="form-select" name="room_status_id">
           @for(status of roomStatusesMap | keyvalue; track status) {
           <option [ngValue]="status.key">{{ status.value }}</option>
           }
         </select>
       </div>
+      <div class="col-md-6">
+        <label class="small mb-1 fw-bold" for="room_gross_price">Gross price</label>
+        <input class="form-control" id="room_gross_price" name="room_gross_price" type="number" min="0"
+          placeholder="Enter gross price" [(ngModel)]="room.room_gross_price" required>
+      </div>
     </div>
+
+    <div class="card-header fw-bold border-0 mt-5">Room type settings</div>
     <div class="row gx-3 mb-3">
       <div class="col-md-4">
         <label class="small mb-1 fw-bold" for="room_number_of_double_beds">Double beds</label>
@@ -63,17 +71,12 @@
       </div>
     </div>
     <div class="row gx-3 mb-3">
-      <div class="col-md-4">
-        <label class="small mb-1 fw-bold" for="room_gross_price">Gross price</label>
-        <input class="form-control" id="room_gross_price" name="room_gross_price" type="number" min="0"
-          placeholder="Enter gross price" [(ngModel)]="room.room_gross_price" required>
-      </div>
-      <div class="col-md-4">
+      <div class="col-md-6">
         <label class="small mb-1 fw-bold" for="room_gross_price_adult">Gross price adult</label>
         <input class="form-control" id="room_gross_price_adult" name="room_gross_price_adult" type="number" min="0"
           placeholder="Enter gross price adult" [(ngModel)]="room.room_gross_price_adult" required>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-6">
         <label class="small mb-1 fw-bold" for="room_gross_price_child">Gross price child</label>
         <input class="form-control" id="room_gross_price_child" name="room_gross_price_child" type="number" min="0"
           placeholder="Enter gross price child" [(ngModel)]="room.room_gross_price_child" required>
