@@ -12,10 +12,12 @@
 <div #container></div>
 
 <div>
-  <div *ngFor="let asset of assets"
-    class="asset border border-5 rounded-2 overflow-hidden position-fixed cursor-pointer shadow-lg bottom-0 ms-2 mb-2"
+  @for (asset of assets; track asset) {
+  <button
+    class="asset border border-5 rounded-2 overflow-hidden position-fixed cursor-pointer shadow-lg bottom-0 ms-2 mb-2 p-0"
     (click)="moveToRoom(asset.roomNo)" [class.border-primary]="asset.roomNo === currentRoomNo"
     [title]="'Show room ' + asset.roomNo">
     <img [src]="asset.src" [alt]="asset.alt" />
-  </div>
+  </button>
+  }
 </div>

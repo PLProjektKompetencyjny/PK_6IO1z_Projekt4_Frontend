@@ -1,0 +1,30 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule, provideRouter } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SimpleNotificationsModule } from 'angular2-notifications';
+import { routes } from './reservations.routes';
+import { ServiceService } from '../../services/service/service.service';
+import { PrepareReservationComponent } from './components/prepare-reservation/prepare-reservation.component';
+import { HeaderComponent } from '../../shared/components/header/header.component';
+import { RoomComponent } from '../rooms/components/room/room.component';
+
+@NgModule({
+  providers: [
+    provideRouter(routes),
+    ServiceService,
+  ],
+  declarations: [
+    PrepareReservationComponent
+  ],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HeaderComponent,
+    RoomComponent,
+    SimpleNotificationsModule.forRoot(),
+  ]
+})
+export class ReservationsModule { }

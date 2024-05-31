@@ -1,0 +1,64 @@
+<tn-header></tn-header>
+
+<br />
+<br />
+<br />
+<br />
+
+<div class="container-xxl p-0 pt-5 my-5 position-relative">
+  <div class="room-item shadow rounded overflow-hidden mx-auto">
+    <div class="position-relative">
+      <img class="img-fluid" [src]="room.room_photos_dir" [alt]="'Room ' + room.room_id + ' preview'">
+      <small class="position-absolute start-0 top-100 translate-middle-y bg-primary rounded py-1 px-3 ms-4 fw-bold">${{
+        room.room_gross_price | number:'1.2-2'
+        }}/Night</small>
+    </div>
+    <div class="p-4 mt-2">
+      <div class="d-flex justify-content-between mb-3">
+        <h5 class="mb-0">
+          Room {{ room.room_id }}
+        </h5>
+      </div>
+      <div class="d-flex mb-3 fs-7">
+        @if (room.room_number_of_double_beds > 0) {
+        <small class="me-2 pe-2"
+          [class.border-end]="room.room_number_of_single_beds > 0 || room.room_number_of_child_beds > 0">
+          <i class="bi bi-people text-primary me-2"></i>{{ room.room_number_of_double_beds }} Double beds
+        </small>
+        }
+        @if (room.room_number_of_single_beds > 0) {
+        <small class="me-2 pe-2" [class.border-end]="room.room_number_of_child_beds > 0">
+          <i class="bi bi-person text-primary me-2"></i>{{ room.room_number_of_single_beds }} Single beds
+        </small>
+        }
+        @if (room.room_number_of_child_beds > 0) {
+        <small class="me-2 pe-2">
+          <i class="bi bi-people text-primary me-2"></i>{{ room.room_number_of_child_beds }} Child beds
+        </small>
+        }
+      </div>
+      <p class="text-body mb-3">
+        Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet
+        diam sed stet lorem.
+      </p>
+      <h5>Total: <span class="text-success">{{ total | number:'1.2-2' }}$</span></h5>
+      <h6>Additional services</h6>
+      @for (serviceMgmt of servicesMgmt; track serviceMgmt) {
+      <div class="form-check d-flex align-items-center mt-2">
+        <input class="form-check-input mb-1" type="checkbox" [id]="serviceMgmt.id"
+          (change)="onServiceChange($event, serviceMgmt.id, inputQuantity.valueAsNumber)" />
+        <label class="form-check-label ms-2" [for]="serviceMgmt.id">
+          {{ serviceMgmt.name }} <span class="text-success">{{ serviceMgmt.unit_price | number:'1.2-2' }}$ *</span>
+        </label>
+        <input #inputQuantity class="ms-2 form-control w-auto" type="number" min="1" placeholder="Quantity" required
+          (change)="onQuantityChange($event, serviceMgmt.id)" />
+      </div>
+      }
+      <div class="d-flex justify-content-end mt-2">
+        <button class="btn btn-primary py-md-2 px-md-4 mt-2" (click)="createReservation()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<simple-notifications></simple-notifications>

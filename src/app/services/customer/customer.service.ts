@@ -1,10 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { ObservableInput, catchError, firstValueFrom } from 'rxjs';
+import { NotificationsService } from 'angular2-notifications';
 import { Customer } from '../../modules/profile/customer.model';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../auth/auth.service';
 import { ApiResponse } from '../api-response.model';
+import { BaseService } from '../base.service';
 
 /**
  * Service related to HTTP request on `customer`
@@ -12,7 +14,7 @@ import { ApiResponse } from '../api-response.model';
 @Injectable({
   providedIn: 'root'
 })
-export class CustomerService {
+export class CustomerService extends BaseService {
 
   /**
    * The base path to customer endpoints.
@@ -22,7 +24,10 @@ export class CustomerService {
   constructor(
     private readonly httpClient: HttpClient,
     private readonly authService: AuthService,
-  ) { }
+    protected override readonly notificationsService: NotificationsService
+  ) {
+    super(notificationsService);
+  }
 
   /**
    * Gets logged customer's data.
@@ -34,7 +39,7 @@ export class CustomerService {
     const request = this.httpClient.get<ApiResponse<Customer>>(
       `${environment.apiUrl}/${this.basePath}`,
       { params }
-    )
+    ).pipe(catchError<ApiResponse<Customer>, ObservableInput<ApiResponse<Customer>>>(this.catchCustomError.bind(this)))
 
     const response = await firstValueFrom(request);
     const customer = response.data[0];
@@ -47,23 +52,18 @@ export class CustomerService {
    * @returns List of customers.
    */
   async get(filters: {
-    email: '',
-    nip: '',
-    name: '',
-    surname: '',
-    city: ''
+    customer_email: '',
+    customer_nip_number: '',
+    customer_name: '',
+    customer_surname: '',
+    customer_city: ''
   }): Promise<Customer[]> {
-    const params = new HttpParams()
-      .set('customer_email', filters.email)
-      .set('customer_nip_number', filters.nip)
-      .set('customer_name', filters.name)
-      .set('customer_surname', filters.surname)
-      .set('customer_city', filters.city);
+    const params = this.generateParams(filters);
 
     const request = this.httpClient.get<ApiResponse<Customer>>(
       `${environment.apiUrl}/${this.basePath}`,
       { params }
-    )
+    ).pipe(catchError<ApiResponse<Customer>, ObservableInput<ApiResponse<Customer>>>(this.catchCustomError.bind(this)))
 
     const { data } = await firstValueFrom(request);
     return data;
@@ -78,9 +78,9 @@ export class CustomerService {
     const request = this.httpClient.post<number>(
       `${environment.apiUrl}/${this.basePath}`,
       newCustomer
-    )
+    ).pipe(catchError<number, ObservableInput<ApiResponse<number>>>(this.catchCustomError.bind(this)))
 
-    return await firstValueFrom(request);
+    return await firstValueFrom(request) as number;
   }
 
   /**
@@ -91,7 +91,7 @@ export class CustomerService {
     const request = this.httpClient.put<void>(
       `${environment.apiUrl}/${this.basePath}/${customer.customer_id}`,
       customer
-    );
+    ).pipe(catchError<void, ObservableInput<ApiResponse<void>>>(this.catchCustomError.bind(this)));
 
     await firstValueFrom(request);
   }
@@ -103,7 +103,7 @@ export class CustomerService {
   async delete(customerId: number): Promise<void> {
     const request = this.httpClient.delete<void>(
       `${environment.apiUrl}/${this.basePath}/${customerId}`
-    );
+    ).pipe(catchError<void, ObservableInput<ApiResponse<void>>>(this.catchCustomError.bind(this)));
 
     await firstValueFrom(request);
   }

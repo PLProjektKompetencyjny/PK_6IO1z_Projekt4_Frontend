@@ -33,7 +33,7 @@ export class SignInComponent {
     private readonly authService: AuthService,
   ) {
     this.form = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', Validators.required],
       password: ['', Validators.required]
     });
   }

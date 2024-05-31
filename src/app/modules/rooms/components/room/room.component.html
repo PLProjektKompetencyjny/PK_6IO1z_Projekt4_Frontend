@@ -1,0 +1,55 @@
+<div class="room-item shadow rounded overflow-hidden">
+  <div class="position-relative">
+    <div class="position-absolute w-100 h-100 opacity-0 bg-white d-flex justify-content-center align-items-center"
+      [class.opacity-75]="room.room_status_id === RoomStatus.MAINTENANCE">
+      <h5 class="text-danger font-bold text-uppercase">Room in maintenance</h5>
+    </div>
+    <img class="img-fluid" [src]="room.room_photos_dir" [alt]="'Room ' + room.room_id + ' preview'">
+    <small class="position-absolute start-0 top-100 translate-middle-y bg-primary rounded py-1 px-3 ms-4 fw-bold">${{
+      room.room_gross_price | number:'1.2-2'
+      }}/Night</small>
+  </div>
+  <div class="p-4 mt-2">
+    <div class="d-flex justify-content-between mb-3">
+      <h5 class="mb-0">
+        Room {{ room.room_id }}
+        @if (room.room_status_id === RoomStatus.MAINTENANCE) {
+        <span class="text-danger">&nbsp;(in maintenance)</span>
+        }
+      </h5>
+    </div>
+    <div class="d-flex mb-3 fs-7">
+      @if (room.room_number_of_double_beds > 0) {
+      <small class="me-2 pe-2"
+        [class.border-end]="room.room_number_of_single_beds > 0 || room.room_number_of_child_beds > 0">
+        <i class="bi bi-people text-primary me-2"></i>{{ room.room_number_of_double_beds }} Double beds
+      </small>
+      }
+      @if (room.room_number_of_single_beds > 0) {
+      <small class="me-2 pe-2" [class.border-end]="room.room_number_of_child_beds > 0">
+        <i class="bi bi-person text-primary me-2"></i>{{ room.room_number_of_single_beds }} Single beds
+      </small>
+      }
+      @if (room.room_number_of_child_beds > 0) {
+      <small class="me-2 pe-2">
+        <i class="bi bi-people text-primary me-2"></i>{{ room.room_number_of_child_beds }} Child beds
+      </small>
+      }
+    </div>
+    <p class="text-body mb-3">
+      Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet
+      diam sed stet lorem.
+    </p>
+    <div class="d-flex justify-content-end" [class.justify-content-between]="authService.session?.is_admin">
+      @if (authService.session?.is_admin) {
+      <a class="btn btn-sm btn-outline-success rounded py-2 px-4" [routerLink]="['/rooms', room.room_id]">
+        <i class="bi bi-pencil me-2"></i>Edit
+      </a>
+      }
+      @if (room.room_status_id !== RoomStatus.MAINTENANCE) {
+      <a class="btn btn-sm btn-primary rounded py-2 px-4"
+        [routerLink]="['/reservations', room.room_id, getJsonStartDate(), getJsonEndDate()]">Book now</a>
+      }
+    </div>
+  </div>
+</div>

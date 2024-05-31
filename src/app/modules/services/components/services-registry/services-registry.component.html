@@ -1,0 +1,51 @@
+<tn-header></tn-header>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<div class="card mt-5 container-sm registry py-3">
+  <h3 class="text-center my-3">Available services</h3>
+  <table class="table card-body">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Unit price</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (service of services; track service) {
+      <tr>
+        <td>
+          <button class="btn btn-outline-danger" (click)="delete($index)">
+            <i class="bi bi-trash"></i>
+          </button>
+        </td>
+        <td>
+          <input class="form-control" id="name" name="name" type="text" placeholder="Enter name"
+            [(ngModel)]="services[$index].name" required>
+        </td>
+        <td>
+          <input class="form-control" id="unit_price" name="unit_price" type="number" min="1"
+            placeholder="Enter unit price" [(ngModel)]="services[$index].unit_price" required>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-between">
+    <button class="btn btn-outline-success py-md-2 px-md-4" (click)="addEmptyService()">
+      <i class="bi bi-plus me-2"></i>
+      Add
+    </button>
+    <button class="btn btn-primary py-md-2 px-md-4" (click)="save()">Save</button>
+  </div>
+  @if (services.length === 0) {
+  <h6 class="text-center text-white-50">No services available (add one)</h6>
+  }
+</div>
+
+<simple-notifications></simple-notifications>

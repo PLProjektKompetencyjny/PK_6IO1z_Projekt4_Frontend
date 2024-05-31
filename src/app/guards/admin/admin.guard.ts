@@ -17,7 +17,7 @@ function handleAdminAuth(route: ActivatedRouteSnapshot, state: RouterStateSnapsh
   const auth = inject(AuthService);
   const routerExtended = inject(RouterExtendedService);
 
-  if (auth.isAuthenticated && auth.session?.isAdmin) {
+  if (auth.isAuthenticated && auth.session?.is_admin) {
     return true;
   }
 
