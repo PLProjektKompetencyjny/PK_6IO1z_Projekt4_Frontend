@@ -47,7 +47,8 @@
       </a>
       }
       @if (room.room_status_id !== RoomStatus.MAINTENANCE) {
-      <a class="btn btn-sm btn-primary rounded py-2 px-4" [routerLink]="['/reservations', room.room_id]">Book now</a>
+      <a class="btn btn-sm btn-primary rounded py-2 px-4"
+        [routerLink]="['/reservations', room.room_id, getJsonStartDate(), getJsonEndDate()]">Book now</a>
       }
     </div>
   </div>

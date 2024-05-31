@@ -4,7 +4,7 @@ import { PrepareReservationComponent } from './components/prepare-reservation/pr
 
 export const routes: Routes = [
   {
-    path: ':room_id',
+    path: ':room_id/:start_date/:end_date',
     component: PrepareReservationComponent,
     canActivate: [authGuard]
   },

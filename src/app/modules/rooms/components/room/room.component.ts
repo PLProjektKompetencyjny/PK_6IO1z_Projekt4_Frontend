@@ -15,8 +15,18 @@ export class RoomComponent {
   protected readonly RoomStatus = RoomStatus;
 
   @Input() room!: Room;
+  @Input() start_date: Date = new Date();
+  @Input() end_date: Date = new Date();
 
   constructor(
     protected readonly authService: AuthService,
   ) { }
+
+  getJsonStartDate(): string {
+    return JSON.stringify(this.start_date);
+  }
+
+  getJsonEndDate(): string {
+    return JSON.stringify(this.end_date);
+  }
 }

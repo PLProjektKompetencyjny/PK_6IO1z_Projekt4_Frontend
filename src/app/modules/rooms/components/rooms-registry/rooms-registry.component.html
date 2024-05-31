@@ -41,7 +41,8 @@
   }
   <div class="row g-2 mt-2">
     @for (room of rooms; track room) {
-    <tn-room [room]="room" class="col-lg-4" />
+    <tn-room [room]="room" [start_date]="start_date?.value ?? now" [end_date]="end_date?.value ?? now"
+      class="col-lg-4" />
     }
   </div>
 </div>

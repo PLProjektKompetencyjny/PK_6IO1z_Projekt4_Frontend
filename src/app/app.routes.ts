@@ -37,6 +37,11 @@ export const routes: Routes = [
     loadChildren: () => import('./modules/services/services.module').then(m => m.ServicesModule)
   },
   {
+    title: 'Check in hotel room at TravelNest | Reservation',
+    path: 'reservations',
+    loadChildren: () => import('./modules/reservations/reservations.module').then(m => m.ReservationsModule)
+  },
+  {
     path: '**',
     redirectTo: 'home'
   }
