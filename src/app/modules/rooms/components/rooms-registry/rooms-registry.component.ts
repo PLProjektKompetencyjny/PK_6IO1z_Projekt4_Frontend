@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { RoomService } from '../../../../services/room/room.service';
-import { Room } from '../room-edit/room.model';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
-import { NotificationsService } from 'angular2-notifications';
+import { RoomService } from '../../../../services/room/room.service';
+import { Room } from '../room-edit/room.model';
 
 @Component({
   selector: 'tn-rooms-registry',
@@ -40,7 +39,6 @@ export class RoomsRegistryComponent implements OnInit {
     private readonly roomsService: RoomService,
     private readonly formBuilder: FormBuilder,
     private readonly route: ActivatedRoute,
-    private readonly notificationsService: NotificationsService,
   ) {
     this.form = this.formBuilder.group({
       start_date: [undefined],
