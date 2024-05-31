@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { NotificationsService } from 'angular2-notifications';
 import { Room, RoomMgmt, RoomStatusesMap, RoomTypeMgmt } from './room.model';
 import { RoomService } from '../../../../services/room/room.service';
 import { RouterExtendedService } from '../../../../services/router-extended/router-extended.service';
@@ -21,6 +22,7 @@ export class RoomEditComponent implements OnInit {
     private readonly roomsService: RoomService,
     private readonly routerExtended: RouterExtendedService,
     private readonly authService: AuthService,
+    private readonly notificationsService: NotificationsService,
   ) {
     this.route.params.subscribe((params: Params) => {
       if (isNaN(params['room_id'])) {
@@ -47,6 +49,7 @@ export class RoomEditComponent implements OnInit {
     try {
       await this.saveRoomMgmt();
       await this.saveRoomTypeMgmt();
+      this.notificationsService.success('Success!', 'Room saved successfully');
     } catch (e) {
       console.error(e);
     }

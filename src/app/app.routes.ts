@@ -27,9 +27,14 @@ export const routes: Routes = [
     loadChildren: () => import('./modules/sign-in/sign-in.module').then(m => m.SignInModule)
   },
   {
-    title: '',
+    title: 'Find available rooms at TravelNest',
     path: 'rooms',
     loadChildren: () => import('./modules/rooms/rooms.module').then(m => m.RoomsModule)
+  },
+  {
+    title: 'Edit additional services for reservations',
+    path: 'services',
+    loadChildren: () => import('./modules/services/services.module').then(m => m.ServicesModule)
   },
   {
     path: '**',

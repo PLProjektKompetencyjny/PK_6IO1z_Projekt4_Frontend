@@ -1,6 +1,4 @@
-import { BaseModel } from '../../../../shared/models/base.model';
-
-export type Room = BaseModel & {
+export type Room = {
   room_id: number;
   room_type_id: number;
   room_status_id: RoomStatus;
@@ -11,22 +9,28 @@ export type Room = BaseModel & {
   room_gross_price_adult: number;
   room_gross_price_child: number;
   room_photos_dir: string;
+  room_last_modified_by?: number;
+  room_last_modified_at?: Date;
 }
 
-export type RoomTypeMgmt = BaseModel & {
+export type RoomTypeMgmt = {
   id: number;
   num_of_single_beds: number;
   num_of_double_beds: number;
   num_of_child_beds: number;
   adult_price_gross: number;
   child_price_gross: number;
+  last_modified_by?: number;
+  last_modified_at?: Date;
 }
 
-export type RoomMgmt = BaseModel & {
+export type RoomMgmt = {
   id: number;
   room_type_id: number;
   room_status_id: RoomStatus;
   room_gross_price: number;
+  last_modified_by?: number;
+  last_modified_at?: Date;
 }
 
 export enum RoomStatus {

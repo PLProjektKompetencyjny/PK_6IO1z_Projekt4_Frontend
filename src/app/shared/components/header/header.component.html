@@ -52,6 +52,18 @@
                     Profile
                   </a>
                 </li>
+                @if (authService.session?.is_admin) {
+                <li>
+                  <a [routerLink]="['/services']" class="text-white text-decoration-none dropdown-item">
+                    Manage services
+                  </a>
+                </li>
+                <li>
+                  <a [routerLink]="['/rooms']" class="text-white text-decoration-none dropdown-item">
+                    Manage rooms
+                  </a>
+                </li>
+                }
                 <li>
                   <hr class="dropdown-divider">
                 </li>
