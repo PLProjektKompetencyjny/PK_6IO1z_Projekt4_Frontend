@@ -2,6 +2,9 @@
 <br />
 <div class="container-xxl p-0 pt-5 my-5 position-relative">
   <form class="row g-2 mt-5" [formGroup]="form">
+    @if (errorMessage.length > 0) {
+    <div class="mb-3 text-danger">{{ errorMessage }}</div>
+    }
     <div class="col-md-11">
       <div class="row g-2">
         <div class="col-md">

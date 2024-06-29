@@ -75,12 +75,16 @@ export class CustomerService extends BaseService {
    * @returns Created customer's id.
    */
   async create(newCustomer: Customer): Promise<number> {
-    const request = this.httpClient.post<number>(
+    const formData = this.getFormData(newCustomer);
+    const request = this.httpClient.post<Customer>(
       `${environment.apiUrl}/${this.basePath}`,
-      newCustomer
-    ).pipe(catchError<number, ObservableInput<ApiResponse<number>>>(this.catchCustomError.bind(this)))
+      formData
+    ).pipe(catchError<Customer, ObservableInput<ApiResponse<Customer>>>(this.catchCustomError.bind(this)))
 
-    return await firstValueFrom(request) as number;
+    const response = await firstValueFrom(request) as ApiResponse<Customer>;
+    const { customer_id } = response.data[0];
+
+    return customer_id;
   }
 
   /**
@@ -88,9 +92,10 @@ export class CustomerService extends BaseService {
    * @param customer Customer's data to update.
    */
   async update(customer: Customer): Promise<void> {
+    const formData = this.getFormData(customer);
     const request = this.httpClient.put<void>(
-      `${environment.apiUrl}/${this.basePath}/${customer.customer_id}`,
-      customer
+      `${environment.apiUrl}/${this.basePath}`,
+      formData
     ).pipe(catchError<void, ObservableInput<ApiResponse<void>>>(this.catchCustomError.bind(this)));
 
     await firstValueFrom(request);
@@ -101,8 +106,10 @@ export class CustomerService extends BaseService {
    * @param customerId Customer's id in the database.
    */
   async delete(customerId: number): Promise<void> {
+    const body = { customerId };
     const request = this.httpClient.delete<void>(
-      `${environment.apiUrl}/${this.basePath}/${customerId}`
+      `${environment.apiUrl}/${this.basePath}`,
+      { body }
     ).pipe(catchError<void, ObservableInput<ApiResponse<void>>>(this.catchCustomError.bind(this)));
 
     await firstValueFrom(request);

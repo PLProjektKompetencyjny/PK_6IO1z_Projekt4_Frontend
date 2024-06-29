@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { RoomService } from '../../../../services/room/room.service';
 import { Room } from '../room-edit/room.model';
@@ -14,6 +14,12 @@ export class RoomsRegistryComponent implements OnInit {
   form: FormGroup;
 
   rooms: Room[] = [];
+
+  /**
+   * An error message to display.
+   * For each step error message is different.
+   */
+  errorMessage: string = '';
 
   protected readonly now = new Date();
 
@@ -43,8 +49,8 @@ export class RoomsRegistryComponent implements OnInit {
     private readonly route: ActivatedRoute,
   ) {
     this.form = this.formBuilder.group({
-      start_date: [undefined],
-      end_date: [undefined],
+      start_date: [undefined, Validators.required],
+      end_date: [undefined, Validators.required],
       number_of_double_beds: [undefined],
       number_of_single_beds: [undefined],
       number_of_child_beds: [undefined],
@@ -66,6 +72,10 @@ export class RoomsRegistryComponent implements OnInit {
   }
 
   async getRooms(): Promise<void> {
+    if (this.validateForm() === false) {
+      return;
+    }
+
     try {
       this.rooms = await this.roomsService.get({
         room_number_of_single_beds: this.number_of_single_beds?.value,
@@ -77,6 +87,21 @@ export class RoomsRegistryComponent implements OnInit {
     } catch (e) {
       console.error(e);
     }
+  }
+
+  validateForm(): boolean {
+    if (this.start_date?.invalid) {
+      this.errorMessage = 'Enter valid start date';
+      return false;
+    }
+
+    if (this.end_date?.invalid) {
+      this.errorMessage = 'Enter valid end date';
+      return false;
+    }
+
+    this.errorMessage = '';
+    return true;
   }
 
 }

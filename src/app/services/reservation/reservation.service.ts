@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
 import { Service } from '../../modules/services/service.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ReservationService extends BaseService {
 
@@ -24,18 +24,25 @@ export class ReservationService extends BaseService {
   }
 
   async create(reservation: Reservation): Promise<number> {
-    const request = this.httpClient.post<number>(
-      `${environment.apiUrl}/${this.baseReservationsPath}`,
-      reservation
-    ).pipe(catchError<number, ObservableInput<ApiResponse<unknown>>>(this.catchCustomError.bind(this)))
+    const formData = this.getFormData(reservation);
 
-    return await firstValueFrom(request) as number;
+    const request = this.httpClient.post<Reservation>(
+      `${environment.apiUrl}/${this.baseReservationsPath}`,
+      formData
+    ).pipe(catchError<Reservation, ObservableInput<ApiResponse<Reservation>>>(this.catchCustomError.bind(this)))
+
+    const response = await firstValueFrom(request) as ApiResponse<Reservation>;
+    const { reservation_id } = response.data[0];
+
+    return reservation_id;
   }
 
   async addService(service: Service): Promise<void> {
+    const formData = this.getFormData(service);
+
     const request = this.httpClient.post<void>(
       `${environment.apiUrl}/${this.baseServicesPath}`,
-      service
+      formData
     ).pipe(catchError<void, ObservableInput<ApiResponse<unknown>>>(this.catchCustomError.bind(this)))
 
     await firstValueFrom(request);

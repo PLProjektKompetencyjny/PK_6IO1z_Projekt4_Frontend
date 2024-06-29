@@ -4,8 +4,8 @@ export type Reservation = {
   reservation_status_id: ReservationStatus;
   reservation_number_of_adults: number;
   reservation_number_of_children: number;
-  reservation_start_date: Date;
-  reservation_end_date: Date;
+  reservation_start_date: Date | string;
+  reservation_end_date: Date | string;
   reservation_room_id: number;
   reservation_room_status_id: ReservationRoomStatus;
   reservation_last_modified_by?: number;
