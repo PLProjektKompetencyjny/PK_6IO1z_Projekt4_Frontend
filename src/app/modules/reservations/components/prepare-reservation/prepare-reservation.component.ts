@@ -32,6 +32,7 @@ import { CustomerService } from '../../../../services/customer/customer.service'
 })
 export class PrepareReservationComponent implements OnInit {
   room!: Room;
+  reservation_id!: number;
   room_id!: number;
   servicesMgmt: ServiceMgmt[] = [];
   checkedServiceMgmt: CheckedServiceMgmt[] = [];
@@ -164,6 +165,10 @@ export class PrepareReservationComponent implements OnInit {
     private readonly customersService: CustomerService,
   ) {
     this.route.params.subscribe((params: Params) => {
+      if (isNaN(params['reservation_id']) === false) {
+        this.reservation_id = +params['reservation_id'];
+      }
+
       if (isNaN(params['room_id']) === false) {
         this.room_id = +params['room_id'];
       }
@@ -186,8 +191,30 @@ export class PrepareReservationComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    await this.getRoom();
-    await this.getServices();
+    await this.getData();
+  }
+
+  async getData(): Promise<void> {
+    if (this.reservation_id > 0) {
+      await this.getReservation();
+    } else {
+
+      await this.getRoom();
+      await this.getServices();
+    }
+  }
+
+  async getReservation(): Promise<void> {
+    if (!this.reservation_id) {
+      return;
+    }
+
+    try {
+      this.reservation = await this.reservationsService.getById(this.reservation_id);
+      //await this.servicesService.getByReservationId(this.reservation_id);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   async getRoom(): Promise<void> {
@@ -206,42 +233,51 @@ export class PrepareReservationComponent implements OnInit {
     }
   }
 
-  async createReservation(): Promise<void> {
+  async submitReservation(): Promise<void> {
     if (this.validate() === false) {
       return;
     }
 
     try {
-      let new_customer_id: number = 0;
-      /**
-       * The case when logged user is receptionist 
-       * and wants to book a room for new customer.
-       */
-      if (this.authService.session?.is_admin) {
-        new_customer_id = await this.customersService.create(this.customer);
+      if (this.reservation_id > 0) {
+
+      } else {
+        await this.createReservation();
       }
-
-      this.reservation = {
-        reservation_id: 0,
-        reservation_customer_id: this.authService.session?.is_admin ? new_customer_id : this.authService.session?.user_id ?? 0,
-        reservation_status_id: ReservationStatus.WAITING_CONFIRMATION,
-        reservation_number_of_adults: this.room.room_number_of_single_beds + this.room.room_number_of_double_beds * 2,
-        reservation_number_of_children: this.room.room_number_of_child_beds,
-        reservation_start_date: this.datePipe.transform(this.start_date, dateFormats.short)!,
-        reservation_end_date: this.datePipe.transform(this.end_date, dateFormats.short)!,
-        reservation_room_id: this.room.room_id,
-        reservation_room_status_id: ReservationRoomStatus.RESERVED,
-        reservation_last_modified_by: this.authService.session?.user_id ?? 0,
-        reservation_last_modified_at: new Date()
-      } satisfies Reservation;
-
-      this.reservation.reservation_id = await this.reservationsService.create(this.reservation);
-      await this.addServicesToReservation();
-
-      this.notificationsService.success('Success', 'Reservation created. We have sent you an e-mail with confirmation details', BaseService.notificationOverride);
     } catch (e) {
       console.error(e);
     }
+  }
+
+  async createReservation(): Promise<void> {
+    let new_customer_id: number = 0;
+    /**
+     * The case when logged user is receptionist 
+     * and wants to book a room for new customer.
+     */
+    if (this.authService.session?.is_admin) {
+      new_customer_id = await this.customersService.create(this.customer);
+    }
+
+    this.reservation = {
+      reservation_id: 0,
+      reservation_customer_id: this.authService.session?.is_admin ? new_customer_id : this.authService.session?.user_id ?? 0,
+      reservation_status_id: ReservationStatus.WAITING_CONFIRMATION,
+      reservation_number_of_adults: this.room.room_number_of_single_beds + this.room.room_number_of_double_beds * 2,
+      reservation_number_of_children: this.room.room_number_of_child_beds,
+      reservation_start_date: this.datePipe.transform(this.start_date, dateFormats.short)!,
+      reservation_end_date: this.datePipe.transform(this.end_date, dateFormats.short)!,
+      reservation_room_id: this.room.room_id,
+      reservation_room_status_id: ReservationRoomStatus.RESERVED,
+      reservation_last_modified_by: this.authService.session?.user_id ?? 0,
+      reservation_last_modified_at: new Date()
+    } satisfies Reservation;
+
+    this.reservation_id = this.reservation.reservation_id = await this.reservationsService.create(this.reservation);
+    await this.addServicesToReservation();
+    await this.addInvoice();
+
+    this.notificationsService.success('Success', 'Reservation created. We have sent you an e-mail with confirmation details', BaseService.notificationOverride);
   }
 
   async createCustomer(): Promise<void> {
@@ -264,6 +300,14 @@ export class PrepareReservationComponent implements OnInit {
 
       await this.reservationsService.addService(service);
     }
+  }
+
+  async addInvoice(): Promise<void> {
+    // try {
+    //   await this.invoicesService.create(this.invoice);
+    // } catch(e) {
+    //   console.error(e);
+    // }
   }
 
   validate(): boolean {

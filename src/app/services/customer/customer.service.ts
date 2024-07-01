@@ -51,7 +51,7 @@ export class CustomerService extends BaseService {
    * Gets customers with specific data.
    * @returns List of customers.
    */
-  async get(filters: {
+  async get(filters?: {
     customer_email: '',
     customer_nip_number: '',
     customer_name: '',
@@ -113,5 +113,9 @@ export class CustomerService extends BaseService {
     ).pipe(catchError<void, ObservableInput<ApiResponse<void>>>(this.catchCustomError.bind(this)));
 
     await firstValueFrom(request);
+  }
+
+  display(customer: Customer): string {
+    return `(${customer.customer_email} ${customer.customer_phone}) ${customer.customer_name} ${customer.customer_surname}`;
   }
 }

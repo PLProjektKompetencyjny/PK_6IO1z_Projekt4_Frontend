@@ -48,4 +48,17 @@ export class ReservationService extends BaseService {
     await firstValueFrom(request);
   }
 
+  async getById(reservation_id: number): Promise<Reservation> {
+    const params = this.generateParams({ reservation_id });
+    const request = this.httpClient.get<Reservation>(
+      `${environment.apiUrl}/${this.baseReservationsPath}`,
+      { params }
+    ).pipe(catchError<Reservation, ObservableInput<ApiResponse<Reservation>>>(this.catchCustomError.bind(this)))
+
+    const response = await firstValueFrom(request) as ApiResponse<Reservation>;
+    const reservation = response.data[0];
+
+    return reservation;
+  }
+
 }
