@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { routes } from './reservations.routes';
 import { ServiceService } from '../../services/service/service.service';
-import { PrepareReservationComponent } from './components/prepare-reservation/prepare-reservation.component';
+import { ReservationEditComponent } from './components/reservation-edit/reservation-edit.component';
 import { HeaderComponent } from '../../shared/components/header/header.component';
 import { RoomComponent } from '../rooms/components/room/room.component';
 
@@ -15,7 +15,7 @@ import { RoomComponent } from '../rooms/components/room/room.component';
     ServiceService,
   ],
   declarations: [
-    PrepareReservationComponent
+    ReservationEditComponent
   ],
   imports: [
     CommonModule,

@@ -5,7 +5,7 @@
     @if (errorMessage.length > 0) {
     <div class="mb-3 text-danger">{{ errorMessage }}</div>
     }
-    <div class="col-md-11">
+    <div class="col-md">
       <div class="row g-2">
         <div class="col-md">
           <div class="date" id="date1" data-target-input="nearest">
@@ -33,9 +33,17 @@
         </div>
       </div>
     </div>
-    <div class="col-md-1">
-      <button class="btn btn-primary w-100" (click)="getRooms()">Filter</button>
+    <div class="col-md-auto">
+      <button class="btn btn-primary" (click)="getRooms()">Filter</button>
     </div>
+    @if (new_reservation_id) {
+    <div class="col-md-auto">
+      <a class="btn btn-primary py-2 px-4" [routerLink]="['/reservations', new_reservation_id]">Reservation details</a>
+    </div>
+    }
+  </form>
+
+  <div class="row g-2">
     @if (authService.session?.is_admin) {
     <div class="col-md">
       <label class="small mb-1 fw-bold" for="chosen_customer_id">Choose customer for who you are creating a
@@ -48,10 +56,10 @@
     </div>
     <div class="col-md-auto mt-auto">
       <button class="btn btn-success btn-text w-100" (click)="show_add_customer = !show_add_customer">Create
-        new</button>
+        new customer</button>
     </div>
     }
-  </form>
+  </div>
 
   @if (authService.session?.is_admin && show_add_customer) {
   <form class="card shadow rounded row g-0 flex-row mb-3 mt-3" [formGroup]="formCustomer">
@@ -215,7 +223,7 @@
   <div class="row g-2 mt-2">
     @for (room of rooms; track room) {
     <tn-room [room]="room" [start_date]="start_date?.value ?? now" [end_date]="end_date?.value ?? now"
-      class="col-lg-4" />
+      [customer_id]="chosen_customer_id" class="col-lg-4" (onRoomBooked)="onRoomBooked($event)" />
     }
   </div>
 </div>

@@ -17,6 +17,7 @@ import { BuildingNumberValidator } from '../../../../shared/validators/building-
 import { getControlErrors } from '../../../../shared/validators/utils';
 import { NotificationsService } from 'angular2-notifications';
 import { BaseService } from '../../../../services/base.service';
+import { Reservation } from '../../../reservations/components/reservation-edit/reservation.model';
 
 @Component({
   selector: 'tn-rooms-registry',
@@ -29,8 +30,9 @@ export class RoomsRegistryComponent implements OnInit {
   formCustomer: FormGroup;
 
   rooms: Room[] = [];
+  new_reservation_id: number = 0;
   customers: Customer[] = [];
-  chosen_customer_id: number = 0;
+  chosen_customer_id: number = this.authService.session?.is_admin ? 0 : this.authService.session?.user_id ?? 0;
   show_add_customer: boolean = false;
 
   /**
@@ -248,6 +250,11 @@ export class RoomsRegistryComponent implements OnInit {
       return false;
     }
 
+    if (!this.chosen_customer_id) {
+      this.errorMessage = 'Customer must be specified';
+      return false;
+    }
+
     this.errorMessage = '';
     return true;
   }
@@ -285,6 +292,11 @@ export class RoomsRegistryComponent implements OnInit {
 
     this.customerErrorMessage = '';
     return true;
+  }
+
+  onRoomBooked({ reservation_id, reservation_room_id }: Reservation): void {
+    this.new_reservation_id = reservation_id;
+    this.rooms = this.rooms.filter(r => r.room_id !== reservation_room_id);
   }
 
 }

@@ -1,0 +1,64 @@
+<tn-header></tn-header>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<div class="container-xxl p-0 pt-5 my-5 position-relative">
+  <h4 class="text-center">
+    Reservation details no {{ reservation_id }}
+  </h4>
+  <h5 class="text-center">
+    for {{ customersService.display(customer) }}
+  </h5>
+  <h5 class="text-center">Total: <span class="text-success">{{ total | number:'1.2-2' }}$</span></h5>
+  <h6 class="text-center">
+    in period {{ start_date | date:dateFormats.short }} - {{ end_date | date:dateFormats.short }}
+  </h6>
+  @if (disableEdit === false) {
+  <div class="row g-2 mt-2 d-flex justify-content-center">
+    <button class="col-auto btn btn-sm btn-danger rounded py-2 px-4" (click)="deleteReservation()">Delete</button>
+    <button class="col-auto btn btn-sm btn-success ms-2 rounded py-2 px-4" (click)="saveReservation()">Save</button>
+  </div>
+  }
+  <div class="row g-2 mt-2">
+    @if (rooms.length === 0) {
+    <h6 class="text-black-50 text-center mt-5 d-flex align-items-center justify-content-center">No rooms found
+    </h6>
+    }
+    @for (room of rooms; track room) {
+    <tn-room [room]="room" class="col-lg-4" [showDeleteFromReservationButton]="true"
+      (onRoomFromReservationRemoved)="onRoomFromReservationRemoved($event)" />
+    }
+  </div>
+  <h6 class="mt-3">Additional services</h6>
+  @for (service of availableServices; track service) {
+  <div class="d-flex align-items-center mt-2">
+    <label [for]="service.service_id">
+      {{ service.service_name }} <span class="text-success">{{ service.service_price | number:'1.2-2' }}$</span>
+    </label>
+    <input #inputQuantity class="ms-2 form-control w-auto" type="number" min="1" placeholder="Quantity" required
+      [value]="service.service_quantity" (change)="onQuantityChange($event, service.service_id)" />
+    @if (service.service_quantity > 0) {
+    <button type="button" class="btn btn-outline-danger ms-2"
+      (click)="onRemoveServiceButtonClicked(inputQuantity, service.service_id)" title="Remove service from reservation">
+      <i class="bi bi-x-circle-fill"></i>
+    </button>
+    }
+  </div>
+  }
+
+  <hr class="bg-black border-1 border-top border-black" />
+
+  <h5 class="text-end">Total after update: <span class="text-success">{{ totalPreview | number:'1.2-2' }}$</span></h5>
+  @if (disableEdit === false) {
+  <div class="row g-2 mt-2 d-flex justify-content-end">
+    <button class="col-auto btn btn-sm btn-danger rounded py-2 px-4" (click)="deleteReservation()">Delete</button>
+    <button class="col-auto btn btn-sm btn-success ms-2 rounded py-2 px-4" (click)="saveReservation()">Save</button>
+  </div>
+  }
+</div>
+
+<simple-notifications></simple-notifications>

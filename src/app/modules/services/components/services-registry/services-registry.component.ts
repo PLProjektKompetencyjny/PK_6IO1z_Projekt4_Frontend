@@ -30,7 +30,7 @@ export class ServicesRegistryComponent implements OnInit {
 
   async getServices(): Promise<void> {
     try {
-      this.services = await this.servicesService.get();
+      this.services = await this.servicesService.getMgmt();
     } catch (e) {
       console.error(e);
     }

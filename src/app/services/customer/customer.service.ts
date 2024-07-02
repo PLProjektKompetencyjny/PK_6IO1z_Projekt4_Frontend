@@ -35,7 +35,7 @@ export class CustomerService extends BaseService {
    */
   async me(): Promise<Customer> {
     const userId = this.authService.session?.user_id ?? 0;
-    const params = new HttpParams().set('customer_id', userId);
+    const params = this.generateParams({ customer_id: userId });
     const request = this.httpClient.get<ApiResponse<Customer>>(
       `${environment.apiUrl}/${this.basePath}`,
       { params }
@@ -67,6 +67,23 @@ export class CustomerService extends BaseService {
 
     const { data } = await firstValueFrom(request);
     return data;
+  }
+
+  /**
+   * Gets logged customer's data.
+   * @returns Logged {@link Customer}'s data.
+   */
+  async getById(customer_id: number): Promise<Customer> {
+    const params = this.generateParams({ customer_id });
+    const request = this.httpClient.get<ApiResponse<Customer>>(
+      `${environment.apiUrl}/${this.basePath}`,
+      { params }
+    ).pipe(catchError<ApiResponse<Customer>, ObservableInput<ApiResponse<Customer>>>(this.catchCustomError.bind(this)))
+
+    const response = await firstValueFrom(request);
+    const customer = response.data[0];
+
+    return customer;
   }
 
   /**
@@ -116,6 +133,10 @@ export class CustomerService extends BaseService {
   }
 
   display(customer: Customer): string {
+    if (!customer) {
+      return '';
+    }
+
     return `(${customer.customer_email} ${customer.customer_phone}) ${customer.customer_name} ${customer.customer_surname}`;
   }
 }

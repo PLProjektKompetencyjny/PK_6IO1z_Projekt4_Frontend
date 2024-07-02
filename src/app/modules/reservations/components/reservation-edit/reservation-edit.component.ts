@@ -1,0 +1,236 @@
+import { Component, OnInit } from '@angular/core';
+import { Room } from '../../../rooms/components/room-edit/room.model';
+import { ActivatedRoute, Params } from '@angular/router';
+import { CheckedServiceMgmt, Service, ServiceMgmt } from '../../../services/service.model';
+import { ServiceService } from '../../../../services/service/service.service';
+import { RoomService } from '../../../../services/room/room.service';
+import { Reservation, ReservationRoomStatus, ReservationStatus } from './reservation.model';
+import { AuthService } from '../../../../services/auth/auth.service';
+import { ReservationService } from '../../../../services/reservation/reservation.service';
+import { NotificationsService } from 'angular2-notifications';
+import { BaseService } from '../../../../services/base.service';
+import { DatePipe } from '@angular/common';
+import { dateFormats } from '../../../../app.config';
+import { Customer } from '../../../profile/customer.model';
+import { CustomerService } from '../../../../services/customer/customer.service';
+import { RouterExtendedService } from '../../../../services/router-extended/router-extended.service';
+
+@Component({
+  selector: 'tn-reservation-edit',
+  templateUrl: './reservation-edit.component.html',
+  styleUrl: './reservation-edit.component.scss',
+  providers: [DatePipe]
+})
+export class ReservationEditComponent implements OnInit {
+  protected readonly dateFormats = dateFormats;
+
+  room!: Room;
+  reservation_id!: number;
+  room_id!: number;
+  availableServices: Service[] = [];
+  reservationServices: Service[] = [];
+  start_date: Date = new Date();
+  end_date: Date = new Date();
+  reservation!: Reservation;
+
+  /**
+   * An error message to display.
+   * For each step error message is different.
+   */
+  errorMessage: string = '';
+
+  rooms: Room[] = [];
+  reservations: Reservation[] = [];
+  customer!: Customer;
+  disableEdit: boolean = false;
+
+  get servicesTotal(): number {
+    return this.reservationServices.reduce((partialSum: number, { service_price, service_quantity }): number =>
+      partialSum + service_price * service_quantity, 0
+    );
+  }
+
+  get servicesPreviewTotal(): number {
+    return this.availableServices.reduce((partialSum: number, { service_price, service_quantity }): number =>
+      partialSum + service_price * (!service_quantity ? 0 : service_quantity), 0
+    );
+  }
+
+  get roomsTotal(): number {
+    return this.rooms.reduce((partialSum: number, { room_gross_price }): number =>
+      partialSum + room_gross_price, 0
+    );
+  }
+
+  get total(): number {
+    return this.servicesTotal + this.roomsTotal;
+  }
+
+  get totalPreview(): number {
+    return this.servicesPreviewTotal + this.roomsTotal;
+  }
+
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly servicesService: ServiceService,
+    private readonly roomsService: RoomService,
+    protected readonly authService: AuthService,
+    private readonly reservationsService: ReservationService,
+    private readonly notificationsService: NotificationsService,
+    private readonly datePipe: DatePipe,
+    protected readonly customersService: CustomerService,
+    private readonly router: RouterExtendedService,
+  ) {
+    this.route.params.subscribe((params: Params) => {
+      if (isNaN(params['reservation_id']) === false) {
+        this.reservation_id = +params['reservation_id'];
+      }
+    });
+  }
+
+  async ngOnInit(): Promise<void> {
+    await this.getData();
+  }
+
+  async getData(): Promise<void> {
+    try {
+      /**
+       * Order matters!
+       * First we need to get reservation entries
+       * in order to get `customer_id`!
+       */
+      await this.getAvailableServices();
+      await this.getReservationRooms();
+      await this.getReservationServices();
+      await this.getCustomer();
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async getCustomer(): Promise<void> {
+    const customer_id = this.reservations[0].reservation_customer_id;
+    this.customer = await this.customersService.getById(customer_id);
+  }
+
+  async getReservationRooms(): Promise<void> {
+    this.reservations = await this.reservationsService.getById(this.reservation_id);
+    if (this.reservations.length === 0) {
+      this.router.router.navigate(['/rooms']);
+      return;
+    }
+
+    if (this.reservations.some(r => r.reservation_status_id >= ReservationStatus.CONFIRMED)) {
+      this.disableEdit = true;
+    }
+
+    this.start_date = new Date(this.reservations[0].reservation_start_date);
+    this.end_date = new Date(this.reservations[0].reservation_end_date);
+
+    const rooms_ids = this.reservations.map(({ reservation_room_id }) => reservation_room_id);
+    for (const room_id of rooms_ids) {
+      const room = await this.roomsService.getById(room_id);
+      this.rooms.push(room);
+    }
+  }
+
+  async getReservationServices(): Promise<void> {
+    this.reservationServices = await this.reservationsService.getReservationServices(this.reservation_id);
+    this.reservationServices.forEach(({ service_id, service_price, service_quantity }) => {
+      const index = this.availableServices.findIndex(s => s.service_id === service_id);
+      if (index !== -1) {
+        this.availableServices[index] = {
+          ...this.availableServices[index],
+          service_quantity,
+          service_price,
+        }
+      }
+    });
+  }
+
+  async getAvailableServices(): Promise<void> {
+    try {
+      this.availableServices = await this.servicesService.get();
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async deleteReservation(): Promise<void> {
+    if (confirm('Are you sure you want to delete reservation?') === false) {
+      return;
+    }
+
+    try {
+      await this.reservationsService.delete(this.reservation_id);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async saveReservation(): Promise<void> {
+    try {
+      await this.removeServiceFromReservation();
+      await this.addServicesToReservation();
+
+      this.reservationServices = this.availableServices.filter(({ service_quantity }) => service_quantity > 0);
+
+      this.notificationsService.success('Success', 'Reservation saved successfully', BaseService.notificationOverride);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async addServicesToReservation(): Promise<void> {
+    const filledServices = this.availableServices.filter(({ service_quantity }) => service_quantity > 0);
+    for (let service of filledServices) {
+      service = {
+        ...service,
+        service_reservation_id: this.reservation_id,
+        service_last_modified_by: this.customer.customer_id,
+        service_last_modified_at: new Date(),
+      } satisfies Service;
+
+      await this.reservationsService.addService(service);
+    }
+  }
+
+  async removeServiceFromReservation(): Promise<void> {
+    for (const { service_id } of this.reservationServices) {
+      await this.reservationsService.removeServiceFromReservation(this.reservation_id, service_id);
+    }
+  }
+
+  async onRoomFromReservationRemoved(room: Room): Promise<void> {
+    if (this.rooms.length === 1 && confirm('Last room in the reservation. Deleting last room also deletes reservation. Would you like to continue?') === false) {
+      return;
+    }
+
+    try {
+      await this.reservationsService.removeRoomFromReservation(this.reservation_id, room.room_id);
+      this.rooms = this.rooms.filter(({ room_id }) => room_id !== room.room_id);
+      if (this.rooms.length === 0) {
+        this.router.router.navigate(['/rooms']);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  onQuantityChange({ target }: Event, service_id: number): void {
+    const quantity = (target as HTMLInputElement).valueAsNumber;
+    const index = this.availableServices.findIndex(s => s.service_id === service_id);
+    if (index !== -1) {
+      this.availableServices[index].service_quantity = isNaN(quantity) ? 0 : quantity;
+    }
+  }
+
+  onRemoveServiceButtonClicked(inputQuantity: any, service_id: number): void {
+    console.log(inputQuantity);
+    const index = this.availableServices.findIndex(s => s.service_id === service_id);
+    if (index !== -1) {
+      this.availableServices[index].service_quantity = 0;
+    }
+  }
+
+}
