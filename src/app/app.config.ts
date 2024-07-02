@@ -21,3 +21,8 @@ export const appConfig: ApplicationConfig = {
 };
 
 export const appName: string = 'TravelNest';
+
+export const dateFormats = {
+  short: 'dd-MM-yyyy',
+  long: 'dd-MM-yyyy HH:mm:ss'
+}

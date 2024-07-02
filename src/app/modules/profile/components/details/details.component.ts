@@ -118,6 +118,8 @@ export class DetailsComponent implements OnInit {
       customer_postal_code: this.postal_code?.value ?? '',
       customer_street: this.street?.value ?? '',
       customer_building_number: this.building_number?.value ?? '',
+      customer_last_modified_at: new Date(),
+      customer_last_modified_by: this.authService.session?.user_id,
     } satisfies Customer;
   }
 
@@ -165,7 +167,13 @@ export class DetailsComponent implements OnInit {
       this.errorMessage = '';
     }
   }
+
   validateForm(): boolean {
+    if (this.form.invalid) {
+      this.errorMessage = 'Please, fill out data';
+      return false;
+    }
+
     if (this.email?.invalid) {
       this.errorMessage = 'Enter valid email';
       return false;

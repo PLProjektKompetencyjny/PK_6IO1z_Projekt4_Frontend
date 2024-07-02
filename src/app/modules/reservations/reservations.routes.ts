@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
 import { authGuard } from '../../guards/auth/auth.guard';
-import { PrepareReservationComponent } from './components/prepare-reservation/prepare-reservation.component';
+import { ReservationEditComponent as ReservationEditComponent } from './components/reservation-edit/reservation-edit.component';
 
 export const routes: Routes = [
   {
-    path: ':room_id/:start_date/:end_date',
-    component: PrepareReservationComponent,
+    path: ':reservation_id',
+    component: ReservationEditComponent,
     canActivate: [authGuard]
   },
 ];

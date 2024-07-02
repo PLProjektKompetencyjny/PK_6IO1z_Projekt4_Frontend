@@ -9,6 +9,10 @@ import { ApiResponse, CodeMessage } from './api-response.model';
 })
 export class BaseService {
 
+  static readonly notificationOverride = {
+    timeOut: 4000,
+  };
+
   readonly defaultError = {
     title: 'Error',
     message: 'Unknown error occurred. Refresh page and try again.'
@@ -42,9 +46,23 @@ export class BaseService {
     const codeMessage: CodeMessage = (error.error as ApiResponse<TResult>).code_message;
     const title = codeMessage?.type ?? this.defaultError.title;
     const message = codeMessage?.message ?? this.defaultError.message;
-    this.notificationsService.error(title, message);
+    this.notificationsService.error(title, message, BaseService.notificationOverride);
 
     return throwError(() => new Error(message));
+  }
+
+  getFormData(data?: any): FormData {
+    let formData = new FormData();
+
+    if (!data) {
+      return formData;
+    }
+
+    for (const [name, value] of Object.entries(data)) {
+      formData.append(name, `${value}`);
+    }
+
+    return formData;
   }
 
 }
