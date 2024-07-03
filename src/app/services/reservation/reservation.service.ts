@@ -3,7 +3,7 @@ import { BaseService } from '../base.service';
 import { HttpClient } from '@angular/common/http';
 import { NotificationsService } from 'angular2-notifications';
 import { ObservableInput, catchError, firstValueFrom } from 'rxjs';
-import { Reservation } from '../../modules/reservations/components/reservation-edit/reservation.model';
+import { Reservation, ReservationStatus } from '../../modules/reservations/components/reservation-edit/reservation.model';
 import { ApiResponse } from '../api-response.model';
 import { environment } from '../../../environments/environment';
 import { Service } from '../../modules/services/service.model';
@@ -58,6 +58,24 @@ export class ReservationService extends BaseService {
     ).pipe(catchError<void, ObservableInput<ApiResponse<unknown>>>(this.catchCustomError.bind(this)))
 
     await firstValueFrom(request);
+  }
+
+  async get(filters?: {
+    reservation_customer_id?: number | string,
+    reservation_status_id?: ReservationStatus | string,
+    reservation_start_date?: Date | string,
+    reservation_end_date?: Date | string,
+  }): Promise<Reservation[]> {
+    const params = this.generateParams(filters);
+    const request = this.httpClient.get<Reservation>(
+      `${environment.apiUrl}/${this.baseReservationsPath}`,
+      { params }
+    ).pipe(catchError<Reservation, ObservableInput<ApiResponse<Reservation>>>(this.catchCustomError.bind(this)))
+
+    const response = await firstValueFrom(request) as ApiResponse<Reservation>;
+    const reservations = response.data;
+
+    return reservations;
   }
 
   async getById(reservation_id: number): Promise<Reservation[]> {

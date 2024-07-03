@@ -6,6 +6,7 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
 import { routes } from './reservations.routes';
 import { ServiceService } from '../../services/service/service.service';
 import { ReservationEditComponent } from './components/reservation-edit/reservation-edit.component';
+import { ReservationsRegistryComponent } from './components/reservations-registry/reservations-registry.component';
 import { HeaderComponent } from '../../shared/components/header/header.component';
 import { RoomComponent } from '../rooms/components/room/room.component';
 
@@ -15,7 +16,8 @@ import { RoomComponent } from '../rooms/components/room/room.component';
     ServiceService,
   ],
   declarations: [
-    ReservationEditComponent
+    ReservationEditComponent,
+    ReservationsRegistryComponent
   ],
   imports: [
     CommonModule,
