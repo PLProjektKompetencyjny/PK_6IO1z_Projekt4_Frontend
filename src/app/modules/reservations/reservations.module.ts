@@ -15,9 +15,8 @@ import { RoomComponent } from '../rooms/components/room/room.component';
     provideRouter(routes),
     ServiceService,
   ],
-  declarations: [
+    ReservationsRegistryComponent,
     ReservationEditComponent,
-    ReservationsRegistryComponent
   ],
   imports: [
     CommonModule,
