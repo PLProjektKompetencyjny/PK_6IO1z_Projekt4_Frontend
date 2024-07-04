@@ -45,7 +45,7 @@ export class ServicesRegistryComponent implements OnInit {
     try {
       /**
        * The order is crucial. 
-       * First we update then we add.
+       * First we update then we add new.
        */
       await this.update();
       await this.addNew();
@@ -59,7 +59,7 @@ export class ServicesRegistryComponent implements OnInit {
   }
 
   addEmptyService(): void {
-    this.services.push(this.emptyService);
+    this.services.push({ ...this.emptyService });
   }
 
   validate(): boolean {
@@ -101,6 +101,10 @@ export class ServicesRegistryComponent implements OnInit {
   }
 
   async delete(index: number): Promise<void> {
+    if (confirm('Are you sure you want to delete service?') === false) {
+      return;
+    }
+
     const { id } = this.services[index];
     try {
       if (id > 0) {
