@@ -22,6 +22,25 @@ export enum ReservationStatus {
   NO_SHOW = 7,
 }
 
+export const ReservationStatusLabels: Map<ReservationStatus, string> = new Map([
+  [ReservationStatus.WAITING_CONFIRMATION, 'Waiting confirmation'],
+  [ReservationStatus.WAITING_PAYMENT, 'Waiting payment'],
+  [ReservationStatus.CONFIRMED, 'Confirmed'],
+  [ReservationStatus.CANCELLED, 'Cancelled'],
+  [ReservationStatus.CHECKED_IN, 'Checked in'],
+  [ReservationStatus.CHECKED_OUT, 'Checked out'],
+  [ReservationStatus.NO_SHOW, 'No show'],
+]);
+
+export const ReservationStatusLabelsToDisplay: Map<ReservationStatus, string> = new Map([
+  [ReservationStatus.WAITING_CONFIRMATION, 'Waiting confirmation'],
+  [ReservationStatus.WAITING_PAYMENT, 'Waiting payment'],
+  [ReservationStatus.CONFIRMED, 'Confirmed'],
+  [ReservationStatus.CANCELLED, 'Cancelled'],
+  [ReservationStatus.CHECKED_IN, 'Checked in'],
+  [ReservationStatus.CHECKED_OUT, 'Checked out'],
+]);
+
 export enum ReservationRoomStatus {
   RESERVED = 1,
   CONFIRMED = 2,

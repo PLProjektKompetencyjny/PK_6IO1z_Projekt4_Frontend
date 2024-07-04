@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './guards/auth/auth.guard';
+import { adminGuard } from './guards/admin/admin.guard';
 
 export const routes: Routes = [
   {
@@ -34,12 +36,14 @@ export const routes: Routes = [
   {
     title: 'Edit additional services for reservations',
     path: 'services',
-    loadChildren: () => import('./modules/services/services.module').then(m => m.ServicesModule)
+    loadChildren: () => import('./modules/services/services.module').then(m => m.ServicesModule),
+    canActivate: [adminGuard],
   },
   {
     title: 'Check in hotel room at TravelNest | Reservation',
     path: 'reservations',
-    loadChildren: () => import('./modules/reservations/reservations.module').then(m => m.ReservationsModule)
+    loadChildren: () => import('./modules/reservations/reservations.module').then(m => m.ReservationsModule),
+    canActivate: [authGuard],
   },
   {
     path: '**',

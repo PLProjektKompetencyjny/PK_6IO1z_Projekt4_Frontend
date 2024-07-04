@@ -1,0 +1,101 @@
+<tn-header></tn-header>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<div class="card mt-5 container-sm registry py-3">
+  <h3 class="text-center my-3">Reservations</h3>
+
+  <form class="row g-2" [formGroup]="form">
+    <div class="col-md">
+      <div class="row g-2">
+        <div class="col-md">
+          <div class="date" id="date1" data-target-input="nearest">
+            <label class="small mb-1 fw-bold" for="reservation_start_date">Start date</label>
+            <input type="date" class="form-control datetimepicker-input" placeholder="Check in" data-target="#date1"
+              data-toggle="datetimepicker" id="reservation_start_date" name="reservation_start_date"
+              formControlName="reservation_start_date">
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="date" id="date2" data-target-input="nearest">
+            <label class="small mb-1 fw-bold" for="reservation_end_date">End date</label>
+            <input type="date" class="form-control datetimepicker-input" placeholder="Check out" data-target="#date2"
+              data-toggle="datetimepicker" id="reservation_end_date" name="reservation_end_date"
+              formControlName="reservation_end_date">
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="date" id="reservation_status_id" data-target-input="nearest">
+            <label class="small mb-1 fw-bold" for="reservation_status_id">Status</label>
+            <select formControlName="reservation_status_id" class="form-select" name="reservation_status_id">
+              @for(status of ReservationStatusLabelsToDisplay | keyvalue; track status) {
+              <option [ngValue]="status.key">{{ status.value }}</option>
+              }
+            </select>
+          </div>
+        </div>
+        @if (authService.session?.is_admin) {
+        <div class="col-md">
+          <div class="date" id="date2" data-target-input="nearest">
+            <label class="small mb-1 fw-bold" for="reservation_customer_id">Customer</label>
+            <select formControlName="reservation_customer_id" class="form-select" name="reservation_customer_id">
+              @for(customer of customers; track customer) {
+              <option [ngValue]="customer.customer_id">{{ customersService.display(customer) }}</option>
+              }
+            </select>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+    <div class="col-md-auto mt-auto">
+      <button class="btn btn-primary" (click)="getData()">Filter</button>
+    </div>
+  </form>
+
+  <table class="table card-body mt-3">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">ID</th>
+        <th scope="col">Room</th>
+        <th scope="col">Status</th>
+        <th scope="col">Start date</th>
+        <th scope="col">End date</th>
+        @if (authService.session?.is_admin) {
+        <th scope="col">Customer</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (reservation of reservations; track reservation) {
+      <tr>
+        <td>
+          <a class="btn btn-outline-success" [routerLink]="['/reservations', reservation.reservation_id]">
+            <i class="bi bi-pencil"></i>
+          </a>
+          @if (reservation.reservation_status_id !== ReservationStatus.NO_SHOW) {
+          <button class="btn btn-outline-danger ms-2" (click)="deleteReservation(reservation.reservation_id)">
+            <i class="bi bi-trash"></i>
+          </button>
+          }
+        </td>
+        <td>{{ reservation.reservation_id }}</td>
+        <td>{{ reservation.reservation_room_id }}</td>
+        <td>{{ getReservationStatusLabel(reservation.reservation_status_id) }}</td>
+        <td>{{ reservation.reservation_start_date | date:dateFormats.short }}</td>
+        <td>{{ reservation.reservation_end_date | date:dateFormats.short }}</td>
+        @if (authService.session?.is_admin) {
+        <td>{{ getCustomerDisplay(reservation.reservation_customer_id) }}</td>
+        }
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+<simple-notifications></simple-notifications>

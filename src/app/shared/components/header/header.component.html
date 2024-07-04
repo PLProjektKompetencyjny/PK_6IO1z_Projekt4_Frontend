@@ -52,6 +52,11 @@
                     Profile
                   </a>
                 </li>
+                <li>
+                  <a [routerLink]="['/reservations']" class="text-white text-decoration-none dropdown-item">
+                    Reservations
+                  </a>
+                </li>
                 @if (authService.session?.is_admin) {
                 <li>
                   <a [routerLink]="['/services']" class="text-white text-decoration-none dropdown-item">

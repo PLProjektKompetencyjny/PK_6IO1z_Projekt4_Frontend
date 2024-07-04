@@ -26,6 +26,7 @@ export class RoomComponent {
   @Input() start_date: Date = new Date();
   @Input() end_date: Date = new Date();
   @Input() showDeleteFromReservationButton: boolean = false;
+  @Input() isReservationEditView: boolean = false;
 
   private _customer_id: number = this.authService.session?.user_id ?? 0;
 
