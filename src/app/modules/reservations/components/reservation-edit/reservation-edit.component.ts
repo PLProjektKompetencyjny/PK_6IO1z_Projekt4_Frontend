@@ -10,7 +10,7 @@ import { ReservationService } from '../../../../services/reservation/reservation
 import { NotificationsService } from 'angular2-notifications';
 import { BaseService } from '../../../../services/base.service';
 import { DatePipe } from '@angular/common';
-import { dateFormats } from '../../../../app.config';
+import { dateFormats, taxInPercentage } from '../../../../app.config';
 import { Customer } from '../../../profile/customer.model';
 import { CustomerService } from '../../../../services/customer/customer.service';
 import { RouterExtendedService } from '../../../../services/router-extended/router-extended.service';
@@ -30,7 +30,15 @@ export class ReservationEditComponent implements OnInit {
   availableServices: Service[] = [];
   reservationServices: Service[] = [];
   start_date: Date = new Date();
+  get parsed_start_date(): string {
+    return this.datePipe.transform(this.start_date, dateFormats.short)!;
+  }
+
   end_date: Date = new Date();
+  get parsed_end_date(): string {
+    return this.datePipe.transform(this.end_date, dateFormats.short)!;
+  }
+
   reservation!: Reservation;
 
   /**
@@ -42,7 +50,7 @@ export class ReservationEditComponent implements OnInit {
   rooms: Room[] = [];
   reservations: Reservation[] = [];
   customer!: Customer;
-  disableEdit: boolean = false;
+  disableEdit: boolean = true;
 
   get servicesTotal(): number {
     return this.reservationServices.reduce((partialSum: number, { service_price, service_quantity }): number =>
@@ -67,7 +75,8 @@ export class ReservationEditComponent implements OnInit {
   }
 
   get totalPreview(): number {
-    return this.servicesPreviewTotal + this.roomsTotal;
+    const total = this.servicesPreviewTotal + this.roomsTotal;
+    return total + (total * taxInPercentage);
   }
 
   constructor(
@@ -95,7 +104,7 @@ export class ReservationEditComponent implements OnInit {
   async getData(): Promise<void> {
     try {
       /**
-       * Order matters!
+       * Calling methods order matters!
        * First we need to get reservation entries
        * in order to get `customer_id`!
        */
@@ -120,12 +129,15 @@ export class ReservationEditComponent implements OnInit {
       return;
     }
 
-    if (this.reservations.some(r => r.reservation_status_id >= ReservationStatus.CONFIRMED)) {
-      this.disableEdit = true;
-    }
-
     this.start_date = new Date(this.reservations[0].reservation_start_date);
     this.end_date = new Date(this.reservations[0].reservation_end_date);
+
+    if (
+      this.reservations.some(r => r.reservation_status_id < ReservationStatus.CONFIRMED)
+      && new Date() <= this.start_date
+    ) {
+      this.disableEdit = false;
+    }
 
     const rooms_ids = this.reservations.map(({ reservation_room_id }) => reservation_room_id);
     for (const room_id of rooms_ids) {
@@ -156,19 +168,21 @@ export class ReservationEditComponent implements OnInit {
     }
   }
 
-  async deleteReservation(): Promise<void> {
+  async cancelReservation(): Promise<void> {
     if (confirm('Are you sure you want to delete reservation?') === false) {
       return;
     }
 
     try {
       await this.reservationsService.delete(this.reservation_id);
+      this.notificationsService.success('Success', 'Reservation cancelled successfully', BaseService.notificationOverride);
+      this.router.router.navigate(['/rooms']);
     } catch (e) {
       console.error(e);
     }
   }
 
-  async saveReservation(): Promise<void> {
+  async saveReservationServices(): Promise<void> {
     try {
       await this.removeServiceFromReservation();
       await this.addServicesToReservation();
@@ -176,6 +190,25 @@ export class ReservationEditComponent implements OnInit {
       this.reservationServices = this.availableServices.filter(({ service_quantity }) => service_quantity > 0);
 
       this.notificationsService.success('Success', 'Reservation saved successfully', BaseService.notificationOverride);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async payReservation(): Promise<void> {
+    try {
+      await this.saveReservationServices();
+
+      await this.reservationsService.update({
+        ...this.reservations[0],
+        reservation_start_date: this.parsed_start_date,
+        reservation_end_date: this.parsed_end_date,
+        reservation_status_id: ReservationStatus.CONFIRMED,
+      });
+
+      this.reservation.reservation_status_id = ReservationStatus.CONFIRMED;
+
+      this.notificationsService.success('Success', 'Reservation paid successfully', BaseService.notificationOverride);
     } catch (e) {
       console.error(e);
     }

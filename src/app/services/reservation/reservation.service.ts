@@ -24,42 +24,6 @@ export class ReservationService extends BaseService {
     super(notificationsService);
   }
 
-  async create(reservation: Reservation): Promise<number> {
-    const formData = this.getFormData(reservation);
-
-    const request = this.httpClient.post<Reservation>(
-      `${environment.apiUrl}/${this.baseReservationsPath}`,
-      formData
-    ).pipe(catchError<Reservation, ObservableInput<ApiResponse<Reservation>>>(this.catchCustomError.bind(this)))
-
-    const response = await firstValueFrom(request) as ApiResponse<Reservation>;
-    const { reservation_id } = response.data[0];
-
-    return reservation_id;
-  }
-
-  async delete(reservation_id: number): Promise<void> {
-    const formData = this.getFormData(reservation_id);
-
-    const request = this.httpClient.delete<void>(
-      `${environment.apiUrl}/${this.baseReservationsPath}`,
-      { body: formData }
-    ).pipe(catchError<void, ObservableInput<ApiResponse<unknown>>>(this.catchCustomError.bind(this)))
-
-    await firstValueFrom(request);
-  }
-
-  async addService(service: Service): Promise<void> {
-    const formData = this.getFormData(service);
-
-    const request = this.httpClient.post<void>(
-      `${environment.apiUrl}/${this.baseServicesPath}`,
-      formData
-    ).pipe(catchError<void, ObservableInput<ApiResponse<unknown>>>(this.catchCustomError.bind(this)))
-
-    await firstValueFrom(request);
-  }
-
   async get(filters?: {
     reservation_customer_id?: number | string,
     reservation_status_id?: ReservationStatus | string,
@@ -89,6 +53,56 @@ export class ReservationService extends BaseService {
     const reservations = response.data;
 
     return reservations;
+  }
+
+  async create(reservation: Reservation): Promise<number> {
+    const formData = this.getFormData(reservation);
+
+    const request = this.httpClient.post<Reservation>(
+      `${environment.apiUrl}/${this.baseReservationsPath}`,
+      formData
+    ).pipe(catchError<Reservation, ObservableInput<ApiResponse<Reservation>>>(this.catchCustomError.bind(this)))
+
+    const response = await firstValueFrom(request) as ApiResponse<Reservation>;
+    const { reservation_id } = response.data[0];
+
+    return reservation_id;
+  }
+
+  async update(reservation: Reservation): Promise<void> {
+    const formData = this.getFormData(reservation);
+
+    const request = this.httpClient.put<Reservation>(
+      `${environment.apiUrl}/${this.baseReservationsPath}`,
+      formData
+    ).pipe(catchError<Reservation, ObservableInput<ApiResponse<Reservation>>>(this.catchCustomError.bind(this)))
+
+    await firstValueFrom(request);
+  }
+
+  async delete(reservation_id: number): Promise<void> {
+    const reservationEntries = await this.getById(reservation_id);
+    for (const { reservation_room_id } of reservationEntries) {
+      const formData = this.getFormData({ reservation_id, reservation_room_id });
+
+      const request = this.httpClient.delete<void>(
+        `${environment.apiUrl}/${this.baseReservationsPath}`,
+        { body: formData }
+      ).pipe(catchError<void, ObservableInput<ApiResponse<unknown>>>(this.catchCustomError.bind(this)))
+
+      await firstValueFrom(request);
+    }
+  }
+
+  async addService(service: Service): Promise<void> {
+    const formData = this.getFormData(service);
+
+    const request = this.httpClient.post<void>(
+      `${environment.apiUrl}/${this.baseServicesPath}`,
+      formData
+    ).pipe(catchError<void, ObservableInput<ApiResponse<unknown>>>(this.catchCustomError.bind(this)))
+
+    await firstValueFrom(request);
   }
 
   async getReservationServices(reservation_id: number): Promise<Service[]> {

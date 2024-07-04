@@ -46,11 +46,11 @@
         <i class="bi bi-pencil me-2"></i>Edit
       </a>
       }
-      @if (showDeleteFromReservationButton) {
+      @if (showDeleteFromReservationButton && isReservationEditView) {
       <button class="btn btn-sm btn-danger rounded py-2 px-4" (click)="removeRoomFromReservation()">Remove from
         reservation</button>
       } @else {
-      @if (room.room_status_id !== RoomStatus.MAINTENANCE) {
+      @if (room.room_status_id !== RoomStatus.MAINTENANCE && isReservationEditView === false) {
       <button class="btn btn-sm btn-primary rounded py-2 px-4" (click)="bookRoom()">Add to reservation</button>
       }
       }
