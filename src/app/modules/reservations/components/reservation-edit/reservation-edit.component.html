@@ -6,9 +6,9 @@
 <br />
 <br />
 
-<div class="container-xxl p-0 pt-5 my-5 position-relative">
+<div class="container-xxl p-0 pt-5 my-5 position-relative card shadow p-3">
   <h4 class="text-center">
-    Reservation details no {{ reservation_id }}
+    Reservation details no. <b>{{ reservation_id }}</b>
   </h4>
   <h5 class="text-center">
     for {{ customersService.display(customer) }}
@@ -54,11 +54,10 @@
   </div>
   }
 
-  <hr class="bg-black border-1 border-top border-black" />
-
-  <h5 class="text-end">Total after update with tax 23%: <span class="text-success">{{ totalPreview | number:'1.2-2'
-      }}$</span></h5>
   @if (disableEdit === false) {
+  <hr class="bg-black border-1 border-top border-black" />
+  <h5 class="text-end">Total after update with tax 23%: <span class="text-success">{{ totalPreview |
+      number:'1.2-2'}}$</span></h5>
   <div class="row g-2 mt-2 d-flex justify-content-end">
     <button class="col-auto btn btn-sm btn-outline-danger rounded py-2 px-4"
       (click)="cancelReservation()">Cancel</button>

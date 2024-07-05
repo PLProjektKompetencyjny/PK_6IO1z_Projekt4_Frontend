@@ -46,8 +46,8 @@ export class ServiceService extends BaseService {
     return response?.data ?? [];
   }
 
-  async getById(id: number): Promise<ServiceMgmt> {
-    const params = this.generateParams({ id });
+  async getById(service_id: number): Promise<ServiceMgmt> {
+    const params = this.generateParams({ service_id });
     const request = this.httpClient.get<ApiResponse<ServiceMgmt>>(
       `${environment.apiUrl}/${this.baseMgmtPath}`,
       { params }
@@ -58,26 +58,33 @@ export class ServiceService extends BaseService {
   }
 
   async create(serviceMgmt: ServiceMgmt): Promise<void> {
+    const formData = this.getFormData(serviceMgmt);
+
     const request = this.httpClient.post<void>(
       `${environment.apiUrl}/${this.baseMgmtPath}`,
-      serviceMgmt
+      formData
     ).pipe(catchError<void, ObservableInput<ApiResponse<unknown>>>(this.catchCustomError.bind(this)))
 
     await firstValueFrom(request);
   }
 
   async update(serviceMgmt: ServiceMgmt): Promise<void> {
+    const formData = this.getFormData(serviceMgmt);
+
     const request = this.httpClient.put<void>(
       `${environment.apiUrl}/${this.baseMgmtPath}`,
-      serviceMgmt
+      formData
     ).pipe(catchError<void, ObservableInput<ApiResponse<unknown>>>(this.catchCustomError.bind(this)))
 
     await firstValueFrom(request);
   }
 
   async delete(id: number): Promise<void> {
+    const formData = this.getFormData({ id });
+
     const request = this.httpClient.delete<void>(
-      `${environment.apiUrl}/${this.baseMgmtPath}/${id}`
+      `${environment.apiUrl}/${this.baseMgmtPath}`,
+      { body: formData }
     ).pipe(catchError<void, ObservableInput<ApiResponse<unknown>>>(this.catchCustomError.bind(this)))
 
     await firstValueFrom(request);

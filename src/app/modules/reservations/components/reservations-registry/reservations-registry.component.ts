@@ -55,9 +55,12 @@ export class ReservationsRegistryComponent {
     });
   }
 
+  async ngOnInit(): Promise<void> {
+    await this.getCustomers();
+  }
+
   async getData(): Promise<void> {
     await this.getReservations();
-    await this.getCustomers();
   }
 
   async getReservations(): Promise<void> {
@@ -83,8 +86,8 @@ export class ReservationsRegistryComponent {
     }
   }
 
-  async deleteReservation(reservation_id: number): Promise<void> {
-    if (confirm('Are you sure you want to delete reservation?') === false) {
+  async cancelReservation(reservation_id: number): Promise<void> {
+    if (confirm('Are you sure you want to cancel reservation?') === false) {
       return;
     }
 
@@ -101,9 +104,27 @@ export class ReservationsRegistryComponent {
     }
   }
 
+  async removeReservationRoom(reservation_id: number, reservation_room_id: number): Promise<void> {
+    if (confirm('Are you sure you want to remove room from the reservation?') === false) {
+      return;
+    }
+
+    try {
+      await this.reservationsService.removeRoomFromReservation(reservation_id, reservation_room_id);
+
+      this.reservations = this.reservations.filter(r => r.reservation_id !== reservation_id && r.reservation_room_id !== reservation_room_id);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   getCustomerDisplay(customer_id: number): string {
     const customer = this.customers.find(c => c.customer_id === customer_id);
     return this.customersService.display(customer!);
+  }
+
+  clearFilters(): void {
+    this.form.reset();
   }
 
 }
