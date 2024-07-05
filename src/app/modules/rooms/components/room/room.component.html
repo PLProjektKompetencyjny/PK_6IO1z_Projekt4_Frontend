@@ -47,7 +47,7 @@
       </a>
       }
       @if (showDeleteFromReservationButton && isReservationEditView) {
-      <button class="btn btn-sm btn-danger rounded py-2 px-4" (click)="removeRoomFromReservation()">Remove from
+      <button class="btn btn-sm btn-danger rounded py-2" (click)="removeRoomFromReservation()">Remove from
         reservation</button>
       } @else {
       @if (room.room_status_id !== RoomStatus.MAINTENANCE && isReservationEditView === false) {

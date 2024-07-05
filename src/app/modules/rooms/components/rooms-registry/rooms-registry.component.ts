@@ -274,6 +274,8 @@ export class RoomsRegistryComponent implements OnInit {
       this.show_add_customer = false;
 
       this.notificationsService.success('Success', 'Customer created', BaseService.notificationOverride);
+
+      this.formCustomer.reset();
     } catch (e) {
       console.error(e);
     }
@@ -297,6 +299,10 @@ export class RoomsRegistryComponent implements OnInit {
   onRoomBooked({ reservation_id, reservation_room_id }: Reservation): void {
     this.new_reservation_id = reservation_id;
     this.rooms = this.rooms.filter(r => r.room_id !== reservation_room_id);
+  }
+
+  clearFilters(): void {
+    this.form.reset();
   }
 
 }

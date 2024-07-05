@@ -53,7 +53,10 @@
       </div>
     </div>
     <div class="col-md-auto mt-auto">
-      <button class="btn btn-primary" (click)="getData()">Filter</button>
+      <button class="btn btn-secondary text-black" (click)="clearFilters()" title="Clear filters">
+        <i class="bi bi-x-circle"></i>
+      </button>
+      <button class="btn btn-primary ms-2" (click)="getData()">Filter</button>
     </div>
   </form>
 
@@ -75,14 +78,20 @@
       @for (reservation of reservations; track reservation) {
       <tr>
         <td>
-          <a class="btn btn-outline-success" [routerLink]="['/reservations', reservation.reservation_id]">
+          <a class="btn btn-outline-success" [routerLink]="['/reservations', reservation.reservation_id]" title="Edit">
             <i class="bi bi-pencil"></i>
           </a>
-          @if (reservation.reservation_status_id !== ReservationStatus.NO_SHOW) {
-          <button class="btn btn-outline-danger ms-2" (click)="deleteReservation(reservation.reservation_id)">
+          @if (reservation.reservation_status_id < ReservationStatus.CONFIRMED) { <button
+            class="btn btn-outline-danger ms-2"
+            (click)="removeReservationRoom(reservation.reservation_id, reservation.reservation_room_id)"
+            title="Remove room reservation">
             <i class="bi bi-trash"></i>
-          </button>
-          }
+            </button>
+            <button class="btn btn-outline-danger ms-2" (click)="cancelReservation(reservation.reservation_id)"
+              title="Cancel">
+              <i class="bi bi-x"></i>
+            </button>
+            }
         </td>
         <td>{{ reservation.reservation_id }}</td>
         <td>{{ reservation.reservation_room_id }}</td>

@@ -10,13 +10,13 @@
         <div class="col-md">
           <div class="date" id="date1" data-target-input="nearest">
             <input type="date" class="form-control datetimepicker-input" placeholder="Check in" data-target="#date1"
-              [min]="now" data-toggle="datetimepicker" id="start_date" name="start_date" formControlName="start_date">
+              [min]="now" data-toggle="datetimepicker" id="start_date" name="start_date" formControlName="start_date" />
           </div>
         </div>
         <div class="col-md">
           <div class="date" id="date2" data-target-input="nearest">
             <input type="date" class="form-control datetimepicker-input" placeholder="Check out" data-target="#date2"
-              [min]="now" data-toggle="datetimepicker" id="end_date" name="end_date" formControlName="end_date">
+              [min]="now" data-toggle="datetimepicker" id="end_date" name="end_date" formControlName="end_date" />
           </div>
         </div>
         <div class="col-md">
@@ -34,17 +34,23 @@
       </div>
     </div>
     <div class="col-md-auto">
+      <button class="btn btn-secondary text-black" (click)="clearFilters()" title="Clear filters">
+        <i class="bi bi-x-circle"></i>
+      </button>
+    </div>
+    <div class="col-md-auto">
       <button class="btn btn-primary" (click)="getRooms()">Filter</button>
     </div>
     @if (new_reservation_id) {
     <div class="col-md-auto">
-      <a class="btn btn-primary py-2 px-4" [routerLink]="['/reservations', new_reservation_id]">Reservation details</a>
+      <a class="btn btn-primary" [routerLink]="['/reservations', new_reservation_id]">Reservation details</a>
     </div>
     }
   </form>
 
   <div class="row g-2">
     @if (authService.session?.is_admin) {
+    <hr class="bg-black border-1 border-top border-black mt-5" />
     <div class="col-md">
       <label class="small mb-1 fw-bold" for="chosen_customer_id">Choose customer for who you are creating a
         reservation</label>
@@ -56,7 +62,7 @@
     </div>
     <div class="col-md-auto mt-auto">
       <button class="btn btn-success btn-text w-100" (click)="show_add_customer = !show_add_customer">Create
-        new customer</button>
+        customer</button>
     </div>
     }
   </div>
