@@ -289,10 +289,10 @@ export class ReservationEditComponent implements OnInit {
         ...this.reservations[0],
         reservation_start_date: this.parsed_start_date,
         reservation_end_date: this.parsed_end_date,
-        reservation_status_id: ReservationStatus.CONFIRMED,
+        reservation_status_id: ReservationStatus.WAITING_PAYMENT,
       });
 
-      this.reservations[0].reservation_status_id = ReservationStatus.CONFIRMED;
+      this.reservations[0].reservation_status_id = ReservationStatus.WAITING_PAYMENT;
 
       this.notificationsService.success('Success', 'We have sent you a confirmation e-mail', BaseService.notificationOverride);
     } catch (e) {
