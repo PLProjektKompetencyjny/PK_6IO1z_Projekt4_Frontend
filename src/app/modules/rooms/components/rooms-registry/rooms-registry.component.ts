@@ -18,6 +18,7 @@ import { getControlErrors } from '../../../../shared/validators/utils';
 import { NotificationsService } from 'angular2-notifications';
 import { BaseService } from '../../../../services/base.service';
 import { Reservation } from '../../../reservations/components/reservation-edit/reservation.model';
+import { LoadingService } from '../../../../services/loading/loading.service';
 
 @Component({
   selector: 'tn-rooms-registry',
@@ -172,6 +173,7 @@ export class RoomsRegistryComponent implements OnInit {
     private readonly notificationsService: NotificationsService,
     private readonly formBuilder: FormBuilder,
     private readonly route: ActivatedRoute,
+    private readonly loadingService: LoadingService,
   ) {
     this.form = this.formBuilder.group({
       start_date: [undefined, Validators.required],
@@ -205,7 +207,6 @@ export class RoomsRegistryComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    await this.getRooms();
     await this.getCustomers();
   }
 
@@ -214,17 +215,23 @@ export class RoomsRegistryComponent implements OnInit {
       return;
     }
 
+    this.loadingService.show();
+
     try {
       this.customers = await this.customersService.get(undefined);
     } catch (e) {
       console.error(e);
     }
+
+    this.loadingService.hide();
   }
 
   async getRooms(): Promise<void> {
     if (this.validateForm() === false) {
       return;
     }
+
+    this.loadingService.show();
 
     try {
       this.rooms = await this.roomsService.get({
@@ -237,6 +244,8 @@ export class RoomsRegistryComponent implements OnInit {
     } catch (e) {
       console.error(e);
     }
+
+    this.loadingService.hide();
   }
 
   validateForm(): boolean {
@@ -250,7 +259,7 @@ export class RoomsRegistryComponent implements OnInit {
       return false;
     }
 
-    if (!this.chosen_customer_id) {
+    if (!this.chosen_customer_id && this.authService.session) {
       this.errorMessage = 'Customer must be specified';
       return false;
     }

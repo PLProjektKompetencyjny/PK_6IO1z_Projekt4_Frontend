@@ -17,6 +17,7 @@ import { RouterExtendedService } from '../../../../services/router-extended/rout
 import { InvoiceService } from '../../../../services/invoice/invoice.service';
 import { Invoice } from '../../../../shared/models/invoice.model';
 import { getReservationStatusLabel } from '../../reservations.config';
+import { LoadingService } from '../../../../services/loading/loading.service';
 
 @Component({
   selector: 'tn-reservation-edit',
@@ -144,6 +145,7 @@ export class ReservationEditComponent implements OnInit {
     protected readonly customersService: CustomerService,
     private readonly router: RouterExtendedService,
     private readonly invoicesService: InvoiceService,
+    private readonly loadingService: LoadingService,
   ) {
     this.route.params.subscribe((params: Params) => {
       if (isNaN(params['reservation_id']) === false) {
@@ -221,17 +223,23 @@ export class ReservationEditComponent implements OnInit {
   }
 
   async getAvailableServices(): Promise<void> {
+    this.loadingService.show();
+
     try {
       this.availableServices = await this.servicesService.get();
     } catch (e) {
       console.error(e);
     }
+
+    this.loadingService.hide();
   }
 
   async cancelReservation(): Promise<void> {
     if (confirm('Are you sure you want to delete reservation?') === false) {
       return;
     }
+
+    this.loadingService.show();
 
     try {
       await this.reservationsService.delete(this.reservation_id);
@@ -240,9 +248,13 @@ export class ReservationEditComponent implements OnInit {
     } catch (e) {
       console.error(e);
     }
+
+    this.loadingService.hide();
   }
 
   async saveReservationServices(): Promise<void> {
+    this.loadingService.show();
+
     try {
       await this.removeServiceFromReservation();
       await this.addServicesToReservation();
@@ -251,18 +263,26 @@ export class ReservationEditComponent implements OnInit {
     } catch (e) {
       console.error(e);
     }
+
+    this.loadingService.hide();
   }
 
   async downloadReservation(): Promise<void> {
+    this.loadingService.show();
+
     try {
       await this.invoicesService.generateByReservationId(this.reservation_id);
     } catch (e) {
       console.error(e);
     }
+
+    this.loadingService.hide();
   }
 
 
   async saveReservation(): Promise<void> {
+    this.loadingService.show();
+
     try {
       const chosenStatus = ReservationStatus.CONFIRMED;
 
@@ -279,9 +299,13 @@ export class ReservationEditComponent implements OnInit {
     } catch (e) {
       console.error(e);
     }
+
+    this.loadingService.hide();
   }
 
   async payReservation(): Promise<void> {
+    this.loadingService.show();
+
     try {
       await this.saveReservationServices();
 
@@ -298,6 +322,8 @@ export class ReservationEditComponent implements OnInit {
     } catch (e) {
       console.error(e);
     }
+
+    this.loadingService.hide();
   }
 
   async addServicesToReservation(): Promise<void> {

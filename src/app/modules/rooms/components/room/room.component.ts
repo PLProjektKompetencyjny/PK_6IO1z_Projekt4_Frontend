@@ -8,6 +8,7 @@ import { dateFormats } from '../../../../app.config';
 import { BaseService } from '../../../../services/base.service';
 import { ReservationService } from '../../../../services/reservation/reservation.service';
 import { NotificationsService } from 'angular2-notifications';
+import { RouterExtendedService } from '../../../../services/router-extended/router-extended.service';
 
 @Component({
   selector: 'tn-room',
@@ -47,6 +48,7 @@ export class RoomComponent {
     private readonly reservationsService: ReservationService,
     private readonly notificationsService: NotificationsService,
     private readonly datePipe: DatePipe,
+    private readonly router: RouterExtendedService,
   ) { }
 
   getJsonStartDate(): string {
@@ -58,6 +60,10 @@ export class RoomComponent {
   }
 
   async bookRoom(): Promise<void> {
+    if (!this.authService.session) {
+      this.router.router.navigate(['/sign-up']);
+    }
+
     if (this.validate() === false) {
       return;
     }
