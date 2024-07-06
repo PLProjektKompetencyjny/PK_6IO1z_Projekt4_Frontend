@@ -27,4 +27,4 @@ export const dateFormats = {
   long: 'dd-MM-yyyy HH:mm:ss'
 }
 
-export const taxInPercentage: number = 0.23;
+export const taxInPercentage: number = 0.08; // 8% tax

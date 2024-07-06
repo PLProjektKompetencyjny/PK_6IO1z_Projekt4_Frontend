@@ -16,7 +16,3 @@ export type ServiceMgmt = {
   last_modified_by?: number;
   last_modified_at?: Date;
 }
-
-export type CheckedServiceMgmt = ServiceMgmt & {
-  quantity: number;
-}

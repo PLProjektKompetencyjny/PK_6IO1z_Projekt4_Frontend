@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../../../services/auth/auth.service';
 import { ReservationService } from '../../../../services/reservation/reservation.service';
-import { Reservation, ReservationStatus, ReservationStatusLabelsToDisplay } from '../reservation-edit/reservation.model';
+import { GroupedReservation, Reservation, ReservationStatus, ReservationStatusLabelsToDisplay } from '../reservation-edit/reservation.model';
 import { CustomerService } from '../../../../services/customer/customer.service';
 import { dateFormats } from '../../../../app.config';
 import { Customer } from '../../../profile/customer.model';
-import { getReservationStatusLabel } from './reservations-registry.config';
+import { getReservationStatusLabel } from '../../reservations.config';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { InvoiceService } from '../../../../services/invoice/invoice.service';
+import { BaseService } from '../../../../services/base.service';
+import { NotificationsService } from 'angular2-notifications';
+import { group } from '@angular/animations';
 
 @Component({
   selector: 'tn-reservations-registry',
@@ -22,7 +26,8 @@ export class ReservationsRegistryComponent {
 
   form: FormGroup;
 
-  reservations: Reservation[] = [];
+  //reservations: Reservation[] = [];
+  groupedReservations: GroupedReservation[] = [];
   customers: Customer[] = [];
 
   get reservation_start_date(): AbstractControl<Date, Date> | null {
@@ -46,6 +51,8 @@ export class ReservationsRegistryComponent {
     private readonly reservationsService: ReservationService,
     protected readonly customersService: CustomerService,
     private readonly formBuilder: FormBuilder,
+    private readonly invoicesService: InvoiceService,
+    private readonly notificationService: NotificationsService,
   ) {
     this.form = this.formBuilder.group({
       reservation_start_date: [undefined],
@@ -65,14 +72,29 @@ export class ReservationsRegistryComponent {
 
   async getReservations(): Promise<void> {
     try {
-      const reservations = await this.reservationsService.get({
+      let reservations = await this.reservationsService.get({
         reservation_start_date: this.reservation_start_date?.value ? `>${this.reservation_start_date?.value}` : undefined,
         reservation_end_date: this.reservation_end_date?.value ? `<${this.reservation_end_date?.value}` : undefined,
         reservation_status_id: this.reservation_status_id?.value,
         reservation_customer_id: this.reservation_customer_id?.value,
       });
 
-      this.reservations = reservations.filter(({ reservation_status_id }) => reservation_status_id !== ReservationStatus.NO_SHOW);
+      reservations = reservations.filter(({ reservation_status_id }) => reservation_status_id !== ReservationStatus.NO_SHOW);
+
+      this.groupedReservations = reservations.reduce((grouped: GroupedReservation[], reservation: Reservation): GroupedReservation[] => {
+        if (grouped.some(g => g.reservation_id === reservation.reservation_id) === false) {
+          const reservation_room_ids: string = reservations
+            .filter(r => r.reservation_id === reservation.reservation_id)
+            .map(r => r.reservation_room_id)
+            .join(',');
+          grouped.push({
+            ...reservation,
+            reservation_room_ids,
+          } satisfies GroupedReservation);
+        }
+
+        return grouped;
+      }, []);
     } catch (e) {
       console.error(e);
     }
@@ -86,33 +108,31 @@ export class ReservationsRegistryComponent {
     }
   }
 
-  async cancelReservation(reservation_id: number): Promise<void> {
-    if (confirm('Are you sure you want to cancel reservation?') === false) {
-      return;
-    }
-
-    const relatedReservationEntries = this.reservations.filter(r => r.reservation_id === reservation_id);
-
+  async downloadInvoice(reservation_id: number): Promise<void> {
     try {
-      for (const { reservation_id, reservation_room_id } of relatedReservationEntries) {
-        await this.reservationsService.removeRoomFromReservation(reservation_id, reservation_room_id);
-      }
-
-      this.reservations = this.reservations.filter(r => r.reservation_id !== reservation_id);
+      await this.invoicesService.generateByReservationId(reservation_id);
     } catch (e) {
       console.error(e);
     }
   }
 
-  async removeReservationRoom(reservation_id: number, reservation_room_id: number): Promise<void> {
-    if (confirm('Are you sure you want to remove room from the reservation?') === false) {
+  async cancelReservation(reservation_id: number): Promise<void> {
+    if (confirm('Are you sure you want to cancel reservation?') === false) {
       return;
     }
 
     try {
-      await this.reservationsService.removeRoomFromReservation(reservation_id, reservation_room_id);
+      const reservation = this.groupedReservations.find(gr => gr.reservation_id === reservation_id);
+      if (reservation) {
+        const room_ids = reservation.reservation_room_ids.split(',');
+        for (const room_id of room_ids) {
+          await this.reservationsService.removeRoomFromReservation(reservation_id, +room_id);
+        }
+      }
 
-      this.reservations = this.reservations.filter(r => r.reservation_id !== reservation_id && r.reservation_room_id !== reservation_room_id);
+      this.groupedReservations = this.groupedReservations.filter(r => r.reservation_id !== reservation_id);
+
+      this.notificationService.success('Success', 'Reservation canceled successfully', BaseService.notificationOverride);
     } catch (e) {
       console.error(e);
     }
