@@ -1,19 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { Room } from '../../../rooms/components/room-edit/room.model';
 import { ActivatedRoute, Params } from '@angular/router';
-import { CheckedServiceMgmt, Service, ServiceMgmt } from '../../../services/service.model';
+import { DatePipe } from '@angular/common';
+import { Service } from '../../../services/service.model';
 import { ServiceService } from '../../../../services/service/service.service';
 import { RoomService } from '../../../../services/room/room.service';
-import { Reservation, ReservationRoomStatus, ReservationStatus } from './reservation.model';
+import { Reservation, ReservationStatus } from './reservation.model';
 import { AuthService } from '../../../../services/auth/auth.service';
 import { ReservationService } from '../../../../services/reservation/reservation.service';
 import { NotificationsService } from 'angular2-notifications';
 import { BaseService } from '../../../../services/base.service';
-import { DatePipe } from '@angular/common';
 import { dateFormats, taxInPercentage } from '../../../../app.config';
 import { Customer } from '../../../profile/customer.model';
 import { CustomerService } from '../../../../services/customer/customer.service';
 import { RouterExtendedService } from '../../../../services/router-extended/router-extended.service';
+import { InvoiceService } from '../../../../services/invoice/invoice.service';
+import { Invoice } from '../../../../shared/models/invoice.model';
+import { getReservationStatusLabel } from '../../reservations.config';
 
 @Component({
   selector: 'tn-reservation-edit',
@@ -22,13 +25,17 @@ import { RouterExtendedService } from '../../../../services/router-extended/rout
   providers: [DatePipe]
 })
 export class ReservationEditComponent implements OnInit {
+
   protected readonly dateFormats = dateFormats;
+  protected readonly taxInPercentage = taxInPercentage;
+  protected readonly getReservationStatusLabel = getReservationStatusLabel;
 
   room!: Room;
   reservation_id!: number;
   room_id!: number;
   availableServices: Service[] = [];
   reservationServices: Service[] = [];
+  invoices: Invoice[] = [];
   start_date: Date = new Date();
   get parsed_start_date(): string {
     return this.datePipe.transform(this.start_date, dateFormats.short)!;
@@ -39,7 +46,32 @@ export class ReservationEditComponent implements OnInit {
     return this.datePipe.transform(this.end_date, dateFormats.short)!;
   }
 
-  reservation!: Reservation;
+  get days(): number {
+    const utcEndDate = Date.UTC(
+      this.end_date.getFullYear(),
+      this.end_date.getMonth(),
+      this.end_date.getDate(),
+      this.end_date.getHours(),
+      this.end_date.getMinutes(),
+      this.end_date.getSeconds(),
+      this.end_date.getMilliseconds()
+    );
+    const utcStartDate = Date.UTC(
+      this.start_date.getFullYear(),
+      this.start_date.getMonth(),
+      this.start_date.getDate(),
+      this.start_date.getHours(),
+      this.start_date.getMinutes(),
+      this.start_date.getSeconds(),
+      this.start_date.getMilliseconds()
+    );
+
+    return Math.ceil((utcEndDate - utcStartDate) / 86400000);
+  }
+
+  get reservation_status_id(): number {
+    return this.reservations[0]?.reservation_status_id ?? 0;
+  };
 
   /**
    * An error message to display.
@@ -65,13 +97,35 @@ export class ReservationEditComponent implements OnInit {
   }
 
   get roomsTotal(): number {
-    return this.rooms.reduce((partialSum: number, { room_gross_price }): number =>
-      partialSum + room_gross_price, 0
+    return this.reservations.reduce((
+      partialSum: number,
+      {
+        reservation_room_id,
+        reservation_number_of_adults,
+        reservation_number_of_children,
+      }): number => {
+      const room = this.rooms.find(r => r.room_id === reservation_room_id)!;
+      const roomTotal = (
+        (
+          room?.room_gross_price_adult ?? 0 * reservation_number_of_adults
+        ) +
+        (
+          room?.room_gross_price_child ?? 0 * reservation_number_of_children
+        ) + room?.room_gross_price ?? 0
+      ) * this.days;
+
+      return partialSum + roomTotal;
+    }, 0
     );
   }
 
   get total(): number {
-    return this.servicesTotal + this.roomsTotal;
+    if (this.invoices.length === 0) {
+      return 0;
+    }
+
+    const { invoice_price_gross } = this.invoices[0];
+    return invoice_price_gross;
   }
 
   get totalPreview(): number {
@@ -89,6 +143,7 @@ export class ReservationEditComponent implements OnInit {
     private readonly datePipe: DatePipe,
     protected readonly customersService: CustomerService,
     private readonly router: RouterExtendedService,
+    private readonly invoicesService: InvoiceService,
   ) {
     this.route.params.subscribe((params: Params) => {
       if (isNaN(params['reservation_id']) === false) {
@@ -111,6 +166,7 @@ export class ReservationEditComponent implements OnInit {
       await this.getAvailableServices();
       await this.getReservationRooms();
       await this.getReservationServices();
+      await this.getReservationInvoiceEntries();
       await this.getCustomer();
     } catch (e) {
       console.error(e);
@@ -160,6 +216,10 @@ export class ReservationEditComponent implements OnInit {
     });
   }
 
+  async getReservationInvoiceEntries(): Promise<void> {
+    this.invoices = await this.invoicesService.getInvoiceEntriesByReservationId(this.reservation_id);
+  }
+
   async getAvailableServices(): Promise<void> {
     try {
       this.availableServices = await this.servicesService.get();
@@ -188,8 +248,34 @@ export class ReservationEditComponent implements OnInit {
       await this.addServicesToReservation();
 
       this.reservationServices = this.availableServices.filter(({ service_quantity }) => service_quantity > 0);
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
-      this.notificationsService.success('Success', 'Reservation saved successfully', BaseService.notificationOverride);
+  async downloadReservation(): Promise<void> {
+    try {
+      await this.invoicesService.generateByReservationId(this.reservation_id);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+
+  async saveReservation(): Promise<void> {
+    try {
+      const chosenStatus = ReservationStatus.CONFIRMED;
+
+      await this.reservationsService.update({
+        ...this.reservations[0],
+        reservation_start_date: this.parsed_start_date,
+        reservation_end_date: this.parsed_end_date,
+        reservation_status_id: chosenStatus, // TODO: List of statuses set by admin
+      });
+
+      this.reservations[0].reservation_status_id = chosenStatus;
+
+      this.notificationsService.success('Success', 'Reservation saved succesfully', BaseService.notificationOverride);
     } catch (e) {
       console.error(e);
     }
@@ -206,9 +292,9 @@ export class ReservationEditComponent implements OnInit {
         reservation_status_id: ReservationStatus.CONFIRMED,
       });
 
-      this.reservation.reservation_status_id = ReservationStatus.CONFIRMED;
+      this.reservations[0].reservation_status_id = ReservationStatus.CONFIRMED;
 
-      this.notificationsService.success('Success', 'Reservation paid successfully', BaseService.notificationOverride);
+      this.notificationsService.success('Success', 'We have sent you a confirmation e-mail', BaseService.notificationOverride);
     } catch (e) {
       console.error(e);
     }
@@ -241,7 +327,11 @@ export class ReservationEditComponent implements OnInit {
 
     try {
       await this.reservationsService.removeRoomFromReservation(this.reservation_id, room.room_id);
+      this.reservations = this.reservations.filter(({ reservation_room_id }) => room.room_id !== reservation_room_id);
       this.rooms = this.rooms.filter(({ room_id }) => room_id !== room.room_id);
+      await this.getReservationInvoiceEntries();
+
+      this.notificationsService.success('Success', 'Room removed successfully from the reservation', BaseService.notificationOverride);
       if (this.rooms.length === 0) {
         this.router.router.navigate(['/rooms']);
       }

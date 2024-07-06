@@ -65,7 +65,7 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">ID</th>
-        <th scope="col">Room</th>
+        <th scope="col">Rooms</th>
         <th scope="col">Status</th>
         <th scope="col">Start date</th>
         <th scope="col">End date</th>
@@ -75,26 +75,24 @@
       </tr>
     </thead>
     <tbody>
-      @for (reservation of reservations; track reservation) {
+      @for (reservation of groupedReservations; track reservation) {
       <tr>
         <td>
           <a class="btn btn-outline-success" [routerLink]="['/reservations', reservation.reservation_id]" title="Edit">
             <i class="bi bi-pencil"></i>
           </a>
-          @if (reservation.reservation_status_id < ReservationStatus.CONFIRMED) { <button
-            class="btn btn-outline-danger ms-2"
-            (click)="removeReservationRoom(reservation.reservation_id, reservation.reservation_room_id)"
-            title="Remove room reservation">
-            <i class="bi bi-trash"></i>
-            </button>
-            <button class="btn btn-outline-danger ms-2" (click)="cancelReservation(reservation.reservation_id)"
-              title="Cancel">
-              <i class="bi bi-x"></i>
+          <button class="btn btn-outline-info ms-2" (click)="downloadInvoice(reservation.reservation_id)"
+            title="Download invoice">
+            <i class="bi bi-file-earmark-arrow-down"></i>
+          </button>
+          @if (reservation.reservation_status_id < ReservationStatus.WAITING_PAYMENT) { <button
+            class="btn btn-outline-danger ms-2" (click)="cancelReservation(reservation.reservation_id)" title="Cancel">
+            <i class="bi bi-x"></i>
             </button>
             }
         </td>
         <td>{{ reservation.reservation_id }}</td>
-        <td>{{ reservation.reservation_room_id }}</td>
+        <td>{{ reservation.reservation_room_ids }}</td>
         <td>{{ getReservationStatusLabel(reservation.reservation_status_id) }}</td>
         <td>{{ reservation.reservation_start_date | date:dateFormats.short }}</td>
         <td>{{ reservation.reservation_end_date | date:dateFormats.short }}</td>
