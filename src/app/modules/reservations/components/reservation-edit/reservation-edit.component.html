@@ -49,7 +49,7 @@
     <h5>Booked rooms</h5>
     @for (room of rooms; track room) {
     <tn-room [room]="room" class="col-lg-4" [showDeleteFromReservationButton]="disableEdit === false"
-      [isReservationEditView]="true" (onRoomFromReservationRemoved)="onRoomFromReservationRemoved($event)" />
+      [isReservationEditView]="true" (roomFromReservationRemoved)="roomFromReservationRemoved($event)" />
     }
     }
   </div>
@@ -63,8 +63,8 @@
       [value]="service.service_quantity" (change)="onQuantityChange($event, service.service_id)"
       [disabled]="disableEdit" />
     @if (service.service_quantity > 0 && disableEdit === false) {
-    <button type="button" class="btn btn-outline-danger ms-2"
-      (click)="onRemoveServiceButtonClicked(inputQuantity, service.service_id)" title="Remove service from reservation">
+    <button type="button" class="btn btn-outline-danger ms-2" (click)="onRemoveServiceButtonClicked(service.service_id)"
+      title="Remove service from reservation">
       <i class="bi bi-x-circle-fill"></i>
     </button>
     }

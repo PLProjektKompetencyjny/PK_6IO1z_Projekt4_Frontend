@@ -296,7 +296,7 @@ export class RoomsRegistryComponent implements OnInit {
     return true;
   }
 
-  onRoomBooked({ reservation_id, reservation_room_id }: Reservation): void {
+  roomBooked({ reservation_id, reservation_room_id }: Reservation): void {
     this.new_reservation_id = reservation_id;
     this.rooms = this.rooms.filter(r => r.room_id !== reservation_room_id);
   }

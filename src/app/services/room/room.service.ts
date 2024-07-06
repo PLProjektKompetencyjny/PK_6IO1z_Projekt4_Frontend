@@ -60,6 +60,7 @@ export class RoomService extends BaseService {
    * @returns List of rooms in the hotel.
    */
   async get(filters?: {
+    room_id?: number | undefined,
     room_status_id?: number | undefined,
     room_number_of_single_beds?: number | undefined,
     room_number_of_double_beds?: number | undefined,
@@ -95,9 +96,11 @@ export class RoomService extends BaseService {
    * @param roomMgmt A room to update.
    */
   async updateRoomMgmt(roomMgmt: RoomMgmt): Promise<void> {
+    const formData = this.getFormData(roomMgmt);
+
     const request = this.httpClient.put<void>(
       `${environment.apiUrl}/${this.baseAdminPath}/room`,
-      roomMgmt
+      formData
     ).pipe(catchError<void, ObservableInput<ApiResponse<unknown>>>(this.catchCustomError.bind(this)))
 
     await firstValueFrom(request);
@@ -108,9 +111,11 @@ export class RoomService extends BaseService {
    * @param roomTypeMgmt A room to update.
    */
   async updateRoomTypeMgmt(roomTypeMgmt: RoomTypeMgmt): Promise<void> {
+    const formData = this.getFormData(roomTypeMgmt);
+
     const request = this.httpClient.put<void>(
       `${environment.apiUrl}/${this.baseAdminPath}/room_type`,
-      roomTypeMgmt
+      formData
     ).pipe(catchError<void, ObservableInput<ApiResponse<unknown>>>(this.catchCustomError.bind(this)))
 
     await firstValueFrom(request);

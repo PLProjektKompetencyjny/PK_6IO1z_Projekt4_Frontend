@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../../services/auth/auth.service';
 import { ReservationService } from '../../../../services/reservation/reservation.service';
 import { GroupedReservation, Reservation, ReservationStatus, ReservationStatusLabelsToDisplay } from '../reservation-edit/reservation.model';
@@ -10,14 +10,13 @@ import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { InvoiceService } from '../../../../services/invoice/invoice.service';
 import { BaseService } from '../../../../services/base.service';
 import { NotificationsService } from 'angular2-notifications';
-import { group } from '@angular/animations';
 
 @Component({
   selector: 'tn-reservations-registry',
   templateUrl: './reservations-registry.component.html',
   styleUrl: './reservations-registry.component.scss'
 })
-export class ReservationsRegistryComponent {
+export class ReservationsRegistryComponent implements OnInit {
 
   protected readonly dateFormats = dateFormats;
   protected readonly getReservationStatusLabel = getReservationStatusLabel;

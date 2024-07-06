@@ -51,8 +51,8 @@ export class BaseService {
     return throwError(() => new Error(message));
   }
 
-  getFormData(data?: any): FormData {
-    let formData = new FormData();
+  getFormData(data?: unknown): FormData {
+    const formData = new FormData();
 
     if (!data) {
       return formData;

@@ -1,7 +1,13 @@
 <tn-header></tn-header>
+
 <br />
+<br />
+<br />
+<br />
+
 <div class="container-xxl p-0 pt-5 my-5 position-relative">
-  <form class="row g-2 mt-5" [formGroup]="form">
+  <h4>Available rooms</h4>
+  <form class="row g-2 mt-2" [formGroup]="form">
     @if (errorMessage.length > 0) {
     <div class="mb-3 text-danger">{{ errorMessage }}</div>
     }
@@ -229,7 +235,7 @@
   <div class="row g-2 mt-2">
     @for (room of rooms; track room) {
     <tn-room [room]="room" [start_date]="start_date?.value ?? now" [end_date]="end_date?.value ?? now"
-      [customer_id]="chosen_customer_id" class="col-lg-4" (onRoomBooked)="onRoomBooked($event)" />
+      [customer_id]="chosen_customer_id" class="col-lg-4" (roomBooked)="roomBooked($event)" />
     }
   </div>
 </div>
