@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, HostListener, Renderer2, ViewChil
 import { appName, assets, baseAssetsPath, enableDamping, maxRooms, maxZoom, minZoom, rotateSpeed, startRoomNo, startZoom } from './virtual-tour.config';
 import * as THREE from 'three';
 import { OrbitControls } from 'three-orbitcontrols-ts';
+import { LoadingService } from '../../../../services/loading/loading.service';
 
 @Component({
   selector: 'tn-virtual-tour',
@@ -16,7 +17,6 @@ export class VirtualTourComponent implements AfterViewInit {
   protected readonly assets = assets;
   currentRoomNo: number = startRoomNo;
   currentZoom: number = startZoom;
-  generatingScene: boolean = true;
 
   renderer = new THREE.WebGLRenderer();
   scene: THREE.Scene = new THREE.Scene();
@@ -26,7 +26,10 @@ export class VirtualTourComponent implements AfterViewInit {
   controls: OrbitControls = new OrbitControls(this.camera, this.renderer.domElement);
   loader: THREE.TextureLoader = new THREE.TextureLoader();
 
-  constructor(private readonly renderer2: Renderer2) {
+  constructor(
+    private readonly renderer2: Renderer2,
+    private readonly loadingService: LoadingService,
+  ) {
     this.camera.position.z = 1;
     this.controls.rotateSpeed *= -rotateSpeed;
     this.controls.enableDamping = enableDamping;
@@ -49,7 +52,7 @@ export class VirtualTourComponent implements AfterViewInit {
   }
 
   moveToRoom(roomNo: number): void {
-    this.generatingScene = true;
+    this.loadingService.show();
     this.scene.remove(this.mesh);
 
     if (roomNo === 0) {
@@ -68,7 +71,7 @@ export class VirtualTourComponent implements AfterViewInit {
         this.scene.add(this.mesh);
       });
 
-      this.generatingScene = false;
+      this.loadingService.hide();
     }, 400);
   }
 

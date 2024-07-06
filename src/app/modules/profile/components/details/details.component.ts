@@ -12,6 +12,7 @@ import { StreetValidator } from '../../../../shared/validators/street.validator'
 import { BuildingNumberValidator } from '../../../../shared/validators/building-number.validator';
 import { NameValidator } from '../../../../shared/validators/name.validator';
 import { AuthService } from '../../../../services/auth/auth.service';
+import { LoadingService } from '../../../../services/loading/loading.service';
 
 @Component({
   selector: 'tn-details',
@@ -127,6 +128,7 @@ export class DetailsComponent implements OnInit {
     private readonly formBuilder: FormBuilder,
     private readonly customerService: CustomerService,
     private readonly authService: AuthService,
+    private readonly loadingService: LoadingService,
   ) {
     this.form = this.formBuilder.group({
       name: ['', Validators.compose([Validators.required, NameValidator])],
@@ -146,18 +148,24 @@ export class DetailsComponent implements OnInit {
   }
 
   async getMe(): Promise<void> {
+    this.loadingService.show();
+
     try {
       const customer = await this.customerService.me();
       this.mapCustomerToForm(customer);
     } catch (e) {
       console.error(e);
     }
+
+    this.loadingService.hide();
   }
 
   async update(): Promise<void> {
     if (this.validateForm() === false) {
       return;
     }
+
+    this.loadingService.show();
 
     try {
       await this.customerService.update(this.customer);
@@ -166,6 +174,8 @@ export class DetailsComponent implements OnInit {
     } finally {
       this.errorMessage = '';
     }
+
+    this.loadingService.hide();
   }
 
   validateForm(): boolean {

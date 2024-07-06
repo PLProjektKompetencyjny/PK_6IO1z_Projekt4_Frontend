@@ -14,6 +14,7 @@ import { StreetValidator } from '../../../../shared/validators/street.validator'
 import { BuildingNumberValidator } from '../../../../shared/validators/building-number.validator';
 import { SurnameValidator } from '../../../../shared/validators/surname.validator';
 import { NameValidator } from '../../../../shared/validators/name.validator';
+import { LoadingService } from '../../../../services/loading/loading.service';
 
 @Component({
   selector: 'tn-sign-up',
@@ -119,6 +120,7 @@ export class SignUpComponent {
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly authService: AuthService,
+    private readonly loadingService: LoadingService,
   ) {
     this.form = this.formBuilder.group({
       name: ['', Validators.compose([Validators.required, NameValidator])],
@@ -143,6 +145,8 @@ export class SignUpComponent {
       return;
     }
 
+    this.loadingService.show();
+
     const newUser: Customer = {
       customer_id: 0,
       customer_email: this.email?.value ?? '',
@@ -165,6 +169,8 @@ export class SignUpComponent {
     } finally {
       this.errorMessage = '';
     }
+
+    this.loadingService.hide();
   }
 
   /**

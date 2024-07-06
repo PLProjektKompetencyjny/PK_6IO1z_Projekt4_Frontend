@@ -10,6 +10,7 @@ import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { InvoiceService } from '../../../../services/invoice/invoice.service';
 import { BaseService } from '../../../../services/base.service';
 import { NotificationsService } from 'angular2-notifications';
+import { LoadingService } from '../../../../services/loading/loading.service';
 
 @Component({
   selector: 'tn-reservations-registry',
@@ -52,6 +53,7 @@ export class ReservationsRegistryComponent implements OnInit {
     private readonly formBuilder: FormBuilder,
     private readonly invoicesService: InvoiceService,
     private readonly notificationService: NotificationsService,
+    private readonly loadingService: LoadingService,
   ) {
     this.form = this.formBuilder.group({
       reservation_start_date: [undefined],
@@ -70,6 +72,8 @@ export class ReservationsRegistryComponent implements OnInit {
   }
 
   async getReservations(): Promise<void> {
+    this.loadingService.show();
+
     try {
       let reservations = await this.reservationsService.get({
         reservation_start_date: this.reservation_start_date?.value ? `>${this.reservation_start_date?.value}` : undefined,
@@ -97,28 +101,40 @@ export class ReservationsRegistryComponent implements OnInit {
     } catch (e) {
       console.error(e);
     }
+
+    this.loadingService.hide();
   }
 
   async getCustomers(): Promise<void> {
+    this.loadingService.show();
+
     try {
       this.customers = await this.customersService.get();
     } catch (e) {
       console.error(e);
     }
+
+    this.loadingService.hide();
   }
 
   async downloadInvoice(reservation_id: number): Promise<void> {
+    this.loadingService.show();
+
     try {
       await this.invoicesService.generateByReservationId(reservation_id);
     } catch (e) {
       console.error(e);
     }
+
+    this.loadingService.hide();
   }
 
   async cancelReservation(reservation_id: number): Promise<void> {
     if (confirm('Are you sure you want to cancel reservation?') === false) {
       return;
     }
+
+    this.loadingService.show();
 
     try {
       const reservation = this.groupedReservations.find(gr => gr.reservation_id === reservation_id);
@@ -135,6 +151,8 @@ export class ReservationsRegistryComponent implements OnInit {
     } catch (e) {
       console.error(e);
     }
+
+    this.loadingService.hide();
   }
 
   getCustomerDisplay(customer_id: number): string {

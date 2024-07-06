@@ -3,6 +3,7 @@ import { NotificationsService } from 'angular2-notifications';
 import { ServiceService } from '../../../../services/service/service.service';
 import { ServiceMgmt } from '../../service.model';
 import { AuthService } from '../../../../services/auth/auth.service';
+import { LoadingService } from '../../../../services/loading/loading.service';
 
 @Component({
   selector: 'tn-services-registry',
@@ -22,6 +23,7 @@ export class ServicesRegistryComponent implements OnInit {
     private readonly servicesService: ServiceService,
     private readonly notificationsService: NotificationsService,
     private readonly authService: AuthService,
+    private readonly loadingService: LoadingService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -29,11 +31,15 @@ export class ServicesRegistryComponent implements OnInit {
   }
 
   async getServices(): Promise<void> {
+    this.loadingService.show();
+
     try {
       this.services = await this.servicesService.getMgmt();
     } catch (e) {
       console.error(e);
     }
+
+    this.loadingService.hide();
   }
 
   async save(): Promise<void> {
@@ -41,6 +47,8 @@ export class ServicesRegistryComponent implements OnInit {
       this.notificationsService.error('Error', 'Fill required data');
       return;
     }
+
+    this.loadingService.show();
 
     try {
       /**
@@ -56,6 +64,8 @@ export class ServicesRegistryComponent implements OnInit {
     } catch (e) {
       console.error(e);
     }
+
+    this.loadingService.hide();
   }
 
   addEmptyService(): void {
@@ -105,6 +115,8 @@ export class ServicesRegistryComponent implements OnInit {
       return;
     }
 
+    this.loadingService.show();
+
     const { id } = this.services[index];
     try {
       if (id > 0) {
@@ -117,6 +129,8 @@ export class ServicesRegistryComponent implements OnInit {
     } catch (e) {
       console.error(e);
     }
+
+    this.loadingService.hide();
   }
 
 }
