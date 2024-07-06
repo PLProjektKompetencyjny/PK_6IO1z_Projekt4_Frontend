@@ -5,6 +5,7 @@ import { Room, RoomMgmt, RoomStatusesMap, RoomTypeMgmt } from './room.model';
 import { RoomService } from '../../../../services/room/room.service';
 import { RouterExtendedService } from '../../../../services/router-extended/router-extended.service';
 import { AuthService } from '../../../../services/auth/auth.service';
+import { BaseService } from '../../../../services/base.service';
 
 @Component({
   selector: 'tn-room-edit',
@@ -49,7 +50,8 @@ export class RoomEditComponent implements OnInit {
     try {
       await this.saveRoomMgmt();
       await this.saveRoomTypeMgmt();
-      this.notificationsService.success('Success!', 'Room saved successfully');
+
+      this.notificationsService.success('Success', 'Room saved successfully', BaseService.notificationOverride);
     } catch (e) {
       console.error(e);
     }
@@ -59,8 +61,8 @@ export class RoomEditComponent implements OnInit {
     const roomMgmt = {
       id: this.room.room_id,
       room_type_id: this.room.room_type_id,
-      room_status_id: this.room.room_status_id,
-      room_gross_price: this.room.room_gross_price,
+      status_id: this.room.room_status_id,
+      room_price_gross: this.room.room_gross_price,
     } satisfies RoomMgmt;
 
     await this.roomsService.updateRoomMgmt(roomMgmt);
@@ -68,10 +70,11 @@ export class RoomEditComponent implements OnInit {
 
   async saveRoomTypeMgmt(): Promise<void> {
     const roomTypeMgmt = {
-      id: this.room.room_type_id,
+      id: this.room.room_id,
       num_of_single_beds: this.room.room_number_of_single_beds,
       num_of_double_beds: this.room.room_number_of_double_beds,
       num_of_child_beds: this.room.room_number_of_child_beds,
+      photos_dir: this.room.room_photos_dir,
       adult_price_gross: this.room.room_gross_price_adult,
       child_price_gross: this.room.room_gross_price_child,
     } satisfies RoomTypeMgmt;

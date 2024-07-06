@@ -71,7 +71,7 @@ export class ReservationEditComponent implements OnInit {
 
   get reservation_status_id(): number {
     return this.reservations[0]?.reservation_status_id ?? 0;
-  };
+  }
 
   /**
    * An error message to display.
@@ -320,7 +320,7 @@ export class ReservationEditComponent implements OnInit {
     }
   }
 
-  async onRoomFromReservationRemoved(room: Room): Promise<void> {
+  async roomFromReservationRemoved(room: Room): Promise<void> {
     if (this.rooms.length === 1 && confirm('Last room in the reservation. Deleting last room also deletes reservation. Would you like to continue?') === false) {
       return;
     }
@@ -348,8 +348,7 @@ export class ReservationEditComponent implements OnInit {
     }
   }
 
-  onRemoveServiceButtonClicked(inputQuantity: any, service_id: number): void {
-    console.log(inputQuantity);
+  onRemoveServiceButtonClicked(service_id: number): void {
     const index = this.availableServices.findIndex(s => s.service_id === service_id);
     if (index !== -1) {
       this.availableServices[index].service_quantity = 0;

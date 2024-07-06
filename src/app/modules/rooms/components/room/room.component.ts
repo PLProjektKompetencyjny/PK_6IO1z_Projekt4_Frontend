@@ -21,11 +21,12 @@ export class RoomComponent {
   protected readonly RoomStatus = RoomStatus;
 
   @Input() room!: Room;
-  @Output() onRoomBooked: EventEmitter<Reservation> = new EventEmitter<Reservation>();
-  @Output() onRoomFromReservationRemoved: EventEmitter<Room> = new EventEmitter<Room>();;
+  @Output() roomBooked: EventEmitter<Reservation> = new EventEmitter<Reservation>();
+  @Output() roomFromReservationRemoved: EventEmitter<Room> = new EventEmitter<Room>();
   @Input() start_date: Date = new Date();
   @Input() end_date: Date = new Date();
   @Input() showDeleteFromReservationButton: boolean = false;
+  @Input() showAddToReservationButton: boolean = true;
   @Input() isReservationEditView: boolean = false;
 
   private _customer_id: number = this.authService.session?.user_id ?? 0;
@@ -84,7 +85,7 @@ export class RoomComponent {
 
       this.notificationsService.success('Success', 'Room added to reservation', BaseService.notificationOverride);
 
-      this.onRoomBooked.emit(reservation);
+      this.roomBooked.emit(reservation);
     } catch (e) {
       console.error(e);
     }
@@ -95,7 +96,7 @@ export class RoomComponent {
       return;
     }
 
-    this.onRoomFromReservationRemoved.emit(this.room);
+    this.roomFromReservationRemoved.emit(this.room);
   }
 
   validate(): boolean {

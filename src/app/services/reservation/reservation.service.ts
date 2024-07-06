@@ -7,7 +7,6 @@ import { Reservation, ReservationStatus } from '../../modules/reservations/compo
 import { ApiResponse } from '../api-response.model';
 import { environment } from '../../../environments/environment';
 import { Service } from '../../modules/services/service.model';
-import { Room } from '../../modules/rooms/components/room-edit/room.model';
 
 @Injectable({
   providedIn: 'root',

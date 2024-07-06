@@ -9,6 +9,7 @@ import { RoomsRegistryComponent } from './components/rooms-registry/rooms-regist
 import { RoomEditComponent } from './components/room-edit/room-edit.component';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { RoomComponent } from './components/room/room.component';
+import { RoomsMgmtRegistryComponent } from './components/rooms-mgmt-registry/rooms-mgmt-registry.component';
 
 @NgModule({
   providers: [
@@ -17,6 +18,7 @@ import { RoomComponent } from './components/room/room.component';
   ],
   declarations: [
     RoomsRegistryComponent,
+    RoomsMgmtRegistryComponent,
     RoomEditComponent,
   ],
   imports: [

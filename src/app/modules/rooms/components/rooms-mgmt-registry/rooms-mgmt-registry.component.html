@@ -1,0 +1,51 @@
+<tn-header></tn-header>
+
+<br />
+<br />
+<br />
+<br />
+
+<div class="container-xxl p-0 pt-5 my-5 position-relative">
+  <h4>Rooms management</h4>
+  <form class="row g-2 mt-2" [formGroup]="form">
+    <div class="col-md">
+      <div class="row g-2">
+        <div class="col-md">
+          <input type="number" class="form-control" placeholder="Room no." min="0" id="room_id" name="room_id"
+            formControlName="room_id" />
+        </div>
+        <div class="col-md">
+          <input type="number" class="form-control" placeholder="Number of double beds" min="0"
+            id="number_of_double_beds" name="number_of_double_beds" formControlName="number_of_double_beds" />
+        </div>
+        <div class="col-md">
+          <input type="number" class="form-control" placeholder="Number of single beds" min="0"
+            id="number_of_single_beds" name="number_of_single_beds" formControlName="number_of_single_beds" />
+        </div>
+        <div class="col-md">
+          <input type="number" class="form-control" placeholder="Number of child beds" min="0" id="number_of_child_beds"
+            name="number_of_child_beds" formControlName="number_of_child_beds" />
+        </div>
+      </div>
+    </div>
+    <div class="col-md-auto">
+      <button class="btn btn-secondary text-black" (click)="clearFilters()" title="Clear filters">
+        <i class="bi bi-x-circle"></i>
+      </button>
+    </div>
+    <div class="col-md-auto">
+      <button class="btn btn-primary" (click)="getRooms()">Filter</button>
+    </div>
+  </form>
+
+  @if (rooms.length === 0) {
+  <h6 class="text-black-50 text-center mt-5 d-flex align-items-center justify-content-center">No rooms found</h6>
+  }
+  <div class="row g-2 mt-2">
+    @for (room of rooms; track room) {
+    <tn-room [room]="room" class="col-lg-4" [showAddToReservationButton]="false" />
+    }
+  </div>
+</div>
+
+<simple-notifications></simple-notifications>

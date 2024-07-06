@@ -50,7 +50,8 @@
       <button class="btn btn-sm btn-danger rounded py-2" (click)="removeRoomFromReservation()">Remove from
         reservation</button>
       } @else {
-      @if (room.room_status_id !== RoomStatus.MAINTENANCE && isReservationEditView === false) {
+      @if (room.room_status_id !== RoomStatus.MAINTENANCE && isReservationEditView === false &&
+      showAddToReservationButton) {
       <button class="btn btn-sm btn-primary rounded py-2 px-4" (click)="bookRoom()">Add to reservation</button>
       }
       }

@@ -20,6 +20,7 @@ export type RoomTypeMgmt = {
   num_of_child_beds: number;
   adult_price_gross: number;
   child_price_gross: number;
+  photos_dir: string;
   last_modified_by?: number;
   last_modified_at?: Date;
 }
@@ -27,8 +28,8 @@ export type RoomTypeMgmt = {
 export type RoomMgmt = {
   id: number;
   room_type_id: number;
-  room_status_id: RoomStatus;
-  room_gross_price: number;
+  status_id: RoomStatus;
+  room_price_gross: number;
   last_modified_by?: number;
   last_modified_at?: Date;
 }
