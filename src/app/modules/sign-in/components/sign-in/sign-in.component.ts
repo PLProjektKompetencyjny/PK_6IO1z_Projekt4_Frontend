@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../../services/auth/auth.service';
 import { appName } from './sign-in.config';
+import { LoadingService } from '../../../../services/loading/loading.service';
 
 @Component({
   selector: 'tn-sign-in',
@@ -31,6 +32,7 @@ export class SignInComponent {
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly authService: AuthService,
+    private readonly loadingService: LoadingService,
   ) {
     this.form = this.formBuilder.group({
       email: ['', Validators.required],
@@ -51,11 +53,15 @@ export class SignInComponent {
 
     this.errorMessage = '';
 
+    this.loadingService.show();
+
     try {
       await this.authService.signIn(this.email?.value ?? '', this.password?.value ?? '');
     } catch (e) {
       console.error(e);
     }
+
+    this.loadingService.hide();
   }
 
   validateEmail(): boolean {
