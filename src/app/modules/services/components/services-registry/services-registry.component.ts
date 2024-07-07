@@ -4,6 +4,8 @@ import { ServiceService } from '../../../../services/service/service.service';
 import { ServiceMgmt } from '../../service.model';
 import { AuthService } from '../../../../services/auth/auth.service';
 import { LoadingService } from '../../../../services/loading/loading.service';
+import { BaseService } from '../../../../services/base.service';
+import { ConfirmationDialogService } from '../../../../services/confirmation-dialog/confirmation-dialog.service';
 
 @Component({
   selector: 'tn-services-registry',
@@ -24,6 +26,7 @@ export class ServicesRegistryComponent implements OnInit {
     private readonly notificationsService: NotificationsService,
     private readonly authService: AuthService,
     private readonly loadingService: LoadingService,
+    private readonly confirmationDialogService: ConfirmationDialogService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -111,7 +114,12 @@ export class ServicesRegistryComponent implements OnInit {
   }
 
   async delete(index: number): Promise<void> {
-    if (confirm('Are you sure you want to delete service?') === false) {
+    if (
+      await this.confirmationDialogService.confirmDelete(
+        'Caution!',
+        'Are you sure you want to delete service?'
+      ) === false
+    ) {
       return;
     }
 
@@ -125,7 +133,7 @@ export class ServicesRegistryComponent implements OnInit {
 
       this.services.splice(index, 1);
 
-      this.notificationsService.success('Success', 'Service deleted successfully');
+      this.notificationsService.success('Success', 'Service deleted successfully', BaseService.notificationOverride);
     } catch (e) {
       console.error(e);
     }

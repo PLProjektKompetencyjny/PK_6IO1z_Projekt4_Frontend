@@ -11,6 +11,7 @@ import { InvoiceService } from '../../../../services/invoice/invoice.service';
 import { BaseService } from '../../../../services/base.service';
 import { NotificationsService } from 'angular2-notifications';
 import { LoadingService } from '../../../../services/loading/loading.service';
+import { ConfirmationDialogService } from '../../../../services/confirmation-dialog/confirmation-dialog.service';
 
 @Component({
   selector: 'tn-reservations-registry',
@@ -54,6 +55,7 @@ export class ReservationsRegistryComponent implements OnInit {
     private readonly invoicesService: InvoiceService,
     private readonly notificationService: NotificationsService,
     private readonly loadingService: LoadingService,
+    private readonly confirmationDialogService: ConfirmationDialogService,
   ) {
     this.form = this.formBuilder.group({
       reservation_start_date: [undefined],
@@ -130,7 +132,13 @@ export class ReservationsRegistryComponent implements OnInit {
   }
 
   async cancelReservation(reservation_id: number): Promise<void> {
-    if (confirm('Are you sure you want to cancel reservation?') === false) {
+    if (
+      await this.confirmationDialogService.confirmDelete(
+        'Caution!',
+        'Are you sure you want to cancel reservation?',
+        'Cancel'
+      ) === false
+    ) {
       return;
     }
 

@@ -1,0 +1,15 @@
+<div class="modal-header d-flex justify-content-between">
+  <h4 class="modal-title">{{ title }}</h4>
+  <button type="button" class="btn btn-secondary text-black" aria-label="Close" (click)="dismiss()">
+    <i class="bi bi-x"></i>
+  </button>
+</div>
+<div class="modal-body">
+  {{ message }}
+</div>
+<div class="modal-footer">
+  <button type="button" [class]="getButtonTypeClassName(buttonOk.type)" (click)="accept()">{{ buttonOk.text }}</button>
+  <button type="button" [class]="getButtonTypeClassName(buttonCancel.type) + ' text-black'" (click)="decline()">{{
+    buttonCancel.text
+    }}</button>
+</div>
