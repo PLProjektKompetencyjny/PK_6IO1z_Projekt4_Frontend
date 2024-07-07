@@ -16,13 +16,14 @@
         <div class="col-md">
           <div class="date" id="date1" data-target-input="nearest">
             <input type="date" class="form-control datetimepicker-input" placeholder="Check in" data-target="#date1"
-              [min]="now" data-toggle="datetimepicker" id="start_date" name="start_date" formControlName="start_date" />
+              [min]="minDate" data-toggle="datetimepicker" id="start_date" name="start_date"
+              formControlName="start_date" />
           </div>
         </div>
         <div class="col-md">
           <div class="date" id="date2" data-target-input="nearest">
             <input type="date" class="form-control datetimepicker-input" placeholder="Check out" data-target="#date2"
-              [min]="now" data-toggle="datetimepicker" id="end_date" name="end_date" formControlName="end_date" />
+              [min]="minDate" data-toggle="datetimepicker" id="end_date" name="end_date" formControlName="end_date" />
           </div>
         </div>
         <div class="col-md">

@@ -19,11 +19,14 @@ import { NotificationsService } from 'angular2-notifications';
 import { BaseService } from '../../../../services/base.service';
 import { Reservation } from '../../../reservations/components/reservation-edit/reservation.model';
 import { LoadingService } from '../../../../services/loading/loading.service';
+import { dateFormats } from '../../../../app.config';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'tn-rooms-registry',
   templateUrl: './rooms-registry.component.html',
-  styleUrl: './rooms-registry.component.scss'
+  styleUrl: './rooms-registry.component.scss',
+  providers: [DatePipe]
 })
 export class RoomsRegistryComponent implements OnInit {
 
@@ -49,6 +52,7 @@ export class RoomsRegistryComponent implements OnInit {
   customerErrorMessage: string = '';
 
   protected readonly now = new Date();
+  minDate: string = this.datePipe.transform(this.now, dateFormats.shortUS)!;
 
   get start_date(): AbstractControl<Date, Date> | null {
     return this.form.get('start_date');
@@ -174,6 +178,7 @@ export class RoomsRegistryComponent implements OnInit {
     private readonly formBuilder: FormBuilder,
     private readonly route: ActivatedRoute,
     private readonly loadingService: LoadingService,
+    private readonly datePipe: DatePipe,
   ) {
     this.form = this.formBuilder.group({
       start_date: [undefined, Validators.required],
@@ -207,7 +212,15 @@ export class RoomsRegistryComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    this.setMinDate();
     await this.getCustomers();
+  }
+
+  setMinDate(): void {
+    const tempDate = new Date(this.now);
+    tempDate.setDate(tempDate.getDate() + 1);
+
+    this.minDate = this.datePipe.transform(tempDate, dateFormats.shortUS)!;
   }
 
   async getCustomers(): Promise<void> {
