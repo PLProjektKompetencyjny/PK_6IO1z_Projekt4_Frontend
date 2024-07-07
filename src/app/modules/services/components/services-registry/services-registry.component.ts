@@ -47,7 +47,7 @@ export class ServicesRegistryComponent implements OnInit {
 
   async save(): Promise<void> {
     if (this.validate() === false) {
-      this.notificationsService.error('Error', 'Fill required data');
+      this.notificationsService.error('Error', 'Fill required data', BaseService.notificationOverride);
       return;
     }
 
@@ -61,7 +61,7 @@ export class ServicesRegistryComponent implements OnInit {
       await this.update();
       await this.addNew();
 
-      this.notificationsService.success('Success', 'Services saved successfully');
+      this.notificationsService.success('Success', 'Services saved successfully', BaseService.notificationOverride);
 
       await this.getServices();
     } catch (e) {

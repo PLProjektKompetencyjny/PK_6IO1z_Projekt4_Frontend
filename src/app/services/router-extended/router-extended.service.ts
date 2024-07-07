@@ -14,12 +14,12 @@ export class RouterExtendedService {
   /**
    * The path to the home page.
    */
-  readonly homeUrl: string = '/';
+  static readonly homeUrl: string = '/';
 
   /**
    * The path to the sign in page.
    */
-  readonly signInUrl: string = '/sign-in';
+  static readonly signInUrl: string = '/sign-in';
 
   /**
    * Sets from local storage identified by the key {@link localStoragePreviousUrlKey}
@@ -34,7 +34,7 @@ export class RouterExtendedService {
    * previously visited url.
    */
   get previousUrl(): string {
-    return localStorage.getItem(RouterExtendedService.localStoragePreviousUrlKey) ?? this.homeUrl;
+    return localStorage.getItem(RouterExtendedService.localStoragePreviousUrlKey) ?? RouterExtendedService.homeUrl;
   }
 
   constructor(public readonly router: Router) { }
@@ -43,7 +43,7 @@ export class RouterExtendedService {
    * Navigates to the {@link homeUrl} page.
    */
   navigateToHome(): void {
-    this.router.navigateByUrl(this.homeUrl);
+    this.router.navigateByUrl(RouterExtendedService.homeUrl);
   }
 
   /**
@@ -59,6 +59,6 @@ export class RouterExtendedService {
    */
   navigateToSignIn(returnUrl: string): void {
     this.previousUrl = returnUrl;
-    this.router.navigateByUrl(this.signInUrl);
+    this.router.navigateByUrl(RouterExtendedService.signInUrl);
   }
 }

@@ -1,6 +1,9 @@
-import { HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
+import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { Observable } from 'rxjs';
+
 import { AuthService } from '../../services/auth/auth.service';
+import { RouterExtendedService } from '../../services/router-extended/router-extended.service';
 
 /**
  * "Man-in-the-middle".
@@ -15,15 +18,20 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   return handleRequest(req, next);
 };
 
-function handleRequest(req: HttpRequest<unknown>, next: HttpHandlerFn) {
+function handleRequest(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   const auth = inject(AuthService);
-  if (auth.isAuthenticated) {
-    req = req.clone({
-      setHeaders: {
-        Authorization: auth.authorizationHeaderValue
-      }
-    });
+  const router = inject(RouterExtendedService);
+
+  if (auth.isTokenExpired) {
+    auth.signOut();
+    router.navigateToSignIn(req.url);
   }
+
+  req = req.clone({
+    setHeaders: {
+      Authorization: auth.authorizationHeaderValue
+    }
+  });
 
   return next(req);
 }

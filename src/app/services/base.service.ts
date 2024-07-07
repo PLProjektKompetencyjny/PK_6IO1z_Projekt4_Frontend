@@ -43,6 +43,10 @@ export class BaseService {
   }
 
   catchCustomError<TResult>(error: HttpErrorResponse): ObservableInput<ApiResponse<TResult>> {
+    if (error.status === 401) {
+      return throwError(() => new Error('Unauthorized call. Please, sign in'));
+    }
+
     const codeMessage: CodeMessage = (error.error as ApiResponse<TResult>).code_message;
     const title = codeMessage?.type ?? this.defaultError.title;
     const message = codeMessage?.message ?? this.defaultError.message;

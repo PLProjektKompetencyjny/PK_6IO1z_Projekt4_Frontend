@@ -7,6 +7,7 @@ import { environment } from '../../../environments/environment';
 import { RouterExtendedService } from '../router-extended/router-extended.service';
 import { Session } from '../../shared/models/session.model';
 import { Customer } from '../../modules/profile/customer.model';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 /**
  * Service for authentication purposes
@@ -36,6 +37,17 @@ export class AuthService {
   }
 
   /**
+   * Checks whether token is expired.
+   */
+  get isTokenExpired(): boolean {
+    if (this.isAuthenticated) {
+      return this.jwtHelperService.isTokenExpired(this.session?.access_token ?? '');
+    }
+
+    return false;
+  }
+
+  /**
    * Provides {@link Session} if exists.
    */
   get session(): Session | undefined {
@@ -51,12 +63,17 @@ export class AuthService {
    * Credentials to authenticate a user with a server.
    */
   get authorizationHeaderValue(): string {
-    return `${this.session?.auth_schema} ${this.session?.access_token}`;
+    if (this.session) {
+      return `${this.session?.auth_schema} ${this.session?.access_token}`;
+    }
+
+    return '';
   }
 
   constructor(
     private readonly httpClient: HttpClient,
     private readonly routerExtended: RouterExtendedService,
+    private readonly jwtHelperService: JwtHelperService
   ) { }
 
   /**
