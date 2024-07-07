@@ -18,6 +18,7 @@ import { InvoiceService } from '../../../../services/invoice/invoice.service';
 import { Invoice } from '../../../../shared/models/invoice.model';
 import { getReservationStatusLabel } from '../../reservations.config';
 import { LoadingService } from '../../../../services/loading/loading.service';
+import { ConfirmationDialogService } from '../../../../services/confirmation-dialog/confirmation-dialog.service';
 
 @Component({
   selector: 'tn-reservation-edit',
@@ -106,13 +107,17 @@ export class ReservationEditComponent implements OnInit {
         reservation_number_of_children,
       }): number => {
       const room = this.rooms.find(r => r.room_id === reservation_room_id)!;
+      if (!room) {
+        return partialSum;
+      }
+
       const roomTotal = (
         (
-          room?.room_gross_price_adult ?? 0 * reservation_number_of_adults
+          room.room_gross_price_adult * reservation_number_of_adults
         ) +
         (
-          room?.room_gross_price_child ?? 0 * reservation_number_of_children
-        ) + room?.room_gross_price ?? 0
+          room.room_gross_price_child * reservation_number_of_children
+        ) + room.room_gross_price
       ) * this.days;
 
       return partialSum + roomTotal;
@@ -130,7 +135,7 @@ export class ReservationEditComponent implements OnInit {
   }
 
   get totalPreview(): number {
-    const total = this.servicesPreviewTotal + this.roomsTotal;
+    const total = this.servicesPreviewTotal + this.total;
     return total + (total * taxInPercentage);
   }
 
@@ -146,6 +151,7 @@ export class ReservationEditComponent implements OnInit {
     private readonly router: RouterExtendedService,
     private readonly invoicesService: InvoiceService,
     private readonly loadingService: LoadingService,
+    private readonly confirmationDialogService: ConfirmationDialogService,
   ) {
     this.route.params.subscribe((params: Params) => {
       if (isNaN(params['reservation_id']) === false) {
@@ -235,7 +241,13 @@ export class ReservationEditComponent implements OnInit {
   }
 
   async cancelReservation(): Promise<void> {
-    if (confirm('Are you sure you want to delete reservation?') === false) {
+    if (
+      await this.confirmationDialogService.confirmDelete(
+        'Caution!',
+        'Are you sure you want to cancel reservation?',
+        'Cancel'
+      ) === false
+    ) {
       return;
     }
 
@@ -347,7 +359,13 @@ export class ReservationEditComponent implements OnInit {
   }
 
   async roomFromReservationRemoved(room: Room): Promise<void> {
-    if (this.rooms.length === 1 && confirm('Last room in the reservation. Deleting last room also deletes reservation. Would you like to continue?') === false) {
+    if (
+      await this.confirmationDialogService.confirmDelete(
+        'Caution!',
+        'Are you sure you want to remove room from the reservation?',
+        'Remove',
+      ) === false
+    ) {
       return;
     }
 

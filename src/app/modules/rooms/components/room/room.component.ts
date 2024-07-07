@@ -9,6 +9,7 @@ import { BaseService } from '../../../../services/base.service';
 import { ReservationService } from '../../../../services/reservation/reservation.service';
 import { NotificationsService } from 'angular2-notifications';
 import { RouterExtendedService } from '../../../../services/router-extended/router-extended.service';
+import { LoadingService } from '../../../../services/loading/loading.service';
 
 @Component({
   selector: 'tn-room',
@@ -49,6 +50,7 @@ export class RoomComponent {
     private readonly notificationsService: NotificationsService,
     private readonly datePipe: DatePipe,
     private readonly router: RouterExtendedService,
+    private readonly loadingService: LoadingService,
   ) { }
 
   getJsonStartDate(): string {
@@ -67,6 +69,8 @@ export class RoomComponent {
     if (this.validate() === false) {
       return;
     }
+
+    this.loadingService.show();
 
     try {
       const reservation = {
@@ -95,13 +99,11 @@ export class RoomComponent {
     } catch (e) {
       console.error(e);
     }
+
+    this.loadingService.hide();
   }
 
   removeRoomFromReservation(): void {
-    if (confirm('Are you sure you want to delete room from the reservation? Operation is unrecoverable') === false) {
-      return;
-    }
-
     this.roomFromReservationRemoved.emit(this.room);
   }
 
