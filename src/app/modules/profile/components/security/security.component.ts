@@ -69,7 +69,8 @@ export class SecurityComponent {
     this.loadingService.show();
 
     try {
-      await this.authService.updatePassword(this.newPassword);
+      // TODO!!!!
+      //await this.authService.updatePassword(this.newPassword);
     } catch (e) {
       console.error(e);
     } finally {

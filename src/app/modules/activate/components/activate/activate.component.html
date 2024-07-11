@@ -1,0 +1,17 @@
+<div class="container-xl px-4 mt-4 d-flex justify-content-center align-items-center flex-column vw-100 vh-100 bg-white">
+  <div class="card shadow-lg">
+    <a [routerLink]="['/home']" routerLinkActive="active" class="d-flex justify-content-center">
+      <img class="w-50" src="assets/imgs/logo/logo.png" [alt]="appName">
+    </a>
+    <div class="card-header fw-bold border-0 text-center fs-4">Account activation</div>
+    <div class="card-body">
+      <h6 class="text-black-50">You will be redirected to sign in automatically in {{ maxSeconds }} seconds</h6>
+
+      <ngb-progressbar class="w-100 my-4" type="primary" [value]="seconds" [max]="maxSeconds" />
+
+      <button type="button" class="btn btn-primary px-4 py-2 d-block ms-auto"
+        (click)="router.navigateToSignIn('/rooms')">Go to sign
+        in</button>
+    </div>
+  </div>
+</div>

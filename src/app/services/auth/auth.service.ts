@@ -8,6 +8,8 @@ import { RouterExtendedService } from '../router-extended/router-extended.servic
 import { Session } from '../../shared/models/session.model';
 import { Customer } from '../../modules/profile/customer.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { BaseService } from '../base.service';
+import { NotificationsService } from 'angular2-notifications';
 
 /**
  * Service for authentication purposes
@@ -17,12 +19,17 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthService extends BaseService {
 
   /**
    * The base path to authorization endpoints.
    */
-  readonly basePath: string = 'auth';
+  readonly baseAuthPath: string = 'auth';
+
+  /**
+   * The base path to user related endpoints.
+   */
+  readonly baseUserPath: string = 'user';
 
   /**
    * Local storage key to the session data.
@@ -73,8 +80,11 @@ export class AuthService {
   constructor(
     private readonly httpClient: HttpClient,
     private readonly routerExtended: RouterExtendedService,
-    private readonly jwtHelperService: JwtHelperService
-  ) { }
+    private readonly jwtHelperService: JwtHelperService,
+    protected readonly notificationService: NotificationsService,
+  ) {
+    super(notificationService);
+  }
 
   /**
    * Logs in the user to the application.
@@ -83,7 +93,7 @@ export class AuthService {
    */
   async signIn(email: string, password: string): Promise<void> {
     const request = this.httpClient.post<Session>(
-      `${environment.apiUrl}/${this.basePath}/sign-in`,
+      `${environment.apiUrl}/${this.baseAuthPath}/sign-in`,
       { email, password }
     );
 
@@ -96,7 +106,7 @@ export class AuthService {
    */
   async signUp(newUser: Customer): Promise<void> {
     const request = this.httpClient.post<Session>(
-      `${environment.apiUrl}/${this.basePath}/sign-up`,
+      `${environment.apiUrl}/${this.baseAuthPath}/sign-up`,
       { ...newUser }
     );
 
@@ -105,16 +115,57 @@ export class AuthService {
 
   /**
    * Updates logged user's password.
-   * @param password User's new password.
+   * @param user_new_password User's new password.
    */
-  async updatePassword(password: string): Promise<void> {
-    const userId = this.session?.user_id;
+  async updatePassword(user_email: string, user_old_password: string, user_new_password: string): Promise<void> {
+    // TODO!!!!!!!!!!!!!
+    // const formData = this.getFormData({ login: user_email, user_old_password, user_new_password });
+    // const request = this.httpClient.put<void>(
+    //   `${environment.apiUrl}/${this.basePath}/password`,
+    //   formData
+    // )
+
+    // await firstValueFrom(request);
+  }
+
+  /**
+   * Updates NOT logged user's password which is identified by {@link user_reset_password_code}.
+   * @param user_reset_password_code User's reset password code by which he is identified.
+   * @param user_new_password User's new password.
+   */
+  async resetPassword(user_reset_password_code: string, user_new_password: string): Promise<void> {
+    const formData = this.getFormData({ user_reset_password_code, user_new_password });
     const request = this.httpClient.put<void>(
-      `${environment.apiUrl}/${this.basePath}/password`,
-      {
-        user_id: userId,
-        password
-      }
+      `${environment.apiUrl}/${this.baseAuthPath}/password`,
+      formData
+    )
+
+    await firstValueFrom(request);
+  }
+
+  /**
+   * Makes a request to the API which sends a reset confirmation link to the user to the mail.
+   * @param user_email User's email.
+   */
+  async resetPasswordMailRequest(user_email: string): Promise<void> {
+    const formData = this.getFormData({ user_email });
+    const request = this.httpClient.post<void>(
+      `${environment.apiUrl}/${this.baseAuthPath}/password/reset`,
+      formData
+    )
+
+    await firstValueFrom(request);
+  }
+
+  /**
+   * Makes a request to activate a user.
+   * @param user_activation_code User's activation code by which is identified.
+   */
+  async activate(user_activation_code: string): Promise<void> {
+    const formData = this.getFormData({ user_activation_code });
+    const request = this.httpClient.post<void>(
+      `${environment.apiUrl}/${this.baseAuthPath}/activate`,
+      formData
     )
 
     await firstValueFrom(request);
@@ -132,7 +183,7 @@ export class AuthService {
   }
 
   /**
-   * Sings out user.
+   * Signs out user.
    */
   signOut(): void {
     this.clearSession();
