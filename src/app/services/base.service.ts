@@ -47,12 +47,26 @@ export class BaseService {
       return throwError(() => new Error('Unauthorized call. Please, sign in'));
     }
 
+    if (typeof error.error === 'string') {
+      return throwError(() => new Error(this.defaultError.message));
+    }
+
     const codeMessage: CodeMessage = (error.error as ApiResponse<TResult>).code_message;
     const title = codeMessage?.type ?? this.defaultError.title;
     const message = codeMessage?.message ?? this.defaultError.message;
     this.notificationsService.error(title, message, BaseService.notificationOverride);
 
     return throwError(() => new Error(message));
+  }
+
+  catchCustomErrorPrimitive<TResult>(error: HttpErrorResponse): ObservableInput<TResult> {
+    if (error.status === 401) {
+      return throwError(() => new Error('Unauthorized call. Please, sign in'));
+    }
+
+    this.notificationsService.error(this.defaultError.title, this.defaultError.message, BaseService.notificationOverride);
+
+    return throwError(() => new Error(this.defaultError.message));
   }
 
   getFormData(data?: unknown): FormData {

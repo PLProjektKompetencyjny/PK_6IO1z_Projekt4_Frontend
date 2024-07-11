@@ -1,0 +1,14 @@
+<tn-header />
+
+<div class="vw-100 vh-100 d-flex align-items-center justify-content-center flex-column">
+  <i class="bi bi-check-circle fs-1 text-success"></i>
+  <h2>Thank you <i class="bi bi-heart-fill text-primary fs-4"></i></h2>
+  <h4>Your reservation was paid <span class="text-success text-decoration-underline">successfully</span>!
+  </h4>
+  <h6 class="text-black-50">You will be redirected to home page automatically in {{ maxSeconds }} seconds</h6>
+
+  <ngb-progressbar class="w-25 my-4" type="primary" [value]="seconds" [max]="maxSeconds" />
+
+  <button type="button" class="btn btn-primary px-4 py-2" (click)="router.router.navigate(['/rooms'])">Explore
+    more</button>
+</div>

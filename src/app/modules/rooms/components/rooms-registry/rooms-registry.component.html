@@ -4,9 +4,11 @@
 <br />
 <br />
 <br />
+<br />
 
-<div class="container-xxl p-0 pt-5 my-5 position-relative">
-  <h4>Available rooms</h4>
+<div class="card container-sm container-xxl py-3 my-5 position-relative">
+  <h3 class="text-center my-3">Available rooms</h3>
+
   <form class="row g-2 mt-2" [formGroup]="form">
     @if (errorMessage.length > 0) {
     <div class="mb-3 text-danger">{{ errorMessage }}</div>

@@ -68,15 +68,17 @@ export class ReservationService extends BaseService {
     return reservation_id;
   }
 
-  async update(reservation: Reservation): Promise<void> {
+  async update(reservation: Reservation): Promise<string> {
     const formData = this.getFormData(reservation);
 
-    const request = this.httpClient.put<Reservation>(
+    const request = this.httpClient.put<string>(
       `${environment.apiUrl}/${this.baseReservationsPath}`,
-      formData
-    ).pipe(catchError<Reservation, ObservableInput<ApiResponse<Reservation>>>(this.catchCustomError.bind(this)))
+      formData,
+      { responseType: 'text' as 'json' }
+    ).pipe(catchError<string, ObservableInput<string>>(this.catchCustomErrorPrimitive.bind(this)))
 
-    await firstValueFrom(request);
+    const stripeLink = await firstValueFrom(request) as string;
+    return stripeLink;
   }
 
   async delete(reservation_id: number): Promise<void> {
