@@ -321,7 +321,7 @@ export class ReservationEditComponent implements OnInit {
     try {
       await this.saveReservationServices();
 
-      await this.reservationsService.update({
+      const stripeLink = await this.reservationsService.update({
         ...this.reservations[0],
         reservation_start_date: this.parsed_start_date,
         reservation_end_date: this.parsed_end_date,
@@ -329,6 +329,8 @@ export class ReservationEditComponent implements OnInit {
       });
 
       this.reservations[0].reservation_status_id = ReservationStatus.WAITING_PAYMENT;
+
+      this.router.openInNewTab(stripeLink);
 
       this.notificationsService.success('Success', 'We have sent you a confirmation e-mail', BaseService.notificationOverride);
     } catch (e) {

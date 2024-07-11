@@ -61,4 +61,12 @@ export class RouterExtendedService {
     this.previousUrl = returnUrl;
     this.router.navigateByUrl(RouterExtendedService.signInUrl);
   }
+
+  /**
+   * Opens up in a new tab a link ({@link url}).
+   * @param url The link to open.
+   */
+  openInNewTab(url: string): void {
+    window.open(url, '_blank', 'norefferer');
+  }
 }
