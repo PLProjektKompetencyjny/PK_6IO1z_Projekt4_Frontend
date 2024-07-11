@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PasswordStrengthValidator } from '../../../../shared/validators/password-strength.validator';
 import { AuthService } from '../../../../services/auth/auth.service';
 import { LoadingService } from '../../../../services/loading/loading.service';
+import { NotificationsService } from 'angular2-notifications';
+import { BaseService } from '../../../../services/base.service';
 
 @Component({
   selector: 'tn-security',
@@ -30,6 +32,10 @@ export class SecurityComponent {
     return parsedErrors;
   }
 
+  get oldPassword(): string {
+    return this.form.get('oldPassword')?.value;
+  }
+
   get newPassword(): string {
     return this.form.get('newPassword')?.value;
   }
@@ -47,12 +53,14 @@ export class SecurityComponent {
     private readonly authService: AuthService,
     private readonly formBuilder: FormBuilder,
     private readonly loadingService: LoadingService,
+    private readonly notificationsService: NotificationsService,
   ) {
     this.form = this.formBuilder.group({
+      oldPassword: ['', Validators.required],
       newPassword: ['', Validators.compose([
         Validators.required, PasswordStrengthValidator
       ])],
-      confirmPassword: ['', Validators.required]
+      confirmPassword: ['', Validators.required],
     });
   }
 
@@ -69,8 +77,9 @@ export class SecurityComponent {
     this.loadingService.show();
 
     try {
-      // TODO!!!!
-      //await this.authService.updatePassword(this.newPassword);
+      await this.authService.updatePassword(this.authService.session?.email ?? '', this.oldPassword, this.newPassword);
+      this.notificationsService.success('Success', 'Password changed successfully', BaseService.notificationOverride);
+      this.form.reset();
     } catch (e) {
       console.error(e);
     } finally {

@@ -29,7 +29,7 @@ export class AuthService extends BaseService {
   /**
    * The base path to user related endpoints.
    */
-  readonly baseUserPath: string = 'user';
+  readonly baseUsersPath: string = 'users';
 
   /**
    * Local storage key to the session data.
@@ -118,14 +118,18 @@ export class AuthService extends BaseService {
    * @param user_new_password User's new password.
    */
   async updatePassword(user_email: string, user_old_password: string, user_new_password: string): Promise<void> {
-    // TODO!!!!!!!!!!!!!
-    // const formData = this.getFormData({ login: user_email, user_old_password, user_new_password });
-    // const request = this.httpClient.put<void>(
-    //   `${environment.apiUrl}/${this.basePath}/password`,
-    //   formData
-    // )
+    const formData = this.getFormData({
+      login: user_email,
+      new_user_password: user_new_password,
+      old_user_password: user_old_password,
+      customer_last_modified_by: this.session?.user_id ?? 0,
+    });
+    const request = this.httpClient.put<void>(
+      `${environment.apiUrl}/${this.baseUsersPath}`,
+      formData
+    )
 
-    // await firstValueFrom(request);
+    await firstValueFrom(request);
   }
 
   /**
