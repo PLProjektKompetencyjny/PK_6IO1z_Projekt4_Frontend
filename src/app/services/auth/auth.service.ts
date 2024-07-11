@@ -135,7 +135,7 @@ export class AuthService extends BaseService {
    */
   async resetPassword(user_reset_password_code: string, user_new_password: string): Promise<void> {
     const formData = this.getFormData({ user_reset_password_code, user_new_password });
-    const request = this.httpClient.put<void>(
+    const request = this.httpClient.post<void>(
       `${environment.apiUrl}/${this.baseAuthPath}/password`,
       formData
     )

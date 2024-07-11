@@ -56,6 +56,11 @@ export const routes: Routes = [
     loadChildren: () => import('./modules/activate/activate.module').then(m => m.ActivateModule),
   },
   {
+    title: 'Reset your password',
+    path: 'resetPassword', // URL/path based on API endpoint in mail
+    loadChildren: () => import('./modules/reset-password/reset-password.module').then(m => m.ResetPasswordModule),
+  },
+  {
     path: '**',
     redirectTo: 'home'
   }
