@@ -138,10 +138,10 @@ export class AuthService extends BaseService {
    * @param user_new_password User's new password.
    */
   async resetPassword(user_reset_password_code: string, user_new_password: string): Promise<void> {
-    const formData = this.getFormData({ user_reset_password_code, user_new_password });
+    const body = { user_reset_password_code, new_password: user_new_password };
     const request = this.httpClient.post<void>(
-      `${environment.apiUrl}/${this.baseAuthPath}/password`,
-      formData
+      `${environment.apiUrl}/${this.baseAuthPath}/password/change`,
+      body
     )
 
     await firstValueFrom(request);
@@ -152,10 +152,10 @@ export class AuthService extends BaseService {
    * @param user_email User's email.
    */
   async resetPasswordMailRequest(user_email: string): Promise<void> {
-    const formData = this.getFormData({ user_email });
+    const body = { email: user_email };
     const request = this.httpClient.post<void>(
       `${environment.apiUrl}/${this.baseAuthPath}/password/reset`,
-      formData
+      body
     )
 
     await firstValueFrom(request);
@@ -166,10 +166,10 @@ export class AuthService extends BaseService {
    * @param user_activation_code User's activation code by which is identified.
    */
   async activate(user_activation_code: string): Promise<void> {
-    const formData = this.getFormData({ user_activation_code });
+    const body = { user_activation_code };
     const request = this.httpClient.post<void>(
       `${environment.apiUrl}/${this.baseAuthPath}/activate`,
-      formData
+      body
     )
 
     await firstValueFrom(request);

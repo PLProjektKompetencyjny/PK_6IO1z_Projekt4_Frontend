@@ -115,7 +115,7 @@ export class ResetPasswordComponent {
       return true;
     }
 
-    if (!this.password?.value || this.confirmPassword?.value) {
+    if (!this.password?.value || !this.confirmPassword?.value) {
       this.errorMessage = 'Enter passwords';
       return false;
     }
