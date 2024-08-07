@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterExtendedService } from '../../../../services/router-extended/router-extended.service';
+import { appName } from '../../../../app.config';
 
 @Component({
   selector: 'tn-payment-fail',
@@ -7,6 +8,8 @@ import { RouterExtendedService } from '../../../../services/router-extended/rout
   styleUrl: './payment-fail.component.scss'
 })
 export class PaymentFailComponent {
+
+  protected readonly appName = appName;
 
   maxSeconds: number = 10;
   seconds: number = 0;

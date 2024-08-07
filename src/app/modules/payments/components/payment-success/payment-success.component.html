@@ -1,8 +1,12 @@
-<tn-header />
-
 <div class="vw-100 vh-100 d-flex align-items-center justify-content-center flex-column">
-  <i class="bi bi-check-circle fs-1 text-success"></i>
-  <h2>Thank you <i class="bi bi-heart-fill text-primary fs-4"></i></h2>
+  <a [routerLink]="['/home']" routerLinkActive="active"
+    class="navbar-brand w-50 m-0 p-0 d-flex align-items-center justify-content-center">
+    <img class="w-25" src="assets/imgs/logo/logo.png" [alt]="appName" />
+  </a>
+
+  <h2> <i class="bi bi-check-circle fs-3 text-success me-2"></i>Thank you <i
+      class="bi bi-heart-fill text-primary fs-4"></i>
+  </h2>
   <h4>Your reservation was paid <span class="text-success text-decoration-underline">successfully</span>!
   </h4>
   <h6 class="text-black-50">You will be redirected to home page automatically in {{ maxSeconds }} seconds</h6>

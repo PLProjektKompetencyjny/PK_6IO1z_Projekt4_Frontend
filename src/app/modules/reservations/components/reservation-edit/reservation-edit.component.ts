@@ -197,7 +197,7 @@ export class ReservationEditComponent implements OnInit {
     this.end_date = new Date(this.reservations[0].reservation_end_date);
 
     if (
-      this.reservations.some(r => r.reservation_status_id < ReservationStatus.CONFIRMED)
+      this.reservations.some(r => r.reservation_status_id < ReservationStatus.WAITING_PAYMENT)
       && new Date() <= this.start_date
     ) {
       this.disableEdit = false;
@@ -307,7 +307,7 @@ export class ReservationEditComponent implements OnInit {
 
       this.reservations[0].reservation_status_id = chosenStatus;
 
-      this.notificationsService.success('Success', 'Reservation saved succesfully', BaseService.notificationOverride);
+      this.notificationsService.success('Success', 'Reservation saved successfully', BaseService.notificationOverride);
     } catch (e) {
       console.error(e);
     }
@@ -331,8 +331,6 @@ export class ReservationEditComponent implements OnInit {
       this.reservations[0].reservation_status_id = ReservationStatus.WAITING_PAYMENT;
 
       this.router.openInNewTab(stripeLink);
-
-      this.notificationsService.success('Success', 'We have sent you a confirmation e-mail', BaseService.notificationOverride);
     } catch (e) {
       console.error(e);
     }
