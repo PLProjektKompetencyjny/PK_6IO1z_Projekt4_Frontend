@@ -18,7 +18,7 @@ export class ActivateComponent implements OnInit {
 
   maxSeconds: number = 10;
   seconds: number = 0;
-  interval: any = setInterval(this.countUp.bind(this), 1000);
+  interval: ReturnType<typeof setInterval> = setInterval(this.countUp.bind(this), 1000);
   user_activation_code!: string;
 
   constructor(

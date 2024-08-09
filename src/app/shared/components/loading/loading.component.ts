@@ -1,5 +1,4 @@
 import { Component, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { LoadingService } from '../../../services/loading/loading.service';
 
