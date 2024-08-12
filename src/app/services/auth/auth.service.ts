@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable, firstValueFrom } from 'rxjs';
+import { Observable, ObservableInput, catchError, firstValueFrom } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { RouterExtendedService } from '../router-extended/router-extended.service';
@@ -10,6 +10,7 @@ import { Customer } from '../../modules/profile/customer.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BaseService } from '../base.service';
 import { NotificationsService } from 'angular2-notifications';
+import { ApiResponse } from '../api-response.model';
 
 /**
  * Service for authentication purposes
@@ -95,9 +96,9 @@ export class AuthService extends BaseService {
     const request = this.httpClient.post<Session>(
       `${environment.apiUrl}/${this.baseAuthPath}/sign-in`,
       { email, password }
-    );
+    ).pipe(catchError<unknown, ObservableInput<ApiResponse<unknown>>>(this.catchCustomError.bind(this)));
 
-    await this.handleAuthRequest(request);
+    await this.handleAuthRequest(request as Observable<Session>);
   }
 
   /**
@@ -108,9 +109,9 @@ export class AuthService extends BaseService {
     const request = this.httpClient.post<Session>(
       `${environment.apiUrl}/${this.baseAuthPath}/sign-up`,
       { ...newUser }
-    );
+    ).pipe(catchError<unknown, ObservableInput<ApiResponse<unknown>>>(this.catchCustomError.bind(this)));
 
-    await this.handleAuthRequest(request);
+    await this.handleAuthRequest(request as Observable<Session>);
   }
 
   /**
@@ -127,7 +128,7 @@ export class AuthService extends BaseService {
     const request = this.httpClient.put<void>(
       `${environment.apiUrl}/${this.baseUsersPath}`,
       formData
-    )
+    ).pipe(catchError<void, ObservableInput<ApiResponse<void>>>(this.catchCustomError.bind(this)))
 
     await firstValueFrom(request);
   }
@@ -142,7 +143,7 @@ export class AuthService extends BaseService {
     const request = this.httpClient.post<void>(
       `${environment.apiUrl}/${this.baseAuthPath}/password/change`,
       body
-    )
+    ).pipe(catchError<void, ObservableInput<ApiResponse<void>>>(this.catchCustomError.bind(this)))
 
     await firstValueFrom(request);
   }
@@ -156,7 +157,7 @@ export class AuthService extends BaseService {
     const request = this.httpClient.post<void>(
       `${environment.apiUrl}/${this.baseAuthPath}/password/reset`,
       body
-    )
+    ).pipe(catchError<void, ObservableInput<ApiResponse<void>>>(this.catchCustomError.bind(this)))
 
     await firstValueFrom(request);
   }
@@ -170,7 +171,7 @@ export class AuthService extends BaseService {
     const request = this.httpClient.post<void>(
       `${environment.apiUrl}/${this.baseAuthPath}/activate`,
       body
-    )
+    ).pipe(catchError<void, ObservableInput<ApiResponse<void>>>(this.catchCustomError.bind(this)))
 
     await firstValueFrom(request);
   }

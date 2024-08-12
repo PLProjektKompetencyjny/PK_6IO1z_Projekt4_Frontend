@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NotificationsService } from 'angular2-notifications';
 import { appName } from './sign-up.config';
 import { PasswordStrengthValidator } from '../../../../shared/validators/password-strength.validator';
 import { AuthService } from '../../../../services/auth/auth.service';
@@ -15,6 +16,7 @@ import { BuildingNumberValidator } from '../../../../shared/validators/building-
 import { SurnameValidator } from '../../../../shared/validators/surname.validator';
 import { NameValidator } from '../../../../shared/validators/name.validator';
 import { LoadingService } from '../../../../services/loading/loading.service';
+import { BaseService } from '../../../../services/base.service';
 
 @Component({
   selector: 'tn-sign-up',
@@ -121,6 +123,7 @@ export class SignUpComponent {
     private readonly formBuilder: FormBuilder,
     private readonly authService: AuthService,
     private readonly loadingService: LoadingService,
+    private readonly notificationsService: NotificationsService,
   ) {
     this.form = this.formBuilder.group({
       name: ['', Validators.compose([Validators.required, NameValidator])],
@@ -167,6 +170,7 @@ export class SignUpComponent {
     } catch (e) {
       console.error(e);
     } finally {
+      this.notificationsService.info('Information', 'We have sent you a confirmation e-mail for activation purposes!', BaseService.notificationOverride);
       this.errorMessage = '';
     }
 
