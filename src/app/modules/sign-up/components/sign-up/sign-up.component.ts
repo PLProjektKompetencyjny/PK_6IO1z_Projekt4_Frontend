@@ -167,10 +167,10 @@ export class SignUpComponent {
 
     try {
       await this.authService.signUp(newUser);
+      this.notificationsService.info('Information', 'We have sent you a confirmation e-mail for activation purposes!', BaseService.notificationOverride);
     } catch (e) {
       console.error(e);
     } finally {
-      this.notificationsService.info('Information', 'We have sent you a confirmation e-mail for activation purposes!', BaseService.notificationOverride);
       this.errorMessage = '';
     }
 
