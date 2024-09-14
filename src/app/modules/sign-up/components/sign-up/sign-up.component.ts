@@ -126,17 +126,17 @@ export class SignUpComponent {
     private readonly notificationsService: NotificationsService,
   ) {
     this.form = this.formBuilder.group({
-      name: ['', Validators.compose([Validators.required, NameValidator])],
-      surname: ['', Validators.compose([Validators.required, SurnameValidator])],
+      name: ['', Validators.required],
+      surname: ['', Validators.required],
 
       email: ['', Validators.compose([Validators.required, Validators.email])],
-      phone: ['', Validators.compose([Validators.required, PhoneValidator])],
+      phone: ['', Validators.required],
 
-      nip: ['', Validators.compose([Validators.required, NipValidator])],
-      city: ['', Validators.compose([Validators.required, CityValidator])],
-      postal_code: ['', Validators.compose([Validators.required, PostalCodeValidator])],
-      street: ['', Validators.compose([Validators.required, StreetValidator])],
-      building_number: ['', Validators.compose([Validators.required, BuildingNumberValidator])],
+      nip: [''],
+      city: ['', Validators.required],
+      postal_code: ['', Validators.required],
+      street: ['', Validators.required],
+      building_number: ['', Validators.required],
 
       password: ['', Validators.compose([Validators.required, PasswordStrengthValidator])],
       confirmPassword: ['', Validators.required],
@@ -144,7 +144,7 @@ export class SignUpComponent {
   }
 
   async submit(): Promise<void> {
-    if (this.validatePasswords() === false || this.form.valid === false) {
+    if (this.validatePasswords() === false) {
       return;
     }
 
@@ -222,11 +222,6 @@ export class SignUpComponent {
     }
 
     if (this.currentStep === Step.Address && step === Step.Password) {
-      if (this.nip?.invalid) {
-        this.errorMessage = 'Enter valid NIP';
-        return;
-      }
-
       if (this.city?.invalid) {
         this.errorMessage = 'Enter valid city';
         return;

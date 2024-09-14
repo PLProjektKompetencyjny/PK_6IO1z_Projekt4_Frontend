@@ -109,7 +109,7 @@ export class AuthService extends BaseService {
     const request = this.httpClient.post<Session>(
       `${environment.apiUrl}/${this.baseAuthPath}/sign-up`,
       { ...newUser }
-    ).pipe(catchError<unknown, ObservableInput<ApiResponse<unknown>>>(this.catchCustomError.bind(this)));
+    );
 
     await this.handleAuthRequest(request as Observable<Session>);
   }

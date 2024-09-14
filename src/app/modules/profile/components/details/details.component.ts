@@ -131,15 +131,15 @@ export class DetailsComponent implements OnInit {
     private readonly loadingService: LoadingService,
   ) {
     this.form = this.formBuilder.group({
-      name: ['', Validators.compose([Validators.required, NameValidator])],
-      surname: ['', Validators.compose([Validators.required, SurnameValidator])],
+      name: ['', Validators.required],
+      surname: ['', Validators.required],
       email: ['', Validators.compose([Validators.required, Validators.email])],
-      phone: ['', Validators.compose([Validators.required, PhoneValidator])],
-      nip: ['', Validators.compose([Validators.required, NipValidator])],
-      city: ['', Validators.compose([Validators.required, CityValidator])],
-      postal_code: ['', Validators.compose([Validators.required, PostalCodeValidator])],
-      street: ['', Validators.compose([Validators.required, StreetValidator])],
-      building_number: ['', Validators.compose([Validators.required, BuildingNumberValidator])],
+      phone: ['', Validators.required],
+      nip: ['', Validators.required],
+      city: ['', Validators.required],
+      postal_code: ['', Validators.required],
+      street: ['', Validators.required],
+      building_number: ['', Validators.required],
     });
   }
 

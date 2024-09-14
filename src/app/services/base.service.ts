@@ -47,7 +47,7 @@ export class BaseService {
       return throwError(() => new Error('Unauthorized call. Please, sign in'));
     }
 
-    if (typeof error.error === 'string') {
+    if (typeof error.error === 'string' && error.status > 200) {
       return throwError(() => new Error(this.defaultError.message));
     }
 

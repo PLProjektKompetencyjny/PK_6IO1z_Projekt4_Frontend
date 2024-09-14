@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterExtendedService } from '../../../../services/router-extended/router-extended.service';
 import { appName } from '../../../../app.config';
 import { LoadingService } from '../../../../services/loading/loading.service';
@@ -12,7 +12,7 @@ import { ActivatedRoute, Params } from '@angular/router';
   templateUrl: './activate.component.html',
   styleUrl: './activate.component.scss'
 })
-export class ActivateComponent implements OnInit {
+export class ActivateComponent implements OnInit, OnDestroy {
 
   protected readonly appName = appName;
 
@@ -31,6 +31,10 @@ export class ActivateComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.user_activation_code = params['user_activation_code'];
     });
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.interval);
   }
 
   async ngOnInit(): Promise<void> {
